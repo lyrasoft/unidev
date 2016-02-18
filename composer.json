@@ -1,5 +1,17 @@
 {
+    "name": "lyrasoft/unidev",
+    "description": "LYRASOFT dev tools",
+    "homepage": "https://github.com/lyrasoft/unidev",
+    "license": "GNU Lesser General Public License",
+    "minimum-stability": "beta",
     "require": {
         "tpyo/amazon-s3-php-class": "*"
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "psr-4": {
+            "Lyrasoft\\Unidev\\": "src/"
+        }
     }
 }
