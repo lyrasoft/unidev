@@ -83,6 +83,34 @@ class S3Helper extends AbstractProxyFacade
 	protected static $_key = 'unidev.s3';
 
 	/**
+	 * Put an object from a file.
+	 *
+	 * @param string $file        Input data
+	 * @param string $uri         Object URI
+	 * @param string $acl         ACL constant
+	 * @param array  $metaHeaders Array of x-amz-meta-* headers
+	 * @param string $contentType Content type
+	 *
+	 * @return  boolean
+	 */
+	public static function upload($file, $uri, $acl = \S3::ACL_PUBLIC_READ, $metaHeaders = array())
+	{
+		return static::putObject(\S3::inputFile($file, false), static::getBucketName(), $uri, $acl, $metaHeaders);
+	}
+
+	/**
+	 * Delete an object.
+	 *
+	 * @param string $uri Object URI
+	 *
+	 * @return  boolean
+	 */
+	public static function delete($uri)
+	{
+		return static::deleteObject(static::getBucketName(), $uri);
+	}
+
+	/**
 	 * getEndpoint
 	 *
 	 * @return  string

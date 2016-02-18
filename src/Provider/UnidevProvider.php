@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Unidev\Provider;
 
+use Lyrasoft\Unidev\Buffer\BufferFactory;
 use Windwalker\DI\Container;
 use Windwalker\DI\ServiceProviderInterface;
 
@@ -37,5 +38,12 @@ class UnidevProvider implements ServiceProviderInterface
 		};
 
 		$container->share('unidev.s3', $closure);
+
+		$closure = function(Container $container)
+		{
+			return new BufferFactory;
+		};
+
+		$container->share('unidev.buffer.factory', $closure);
 	}
 }
