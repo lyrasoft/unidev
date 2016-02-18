@@ -1,0 +1,5 @@
+{
+    "require": {
+        "tpyo/amazon-s3-php-class": "*"
+    }
+}
