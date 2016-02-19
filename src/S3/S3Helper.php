@@ -80,7 +80,7 @@ class S3Helper extends AbstractProxyFacade
 	 *
 	 * @var  string
 	 */
-	protected static $_key = 'unidev.s3';
+	protected static $_key = 'unidev.storage.s3';
 
 	/**
 	 * Put an object from a file.

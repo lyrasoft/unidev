@@ -9,6 +9,7 @@
 namespace Lyrasoft\Unidev\Provider;
 
 use Lyrasoft\Unidev\Buffer\BufferFactory;
+use Lyrasoft\Unidev\Image\ImageUploaderFactory;
 use Windwalker\DI\Container;
 use Windwalker\DI\ServiceProviderInterface;
 
@@ -37,7 +38,16 @@ class UnidevProvider implements ServiceProviderInterface
 			return new \S3($config->get('amazon.key'), $config->get('amazon.secret'), false, $endpoint);
 		};
 
-		$container->share('unidev.s3', $closure);
+		$container->share('unidev.storage.s3', $closure);
+
+		$closure = function(Container $container)
+		{
+			$config = $container->get('system.config');
+
+			return new \Imgur($config->get('imgur.key'), $config->get('imgur.secret'));
+		};
+
+		$container->share('unidev.storage.imgur', $closure);
 
 		$closure = function(Container $container)
 		{
@@ -45,5 +55,19 @@ class UnidevProvider implements ServiceProviderInterface
 		};
 
 		$container->share('unidev.buffer.factory', $closure);
+
+		$closure = function(Container $container)
+		{
+			return new ImageUploaderFactory($container);
+		};
+
+		$container->share('unidev.image.uploader.factory', $closure);
+
+		$closure = function(Container $container)
+		{
+			return $container->get('unidev.image.uploader.factory')->create();
+		};
+
+		$container->share('unidev.image.uploader', $closure);
 	}
 }
