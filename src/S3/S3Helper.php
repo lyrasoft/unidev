@@ -95,6 +95,8 @@ class S3Helper extends AbstractProxyFacade
 	 */
 	public static function upload($file, $uri, $acl = \S3::ACL_PUBLIC_READ, $metaHeaders = array())
 	{
+		$uri = ltrim(static::getSubfolder() . '/' . $uri);
+
 		return static::putObject(\S3::inputFile($file, false), static::getBucketName(), $uri, $acl, $metaHeaders);
 	}
 
@@ -107,6 +109,8 @@ class S3Helper extends AbstractProxyFacade
 	 */
 	public static function delete($uri)
 	{
+		$uri = ltrim(static::getSubfolder() . '/' . $uri);
+
 		return static::deleteObject(static::getBucketName(), $uri);
 	}
 
@@ -127,16 +131,39 @@ class S3Helper extends AbstractProxyFacade
 	 */
 	public static function getBucketName()
 	{
-		return static::getContainer()->get('system.config')->get('amazon.bucket');
+		$bucket = static::getContainer()->get('system.config')->get('amazon.bucket');
+
+		if (!$bucket)
+		{
+			throw new \UnexpectedValueException('Please enter bucket first.');
+		}
+
+		return $bucket;
+	}
+
+	/**
+	 * getSubfolder
+	 *
+	 * @return  string
+	 */
+	public static function getSubfolder()
+	{
+		return static::getContainer()->get('system.config')->get('amazon.subfolder');
 	}
 
 	/**
 	 * getHost
 	 *
-	 * @return  string
+	 * @param bool $subfolder
+	 *
+	 * @return string
 	 */
-	public static function getHost()
+	public static function getHost($subfolder = true)
 	{
-		return 'https://' . static::getBucketName() . '.' . static::getEndpoint();
+		$host = 'https://' . static::getBucketName() . '.' . static::getEndpoint();
+
+		$subfolder = $subfolder ? '/' . static::getSubfolder() : null;
+
+		return rtrim($host . $subfolder);
 	}
 }

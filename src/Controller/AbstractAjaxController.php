@@ -122,9 +122,9 @@ abstract class AbstractAjaxController extends AbstractPhoenixController
 	{
 		/** @var BufferFactory $factory */
 		$factory = $this->container->get('unidev.buffer.factory');
-		$buffer  = $factory->create($message, $data, $success, $code);
+		$buffer  = $factory->create($this->format, $message, $data, $success, $code);
 
-		$this->app->response->setMimeType($buffer->getMimeType());
+		$this->app->response->setMimeType($buffer->getMimeType())->setHeader('STATUS', $code);
 
 		return $buffer;
 	}
