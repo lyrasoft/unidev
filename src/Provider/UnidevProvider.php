@@ -44,7 +44,11 @@ class UnidevProvider implements ServiceProviderInterface
 		{
 			$config = $container->get('system.config');
 
-			return new \Imgur($config->get('imgur.key'), $config->get('imgur.secret'));
+			$client = new \Imgur\Client;
+			$client->setOption('client_id', $config->get('imgur.key'));
+			$client->setOption('client_secret', $config->get('imgur.secret'));
+
+			return $client;
 		};
 
 		$container->share('unidev.storage.imgur', $closure);

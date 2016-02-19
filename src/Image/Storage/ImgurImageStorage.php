@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Unidev\Image\Storage;
 
-use Lyrasoft\Unidev\Image\Base64Image;
+use Imgur\Client;
 use Windwalker\Filesystem\File;
 
 /**
@@ -21,16 +21,16 @@ class ImgurImageStorage implements ImageStorageInterface
 	/**
 	 * Property imgur.
 	 *
-	 * @var  \Imgur
+	 * @var  Client
 	 */
 	protected $imgur;
 
 	/**
 	 * ImgurImageStorage constructor.
 	 *
-	 * @param \Imgur $imgur
+	 * @param Client $imgur
 	 */
-	public function __construct(\Imgur $imgur)
+	public function __construct(Client $imgur)
 	{
 		$this->imgur = $imgur;
 	}
@@ -45,9 +45,14 @@ class ImgurImageStorage implements ImageStorageInterface
 	 */
 	public function uploadRaw($image, $path)
 	{
-		$ext = File::getExtension($path);
+		$data = array(
+			'image' => base64_encode($image),
+			'type' => 'base64'
+		);
 
-		return $this->imgur->upload()->string(Base64Image::encode($image, $ext));
+		$basic = $this->imgur->api('image')->upload($data)->getData();
+
+		return $basic['link'];
 	}
 
 	/**
@@ -60,7 +65,14 @@ class ImgurImageStorage implements ImageStorageInterface
 	 */
 	public function upload($file, $path)
 	{
-		return $this->imgur->upload()->file($file);
+		$data = array(
+			'image' => $file,
+			'type' => 'file'
+		);
+
+		$basic = $this->imgur->api('image')->upload($data)->getData();
+
+		return $basic['link'];
 	}
 
 	/**
@@ -72,6 +84,10 @@ class ImgurImageStorage implements ImageStorageInterface
 	 */
 	public function delete($path)
 	{
+		$path = File::stripExtension($path);
 
+		$basic = $this->imgur->api('image')->deleteImage($path)->getData();
+
+		return $basic['success'];
 	}
 }
