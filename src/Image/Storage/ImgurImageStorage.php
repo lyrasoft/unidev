@@ -15,6 +15,8 @@ use Windwalker\Filesystem\File;
  * The ImgurImageStorage class.
  *
  * @since  {DEPLOY_VERSION}
+ *
+ * @link  https://github.com/Adyg/php-imgur-api-client
  */
 class ImgurImageStorage implements ImageStorageInterface
 {
@@ -89,5 +91,58 @@ class ImgurImageStorage implements ImageStorageInterface
 		$basic = $this->imgur->api('image')->deleteImage($path)->getData();
 
 		return $basic['success'];
+	}
+
+	/**
+	 * getHost
+	 *
+	 * @return  string
+	 */
+	public function getHost()
+	{
+		return 'https://i.imgur.com';
+	}
+
+	/**
+	 * getRemoteUrl
+	 *
+	 * @param   string  $path
+	 *
+	 * @return  string
+	 */
+	public function getRemoteUrl($path)
+	{
+		if (!File::getExtension($path))
+		{
+			$img = $this->imgur->image($path);
+
+			return $img->link;
+		}
+
+		return static::getHost() . '/' . $path;
+	}
+
+	/**
+	 * Method to get property Imgur
+	 *
+	 * @return  Client
+	 */
+	public function getImgur()
+	{
+		return $this->imgur;
+	}
+
+	/**
+	 * Method to set property imgur
+	 *
+	 * @param   Client $imgur
+	 *
+	 * @return  static  Return self to support chaining.
+	 */
+	public function setImgur($imgur)
+	{
+		$this->imgur = $imgur;
+
+		return $this;
 	}
 }

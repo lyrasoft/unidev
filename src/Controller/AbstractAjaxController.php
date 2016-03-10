@@ -11,6 +11,7 @@ namespace Lyrasoft\Unidev\Controller;
 use Lyrasoft\Unidev\Buffer\BufferFactory;
 use Phoenix\Controller\AbstractPhoenixController;
 use Windwalker\Core\Model\Exception\ValidFailException;
+use Windwalker\Data\Data;
 use Windwalker\Debugger\Helper\DebuggerHelper;
 
 /**
@@ -52,11 +53,30 @@ abstract class AbstractAjaxController extends AbstractPhoenixController
 		{
 			$errors = $e->getMessages();
 
-			return $this->responseFailure($e->getMessage(), $e->getCode(), $errors);
+			return $this->responseFailure($e->getMessage(), $e->getCode(), array('errors' => $errors));
 		}
 		catch (\Exception $e)
 		{
-			return $this->responseFailure($e->getMessage(), $e->getCode());
+			$data = array();
+
+			if (WINDWALKER_DEBUG)
+			{
+				$traces = array();
+
+				foreach ((array) $e->getTrace() as $trace)
+				{
+					$trace = new Data($trace);
+
+					$traces[] = array(
+						'file' => $trace['file'] ? $trace['file'] . ' (' . $trace['line'] . ')' : null,
+						'function' => ($trace['class'] ? $trace['class'] . '::' : null) . $trace['function'] . '()'
+					);
+				}
+
+				$data['backtrace'] = $traces;
+			}
+
+			return $this->responseFailure($e->getMessage(), $e->getCode(), $data);
 		}
 
 		return $result;

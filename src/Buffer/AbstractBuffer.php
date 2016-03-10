@@ -75,7 +75,7 @@ abstract class AbstractBuffer
 	{
 		try
 		{
-			return $this->toString();
+			return (string) $this->toString();
 		}
 		catch (\Exception $e)
 		{

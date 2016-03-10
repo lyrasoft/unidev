@@ -43,4 +43,20 @@ interface ImageStorageInterface
 	 * @return  boolean
 	 */
 	public function delete($path);
+
+	/**
+	 * getHost
+	 *
+	 * @return  string
+	 */
+	public function getHost();
+
+	/**
+	 * getRemoteUrl
+	 *
+	 * @param   string  $uri
+	 *
+	 * @return  string
+	 */
+	public function getRemoteUrl($uri);
 }

@@ -58,4 +58,26 @@ class S3ImageStorage implements ImageStorageInterface
 	{
 		return S3Helper::delete($path);
 	}
+
+	/**
+	 * getHost
+	 *
+	 * @return  string
+	 */
+	public function getHost()
+	{
+		return S3Helper::getHost();
+	}
+
+	/**
+	 * getRemoteUrl
+	 *
+	 * @param   string $uri
+	 *
+	 * @return  string
+	 */
+	public function getRemoteUrl($uri)
+	{
+		return static::getHost() . '/' . $uri;
+	}
 }
