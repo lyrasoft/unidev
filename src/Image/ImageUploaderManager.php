@@ -71,4 +71,28 @@ class ImageUploaderManager
 	{
 		return $this->adapter->delete($path);
 	}
+
+	/**
+	 * Method to get property Adapter
+	 *
+	 * @return  ImageStorageInterface
+	 */
+	public function getAdapter()
+	{
+		return $this->adapter;
+	}
+
+	/**
+	 * Method to set property adapter
+	 *
+	 * @param   ImageStorageInterface $adapter
+	 *
+	 * @return  static  Return self to support chaining.
+	 */
+	public function setAdapter(ImageStorageInterface $adapter)
+	{
+		$this->adapter = $adapter;
+
+		return $this;
+	}
 }
