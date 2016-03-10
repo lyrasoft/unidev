@@ -142,4 +142,41 @@ class Base64Image
 
 		return null;
 	}
+
+	/**
+	 * quickUpload
+	 *
+	 * @param   string  $base64
+	 * @param   string  $uri
+	 *
+	 * @return  string
+	 */
+	public static function quickUpload($base64, $uri)
+	{
+		$ext = Base64Image::getTypeFromBase64($base64);
+
+		if (!$ext)
+		{
+			return false;
+		}
+
+		$temp = WINDWALKER_TEMP . '/luna/images/temp/' . gmdate('Ymd') . '/' . md5(uniqid(rand(1, 999))) . '.' . $ext;
+
+		if (!is_dir(dirname($temp)))
+		{
+			Folder::create(dirname($temp));
+		}
+
+		Base64Image::toFile($base64, $temp);
+
+		// Upload to Cloud
+		$url = ImageUploader::upload($temp, $uri);
+
+		if (is_file($temp))
+		{
+			File::delete($temp);
+		}
+
+		return $url;
+	}
 }

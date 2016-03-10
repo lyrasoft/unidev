@@ -33,4 +33,14 @@ abstract class AbstractStorageHelper implements StorageHelperInterface
 
 		return $ext;
 	}
+
+	/**
+	 * getTempPath
+	 *
+	 * @return  string
+	 */
+	public static function getTempPath()
+	{
+		return WINDWALKER_TEMP . '/luna';
+	}
 }
