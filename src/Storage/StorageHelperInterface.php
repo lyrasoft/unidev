@@ -41,4 +41,11 @@ interface StorageHelperInterface
 	 * @return  string  Identify URL.
 	 */
 	public static function getRemoteUrl($identify);
+
+	/**
+	 * Get base folder name.
+	 *
+	 * @return  string
+	 */
+	public static function getBaseFolder();
 }
