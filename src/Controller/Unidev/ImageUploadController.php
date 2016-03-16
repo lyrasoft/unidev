@@ -135,17 +135,17 @@ class ImageUploadController extends AbstractAjaxController
 	 */
 	protected function resize($file)
 	{
-		if (!$this->app->get('unidev.image_upload.resize.enabled', true))
+		if (!$this->app->get('unidev.resize.enabled', true))
 		{
 			return $file;
 		}
 
 		$app = $this->app;
 
-		$width   = $app->get('unidev.image_upload.resize.width', 1200);
-		$height  = $app->get('unidev.image_upload.resize.height', 1200);
-		$quality = $app->get('unidev.image_upload.resize.quality', 85);
-		$crop    = $app->get('unidev.image_upload.resize.crop', false);
+		$width   = $app->get('unidev.resize.width', 1200);
+		$height  = $app->get('unidev.resize.height', 1200);
+		$quality = $app->get('unidev.resize.quality', 85);
+		$crop    = $app->get('unidev.resize.crop', false);
 
 		$image = Image::open($file);
 

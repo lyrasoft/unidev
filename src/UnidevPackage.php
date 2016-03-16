@@ -8,7 +8,8 @@
 
 namespace Lyrasoft\Unidev;
 
-use Lyrasoft\Unidev\Listener\UnidevListener;
+use Lyrasoft\Unidev\Helper\UnidevHelper;
+use Lyrasoft\Unidev\Listener\UnidevRoutingListener;
 use Lyrasoft\Unidev\Provider\UnidevProvider;
 use Windwalker\Core\Package\AbstractPackage;
 use Windwalker\DI\Container;
@@ -21,6 +22,14 @@ use Windwalker\Event\Dispatcher;
  */
 class UnidevPackage extends AbstractPackage
 {
+	/**
+	 * UnidevPackage constructor.
+	 */
+	public function __construct()
+	{
+		UnidevHelper::setPackage($this);
+	}
+
 	/**
 	 * registerProviders
 	 *
@@ -44,6 +53,6 @@ class UnidevPackage extends AbstractPackage
 	{
 		parent::registerListeners($dispatcher);
 
-		$dispatcher->addListener(new UnidevListener($this));
+		// $dispatcher->addListener(new UnidevRoutingListener);
 	}
 }

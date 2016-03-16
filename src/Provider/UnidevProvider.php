@@ -33,9 +33,9 @@ class UnidevProvider implements ServiceProviderInterface
 		{
 			$config = $container->get('system.config');
 
-			$endpoint = $config->get('amazon.endpoint', 's3.amazonaws.com');
+			$endpoint = $config->get('unidev.amazon.endpoint', 's3.amazonaws.com');
 
-			return new \S3($config->get('amazon.key'), $config->get('amazon.secret'), false, $endpoint);
+			return new \S3($config->get('unidev.amazon.key'), $config->get('unidev.amazon.secret'), false, $endpoint);
 		};
 
 		$container->share('unidev.storage.s3', $closure);
@@ -45,8 +45,8 @@ class UnidevProvider implements ServiceProviderInterface
 			$config = $container->get('system.config');
 
 			$client = new \Imgur\Client;
-			$client->setOption('client_id', $config->get('imgur.key'));
-			$client->setOption('client_secret', $config->get('imgur.secret'));
+			$client->setOption('client_id', $config->get('unidev.imgur.key'));
+			$client->setOption('client_secret', $config->get('unidev.imgur.secret'));
 
 			return $client;
 		};

@@ -131,7 +131,7 @@ class S3Helper extends AbstractProxyFacade
 	 */
 	public static function getBucketName()
 	{
-		$bucket = static::getContainer()->get('system.config')->get('amazon.bucket');
+		$bucket = static::getContainer()->get('system.config')->get('unidev.amazon.bucket');
 
 		if (!$bucket)
 		{
@@ -148,7 +148,7 @@ class S3Helper extends AbstractProxyFacade
 	 */
 	public static function getSubfolder()
 	{
-		return static::getContainer()->get('system.config')->get('amazon.subfolder');
+		return static::getContainer()->get('system.config')->get('unidev.amazon.subfolder');
 	}
 
 	/**

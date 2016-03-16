@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Unidev\Listener;
 
+use Lyrasoft\Unidev\Helper\UnidevHelper;
 use Lyrasoft\Unidev\UnidevPackage;
 use Windwalker\Core\Router\RestfulRouter;
 use Windwalker\Event\Event;
@@ -19,7 +20,7 @@ use Windwalker\Utilities\ArrayHelper;
  *
  * @since  {DEPLOY_VERSION}
  */
-class UnidevListener
+class UnidevRoutingListener
 {
 	/**
 	 * Property unidev.
@@ -33,9 +34,9 @@ class UnidevListener
 	 *
 	 * @param UnidevPackage $unidev
 	 */
-	public function __construct(UnidevPackage $unidev)
+	public function __construct(UnidevPackage $unidev = null)
 	{
-		$this->unidev = $unidev;
+		$this->unidev = $unidev ? : UnidevHelper::getPackage();
 	}
 
 	/**
