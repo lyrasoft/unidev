@@ -30,18 +30,18 @@ abstract class AbstractBuffer
 	protected $message;
 
 	/**
-	 * The response data
-	 *
-	 * @var  mixed
-	 */
-	protected $data;
-
-	/**
 	 * Property code.
 	 *
 	 * @var  int
 	 */
 	protected $code;
+
+	/**
+	 * The response data
+	 *
+	 * @var  mixed
+	 */
+	protected $data;
 
 	/**
 	 * Constructor

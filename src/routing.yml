@@ -1,0 +1,5 @@
+img_upload:
+    pattern: /_unidev/image/upload
+    controller: Unidev
+    action:
+        post|put|patch: ImageUploadController
