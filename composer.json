@@ -5,13 +5,13 @@
     "license": "GNU Lesser General Public License",
     "minimum-stability": "beta",
     "require": {
+        "tpyo/amazon-s3-php-class": "*",
+        "adyg/php-imgur-api-client": "1.0.*",
+        "gregwar/image": "2.*"
     },
     "require-dev": {
     },
     "suggestion": {
-        "tpyo/amazon-s3-php-class": "Install * to support S3 storage",
-        "adyg/php-imgur-api-client": "Install 1.0.* to support Imgur storage",
-        "gregwar/image": "Install 2.* to support image resize"
     },
     "autoload": {
         "psr-4": {
