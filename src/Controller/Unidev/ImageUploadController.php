@@ -24,6 +24,20 @@ use Windwalker\Filesystem\Folder;
 class ImageUploadController extends AbstractAjaxController
 {
 	/**
+	 * Property fieldName.
+	 *
+	 * @var  string
+	 */
+	protected $fieldName = 'file';
+
+	/**
+	 * Property resizeConfig.
+	 *
+	 * @var  array
+	 */
+	protected $resizeConfig;
+
+	/**
 	 * doAjax
 	 *
 	 * @return  mixed
@@ -35,7 +49,7 @@ class ImageUploadController extends AbstractAjaxController
 			return $this->responseFailure('No image storage set', 500, array('mute' => true));
 		}
 
-		$file = $this->input->files->get('file');
+		$file = $this->input->files->get($this->fieldName);
 		$folder = $this->input->getPath('folder');
 		$folder = ltrim($folder . '/', '/');
 
@@ -142,10 +156,14 @@ class ImageUploadController extends AbstractAjaxController
 
 		$app = $this->app;
 
-		$width   = $app->get('unidev.image.resize.width', 1200);
-		$height  = $app->get('unidev.image.resize.height', 1200);
-		$quality = $app->get('unidev.image.resize.quality', 85);
-		$crop    = $app->get('unidev.image.resize.crop', false);
+		$resize = $app->config->extract('unidev.image.resize');
+
+		$resize->load($this->resizeConfig);
+
+		$width   = $resize->get('width', 1200);
+		$height  = $resize->get('height', 1200);
+		$quality = $resize->get('quality', 85);
+		$crop    = $resize->get('crop', false);
 
 		$image = Image::open($file);
 

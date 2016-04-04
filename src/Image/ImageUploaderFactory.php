@@ -47,13 +47,23 @@ class ImageUploaderFactory implements ContainerAwareInterface
 	 */
 	public function create($storage = null)
 	{
-		$storage = $storage ? : $this->container->get('system.config')->get('unidev.image.storage');
+		$config = $this->container->get('system.config');
+
+		$storage = $storage ? : $config->get('unidev.image.storage');
+
+		if (!$storage)
+		{
+			throw new \DomainException('No image storage provider.');
+		}
 
 		if (is_string($storage))
 		{
 			$class = __NAMESPACE__ . '\\Storage\\' . ucfirst($storage) . 'ImageStorage';
 
-			$storage = new $class($this->container->get('unidev.storage.' . strtolower($storage)));
+			$storage = new $class(
+				$this->container->get('unidev.storage.' . strtolower($storage)),
+				$config->extract('unidev.' . $storage)
+			);
 		}
 
 		return new ImageUploaderManager($storage);

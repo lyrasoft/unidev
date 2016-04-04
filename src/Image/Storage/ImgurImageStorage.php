@@ -10,6 +10,7 @@ namespace Lyrasoft\Unidev\Image\Storage;
 
 use Imgur\Client;
 use Windwalker\Filesystem\File;
+use Windwalker\Registry\Registry;
 
 /**
  * The ImgurImageStorage class.
@@ -26,15 +27,23 @@ class ImgurImageStorage implements ImageStorageInterface
 	 * @var  Client
 	 */
 	protected $imgur;
+	/**
+	 * Property config.
+	 *
+	 * @var  Registry
+	 */
+	private $config;
 
 	/**
 	 * ImgurImageStorage constructor.
 	 *
-	 * @param Client $imgur
+	 * @param Client   $imgur
+	 * @param Registry $config
 	 */
-	public function __construct(Client $imgur)
+	public function __construct(Client $imgur, Registry $config)
 	{
 		$this->imgur = $imgur;
+		$this->config = $config;
 	}
 
 	/**
@@ -51,6 +60,11 @@ class ImgurImageStorage implements ImageStorageInterface
 			'image' => base64_encode($image),
 			'type' => 'base64'
 		);
+		
+		if ($this->config['album'])
+		{
+			$data['alumb'] = $this->config['album'];
+		}
 
 		$basic = $this->imgur->api('image')->upload($data)->getData();
 
@@ -71,6 +85,11 @@ class ImgurImageStorage implements ImageStorageInterface
 			'image' => $file,
 			'type' => 'file'
 		);
+
+		if ($this->config['album'])
+		{
+			$data['alumb'] = $this->config['album'];
+		}
 
 		$basic = $this->imgur->api('image')->upload($data)->getData();
 
