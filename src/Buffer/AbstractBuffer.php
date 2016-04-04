@@ -20,28 +20,28 @@ abstract class AbstractBuffer
 	 *
 	 * @var  boolean
 	 */
-	protected $success = true;
+	public $success = true;
 
 	/**
 	 * The main response message
 	 *
 	 * @var  string
 	 */
-	protected $message;
+	public $message;
 
 	/**
 	 * Property code.
 	 *
 	 * @var  int
 	 */
-	protected $code;
+	public $code;
 
 	/**
 	 * The response data
 	 *
 	 * @var  mixed
 	 */
-	protected $data;
+	public $data;
 
 	/**
 	 * Constructor
