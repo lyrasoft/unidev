@@ -95,7 +95,7 @@ class S3Helper extends AbstractProxyFacade
 	 */
 	public static function upload($file, $uri, $acl = \S3::ACL_PUBLIC_READ, $metaHeaders = array())
 	{
-		$uri = ltrim(static::getSubfolder() . '/' . $uri);
+		$uri = ltrim(static::getSubfolder() . '/' . $uri, '/');
 
 		return static::putObject(\S3::inputFile($file, false), static::getBucketName(), $uri, $acl, $metaHeaders);
 	}
