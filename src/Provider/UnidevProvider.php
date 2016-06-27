@@ -31,7 +31,7 @@ class UnidevProvider implements ServiceProviderInterface
 	{
 		$closure = function(Container $container)
 		{
-			$config = $container->get('system.config');
+			$config = $container->get('config');
 
 			$endpoint = $config->get('unidev.amazon.endpoint', 's3.amazonaws.com');
 
@@ -42,7 +42,7 @@ class UnidevProvider implements ServiceProviderInterface
 
 		$closure = function(Container $container)
 		{
-			$config = $container->get('system.config');
+			$config = $container->get('config');
 
 			$client = new \Imgur\Client;
 			$client->setOption('client_id', $config->get('unidev.imgur.key'));

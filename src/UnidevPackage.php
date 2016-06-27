@@ -41,18 +41,4 @@ class UnidevPackage extends AbstractPackage
 	{
 		$container->getParent()->registerServiceProvider(new UnidevProvider);
 	}
-
-	/**
-	 * registerListeners
-	 *
-	 * @param Dispatcher $dispatcher
-	 *
-	 * @return  void
-	 */
-	public function registerListeners(Dispatcher $dispatcher)
-	{
-		parent::registerListeners($dispatcher);
-
-		// $dispatcher->addListener(new UnidevRoutingListener);
-	}
 }

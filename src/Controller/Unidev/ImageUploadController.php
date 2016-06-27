@@ -12,17 +12,23 @@ use Gregwar\Image\Image;
 use Lyrasoft\Unidev\Controller\AbstractAjaxController;
 use Lyrasoft\Unidev\Image\ImageUploader;
 use Lyrasoft\Unidev\Image\ImageUploadHelper;
+use Phoenix\Controller\AbstractPhoenixController;
+use Windwalker\Core\Controller\Traits\JsonApiTrait;
+use Windwalker\Core\Controller\Traits\JsonResponseTrait;
 use Windwalker\Debugger\Helper\DebuggerHelper;
 use Windwalker\Filesystem\File;
 use Windwalker\Filesystem\Folder;
+use Windwalker\Http\Helper\UploadedFileHelper;
 
 /**
  * The ImageUploadController class.
  *
  * @since  {DEPLOY_VERSION}
  */
-class ImageUploadController extends AbstractAjaxController
+class ImageUploadController extends AbstractPhoenixController
 {
+	use JsonApiTrait;
+
 	/**
 	 * Property fieldName.
 	 *
@@ -42,46 +48,48 @@ class ImageUploadController extends AbstractAjaxController
 	 *
 	 * @return  mixed
 	 */
-	protected function doAjax()
+	protected function doExecute()
 	{
 		if (!$this->app->get('unidev.image.storage'))
 		{
-			return $this->responseFailure('No image storage set', 500, array('mute' => true));
+			throw new \LogicException('No image storage set in config.');
 		}
 
 		$file = $this->input->files->get($this->fieldName);
 		$folder = $this->input->getPath('folder');
 		$folder = ltrim($folder . '/', '/');
 
-		if ($file['error'] || !is_file($file['tmp_name']))
+		if ($file->getError())
 		{
-			throw new \RuntimeException('Upload fail', $file['error']);
+			throw new \RuntimeException('Upload fail: ' . UploadedFileHelper::getUploadMessage($file->getError()), 500);
 		}
 
-		$id = $this->getImageName($file['name']);
-		$temp = $this->getImageTemp($id, File::getExtension($file['name']));
+		$id = $this->getImageName($file->getClientFilename());
+		$temp = $this->getImageTemp($id, File::getExtension($file->getClientFilename()));
 
 		if (!is_dir(dirname($temp)))
 		{
 			Folder::create(dirname($temp));
 		}
 
-		File::upload($file['tmp_name'], $temp);
+		$file->moveTo($temp);
 
 		$temp = $this->resize($temp);
 
 		if (!is_file($temp))
 		{
-			return $this->responseFailure('Temp file not exists', $file['error']);
+			throw new \RuntimeException('Temp file not exists');
 		}
 
 		$url = ImageUploader::upload($temp, $this->getImagePath($folder . $id, File::getExtension($temp)));
 
 		File::delete($temp);
 
-		return $this->responseSuccess('Upload success', array(
+		$this->addMessage('Upload success.');
+
+		return array(
 			'url' => $url
-		));
+		);
 	}
 
 	/**

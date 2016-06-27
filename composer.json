@@ -5,17 +5,23 @@
     "license": "GNU Lesser General Public License",
     "minimum-stability": "beta",
     "require": {
+        "windwalker/phoenix": "~1.1",
         "tpyo/amazon-s3-php-class": "*",
         "adyg/php-imgur-api-client": "1.0.*",
         "gregwar/image": "2.*"
     },
     "require-dev": {
     },
-    "suggestion": {
+    "suggest": {
     },
     "autoload": {
         "psr-4": {
             "Lyrasoft\\Unidev\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.1.x-dev"
         }
     }
 }

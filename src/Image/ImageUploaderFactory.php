@@ -47,7 +47,7 @@ class ImageUploaderFactory implements ContainerAwareInterface
 	 */
 	public function create($storage = null)
 	{
-		$config = $this->container->get('system.config');
+		$config = $this->container->get('config');
 
 		$storage = $storage ? : $config->get('unidev.image.storage');
 
