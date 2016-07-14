@@ -29,30 +29,27 @@ class UnidevProvider implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
-		$closure = function(Container $container)
+		// S3
+		$container->share(\S3::class, function(Container $container)
 		{
 			$config = $container->get('config');
 
 			$endpoint = $config->get('unidev.amazon.endpoint', 's3.amazonaws.com');
 
 			return new \S3($config->get('unidev.amazon.key'), $config->get('unidev.amazon.secret'), false, $endpoint);
-		};
+		})->alias('unidev.storage.s3', \S3::class);
 
-		$container->share('unidev.storage.s3', $closure);
-
-		$closure = function(Container $container)
+		// Imgur
+		$container->prepareSharedObject(\Imgur\Client::class, function(\Imgur\Client $client, Container $container)
 		{
 			$config = $container->get('config');
-
-			$client = new \Imgur\Client;
 			$client->setOption('client_id', $config->get('unidev.imgur.key'));
 			$client->setOption('client_secret', $config->get('unidev.imgur.secret'));
 
 			return $client;
-		};
+		})->alias('unidev.storage.imgur', \Imgur\Client::class);
 
-		$container->share('unidev.storage.imgur', $closure);
-
+		// Ajax Response Buffer
 		$closure = function(Container $container)
 		{
 			return new BufferFactory;
@@ -60,6 +57,7 @@ class UnidevProvider implements ServiceProviderInterface
 
 		$container->share('unidev.buffer.factory', $closure);
 
+		// Image Uploader
 		$closure = function(Container $container)
 		{
 			return new ImageUploaderFactory($container);
@@ -67,6 +65,7 @@ class UnidevProvider implements ServiceProviderInterface
 
 		$container->share('unidev.image.uploader.factory', $closure);
 
+		// Uploader
 		$closure = function(Container $container)
 		{
 			return $container->get('unidev.image.uploader.factory')->create();

@@ -9,8 +9,8 @@
 namespace Lyrasoft\Unidev\Image\Storage;
 
 use Imgur\Client;
+use Windwalker\Structure\Structure;
 use Windwalker\Filesystem\File;
-use Windwalker\Registry\Registry;
 
 /**
  * The ImgurImageStorage class.
@@ -30,17 +30,17 @@ class ImgurImageStorage implements ImageStorageInterface
 	/**
 	 * Property config.
 	 *
-	 * @var  Registry
+	 * @var  Structure
 	 */
 	private $config;
 
 	/**
 	 * ImgurImageStorage constructor.
 	 *
-	 * @param Client   $imgur
-	 * @param Registry $config
+	 * @param Client    $imgur
+	 * @param Structure $config
 	 */
-	public function __construct(Client $imgur, Registry $config)
+	public function __construct(Client $imgur, Structure $config)
 	{
 		$this->imgur = $imgur;
 		$this->config = $config;
