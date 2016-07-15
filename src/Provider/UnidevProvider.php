@@ -1,6 +1,6 @@
 <?php
 /**
- * Part of eng4tw project.
+ * Part of unidev project.
  *
  * @copyright  Copyright (C) 2016 {ORGANIZATION}. All rights reserved.
  * @license    GNU General Public License version 2 or later.
@@ -49,28 +49,16 @@ class UnidevProvider implements ServiceProviderInterface
 			return $client;
 		})->alias('unidev.storage.imgur', \Imgur\Client::class);
 
-		// Ajax Response Buffer
-		$closure = function(Container $container)
-		{
-			return new BufferFactory;
-		};
-
-		$container->share('unidev.buffer.factory', $closure);
-
 		// Image Uploader
-		$closure = function(Container $container)
+		$container->share('unidev.image.uploader.factory', function(Container $container)
 		{
 			return new ImageUploaderFactory($container);
-		};
-
-		$container->share('unidev.image.uploader.factory', $closure);
+		});
 
 		// Uploader
-		$closure = function(Container $container)
+		$container->share('unidev.image.uploader', function(Container $container)
 		{
 			return $container->get('unidev.image.uploader.factory')->create();
-		};
-
-		$container->share('unidev.image.uploader', $closure);
+		});
 	}
 }

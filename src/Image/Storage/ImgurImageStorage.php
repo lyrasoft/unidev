@@ -1,6 +1,6 @@
 <?php
 /**
- * Part of eng4tw project.
+ * Part of unidev project.
  *
  * @copyright  Copyright (C) 2016 {ORGANIZATION}. All rights reserved.
  * @license    GNU General Public License version 2 or later.
@@ -27,12 +27,13 @@ class ImgurImageStorage implements ImageStorageInterface
 	 * @var  Client
 	 */
 	protected $imgur;
+
 	/**
 	 * Property config.
 	 *
 	 * @var  Structure
 	 */
-	private $config;
+	protected $config;
 
 	/**
 	 * ImgurImageStorage constructor.
