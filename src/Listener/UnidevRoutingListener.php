@@ -10,6 +10,7 @@ namespace Lyrasoft\Unidev\Listener;
 
 use Lyrasoft\Unidev\Helper\UnidevHelper;
 use Lyrasoft\Unidev\UnidevPackage;
+use Windwalker\Core\Router\CoreRouter;
 use Windwalker\Core\Router\RestfulRouter;
 use Windwalker\Event\Event;
 use Windwalker\Router\Route;
@@ -48,7 +49,7 @@ class UnidevRoutingListener
 	 */
 	public function onRouterBeforeRouteMatch(Event $event)
 	{
-		/** @var RestfulRouter $router */
+		/** @var CoreRouter $router */
 		$router = $event['router'];
 		
 		$routing = $this->unidev->loadRouting();
