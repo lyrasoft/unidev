@@ -10,6 +10,8 @@ namespace Lyrasoft\Unidev\Provider;
 
 use Lyrasoft\Unidev\Buffer\BufferFactory;
 use Lyrasoft\Unidev\Image\ImageUploaderFactory;
+use Windwalker\Core\Application\WebApplication;
+use Windwalker\Core\Application\WindwalkerApplicationInterface;
 use Windwalker\Core\Renderer\RendererManager;
 use Windwalker\DI\Container;
 use Windwalker\DI\ServiceProviderInterface;
@@ -22,6 +24,23 @@ use Windwalker\Utilities\Queue\PriorityQueue;
  */
 class UnidevProvider implements ServiceProviderInterface
 {
+	/**
+	 * Property app.
+	 *
+	 * @var  WindwalkerApplicationInterface
+	 */
+	protected $app;
+
+	/**
+	 * UnidevProvider constructor.
+	 *
+	 * @param WindwalkerApplicationInterface $app
+	 */
+	public function __construct(WindwalkerApplicationInterface $app)
+	{
+		$this->app = $app;
+	}
+
 	/**
 	 * Registers the service provider with a DI container.
 	 *
@@ -63,10 +82,15 @@ class UnidevProvider implements ServiceProviderInterface
 			return $container->get('unidev.image.uploader.factory')->create();
 		});
 
+		if ($this->app->isConsole())
+		{
+			return;
+		}
+
 		// Add global paths
 		$container->extend(RendererManager::class, function (RendererManager $manager)
 		{
-		    $manager->addGlobalPath(UNIDEV_PACKAGE_ROOT . '/Resources/templates', PriorityQueue::LOW - 30);
+		    $manager->addGlobalPath(UNIDEV_ROOT . '/Resources/templates', PriorityQueue::LOW - 30);
 
 			return $manager;
 		});

@@ -9,11 +9,9 @@
 namespace Lyrasoft\Unidev;
 
 use Lyrasoft\Unidev\Helper\UnidevHelper;
-use Lyrasoft\Unidev\Provider\UnidevProvider;
 use Windwalker\Core\Package\AbstractPackage;
-use Windwalker\DI\Container;
 
-define('UNIDEV_PACKAGE_ROOT', __DIR__);
+define('UNIDEV_ROOT', __DIR__);
 
 /**
  * The UnidevPackage class.
@@ -28,17 +26,5 @@ class UnidevPackage extends AbstractPackage
 	public function __construct()
 	{
 		UnidevHelper::setPackage($this);
-	}
-
-	/**
-	 * registerProviders
-	 *
-	 * @param Container $container
-	 *
-	 * @return  void
-	 */
-	public function registerProviders(Container $container)
-	{
-		$container->getParent()->registerServiceProvider(new UnidevProvider);
 	}
 }
