@@ -27,6 +27,20 @@ class UnidevScript extends AbstractScript
 	protected static $packageClass = UnidevPackage::class;
 
 	/**
+	 * sweetAlert
+	 *
+	 * @return  void
+	 */
+	public static function sweetAlert()
+	{
+		if (!static::inited(__METHOD__))
+		{
+			static::addJS(static::packageName() . '/js/sweetalert.min.js');
+			static::addCSS(static::packageName() . '/css/sweetalert.min.css');
+		}
+	}
+
+	/**
 	 * cropit
 	 *
 	 * @return  void
@@ -54,6 +68,7 @@ class UnidevScript extends AbstractScript
 		if (!static::inited(__METHOD__))
 		{
 			static::cropit();
+			static::sweetAlert();
 
 			static::addJS(static::packageName() . '/js/single-image-uploader.min.js');
 

@@ -1,13 +1,11 @@
 /**
- * Part of earth project.
+ * Part of unidev project.
  *
  * @copyright  Copyright (C) 2016 {ORGANIZATION}. All rights reserved.
  * @license    GNU General Public License version 2 or later.
  */
 
-var Unidev;
-
-(function ()
+(function ($)
 {
     "use strict";
 
@@ -19,6 +17,14 @@ var Unidev;
         export_zoom: 1
     };
 
+    /**
+     * Init class.
+     *
+     * @param {jQuery} input
+     * @param {Object} options
+     *
+     * @constructor
+     */
     var SingleImageDragUploader = function (input, options)
     {
         this.input = input;
@@ -42,6 +48,9 @@ var Unidev;
     };
 
     SingleImageDragUploader.prototype = {
+        /**
+         * Bind events.
+         */
         bindEvents: function ()
         {
             var self = this;
@@ -65,7 +74,7 @@ var Unidev;
                 imageBackground: true,
                 exportZoom: this.options.export_zoom,
                 onImageError: function(error) {
-                    alert(error.message + ' Please upload a ' + self.options.width + ' x ' + self.options.height + ' image.');
+                    swal('Warning', error.message + ' Please upload a ' + self.options.width + ' x ' + self.options.height + ' image.', 'warning');
                     self.loader.hide();
                 },
                 onImageLoaded: function() {
@@ -99,11 +108,17 @@ var Unidev;
             });
 
             // Save button
-            this.saveButton.on('click', function (event)
+            this.saveButton.on('click', function ()
             {
                 self.saveImage();
             });
         },
+
+        /**
+         * Handle file select and raise cropit.
+         *
+         * @param {File} file
+         */
         handleFileSelect: function (file)
         {
             if (!this.checkFile(file))
@@ -138,7 +153,7 @@ var Unidev;
 
             if (types.indexOf(file.type, types) < 0)
             {
-                alert('Not a image', 'Please select jpg or png file', 'error');
+                swal('Not a image', 'Please select jpg or png file', 'error');
 
                 return false;
             }
@@ -182,4 +197,4 @@ var Unidev;
         return $.data(this, "unidev." + plugin);
     };
 
-})(Unidev || (Unidev = {}));
+})(jQuery);
