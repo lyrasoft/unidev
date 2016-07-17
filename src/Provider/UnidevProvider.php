@@ -88,7 +88,7 @@ class UnidevProvider implements ServiceProviderInterface
 		}
 
 		// Add global paths
-		$container->extend(RendererManager::class, function (RendererManager $manager)
+		$container->getParent()->extend(RendererManager::class, function (RendererManager $manager)
 		{
 		    $manager->addGlobalPath(UNIDEV_ROOT . '/Resources/templates', PriorityQueue::LOW - 30);
 
