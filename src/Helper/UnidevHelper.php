@@ -27,13 +27,13 @@ class UnidevHelper
 	/**
 	 * setPackage
 	 *
-	 * @param   UnidevPackage $luna
+	 * @param   UnidevPackage $unidev
 	 *
 	 * @return  void
 	 */
-	public static function setPackage(UnidevPackage $luna)
+	public static function setPackage(UnidevPackage $unidev)
 	{
-		static::$package = $luna;
+		static::$package = $unidev;
 	}
 
 	/**

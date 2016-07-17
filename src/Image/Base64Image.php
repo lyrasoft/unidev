@@ -160,7 +160,7 @@ class Base64Image
 			return false;
 		}
 
-		$temp = WINDWALKER_TEMP . '/luna/images/temp/' . gmdate('Ymd') . '/' . md5(uniqid(rand(1, 999))) . '.' . $ext;
+		$temp = WINDWALKER_TEMP . '/unidev/images/temp/' . gmdate('Ymd') . '/' . md5(uniqid(rand(1, 999))) . '.' . $ext;
 
 		if (!is_dir(dirname($temp)))
 		{

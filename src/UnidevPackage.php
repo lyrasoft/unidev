@@ -9,11 +9,11 @@
 namespace Lyrasoft\Unidev;
 
 use Lyrasoft\Unidev\Helper\UnidevHelper;
-use Lyrasoft\Unidev\Listener\UnidevRoutingListener;
 use Lyrasoft\Unidev\Provider\UnidevProvider;
 use Windwalker\Core\Package\AbstractPackage;
 use Windwalker\DI\Container;
-use Windwalker\Event\Dispatcher;
+
+define('UNIDEV_PACKAGE_ROOT', __DIR__);
 
 /**
  * The UnidevPackage class.
