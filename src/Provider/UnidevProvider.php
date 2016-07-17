@@ -50,6 +50,8 @@ class UnidevProvider implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
+		$container = $container->getParent();
+
 		// S3
 		$container->share(\S3::class, function(Container $container)
 		{
@@ -88,7 +90,7 @@ class UnidevProvider implements ServiceProviderInterface
 		}
 
 		// Add global paths
-		$container->getParent()->extend(RendererManager::class, function (RendererManager $manager)
+		$container->extend(RendererManager::class, function (RendererManager $manager)
 		{
 		    $manager->addGlobalPath(UNIDEV_ROOT . '/Resources/templates', PriorityQueue::LOW - 30);
 
