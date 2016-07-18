@@ -50,6 +50,8 @@ class UnidevProvider implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
+		$container = $container->getParent();
+
 		// S3
 		$container->share(\S3::class, function(Container $container)
 		{
