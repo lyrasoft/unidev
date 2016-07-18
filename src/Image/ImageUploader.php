@@ -22,7 +22,7 @@ use Windwalker\Core\Facade\AbstractProxyFacade;
  * @method  static  ImageStorageInterface  getAdapter()
  * @method  static  void                   setAdapter(ImageStorageInterface $adapter)
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class ImageUploader extends AbstractProxyFacade
 {

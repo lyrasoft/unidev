@@ -13,7 +13,7 @@ use Lyrasoft\Unidev\Storage\AbstractStorageHelper;
 /**
  * The ImageUploadHelper class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class ImageUploadHelper extends AbstractStorageHelper
 {

@@ -16,7 +16,7 @@ define('UNIDEV_ROOT', __DIR__);
 /**
  * The UnidevPackage class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class UnidevPackage extends AbstractPackage
 {

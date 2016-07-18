@@ -15,7 +15,7 @@ use Windwalker\Filesystem\File;
 /**
  * The ImgurImageStorage class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  *
  * @link  https://github.com/Adyg/php-imgur-api-client
  */

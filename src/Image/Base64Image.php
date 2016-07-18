@@ -14,7 +14,7 @@ use Windwalker\Filesystem\Folder;
 /**
  * The Base64Image class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class Base64Image
 {

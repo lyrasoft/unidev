@@ -15,7 +15,7 @@ use Windwalker\Core\Asset\AbstractScript;
 /**
  * The EditorScript class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class UnidevScript extends AbstractScript
 {

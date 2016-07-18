@@ -11,7 +11,7 @@ namespace Lyrasoft\Unidev\Image\Storage;
 /**
  * The AbstractStorage class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 interface ImageStorageInterface
 {

@@ -23,7 +23,7 @@ use Windwalker\Http\Helper\UploadedFileHelper;
 /**
  * The ImageUploadController class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class ImageUploadController extends AbstractPhoenixController
 {

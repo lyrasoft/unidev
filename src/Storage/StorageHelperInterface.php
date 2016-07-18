@@ -11,7 +11,7 @@ namespace Lyrasoft\Unidev\Storage;
 /**
  * The StorageHelperInterface class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 interface StorageHelperInterface
 {

@@ -14,7 +14,7 @@ use Windwalker\Http\HttpClient;
 /**
  * The BladeoptCommand class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class BladeoptCommand extends CoreCommand
 {

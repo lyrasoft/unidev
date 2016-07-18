@@ -11,7 +11,7 @@ namespace Lyrasoft\Unidev\Buffer;
 /**
  * The JsonResponse class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class JsonBuffer extends AbstractBuffer
 {

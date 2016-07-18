@@ -13,7 +13,7 @@ use Lyrasoft\Unidev\Image\Storage\ImageStorageInterface;
 /**
  * The ImageUploaderManager class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class ImageUploaderManager
 {

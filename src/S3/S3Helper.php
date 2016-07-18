@@ -60,7 +60,7 @@ use Windwalker\Core\Facade\AbstractProxyFacade;
  * @method  static  integer      __getTime()
  * @method  static  string       __getSignature($string)
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class S3Helper extends AbstractProxyFacade
 {

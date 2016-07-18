@@ -19,7 +19,7 @@ use Windwalker\Utilities\ArrayHelper;
 /**
  * The UnidevListener class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class UnidevRoutingListener
 {

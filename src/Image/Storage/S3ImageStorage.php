@@ -13,7 +13,7 @@ use Lyrasoft\Unidev\S3\S3Helper;
 /**
  * The S3ImageStorage class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class S3ImageStorage implements ImageStorageInterface
 {

@@ -11,7 +11,7 @@ namespace Lyrasoft\Unidev\Buffer;
 /**
  * The BufferFactory class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class BufferFactory
 {

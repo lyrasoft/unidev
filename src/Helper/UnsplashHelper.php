@@ -15,7 +15,7 @@ use Windwalker\Utilities\ArrayHelper;
 /**
  * The UnsplashHelper class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class UnsplashHelper
 {

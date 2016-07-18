@@ -14,7 +14,7 @@ use Windwalker\Core\Console\CoreCommand;
 /**
  * The UnidevCommand class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class UnidevCommand extends CoreCommand
 {

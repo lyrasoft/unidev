@@ -11,7 +11,7 @@ namespace Lyrasoft\Unidev\Buffer;
 /**
  * The AbstractResponse class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 abstract class AbstractBuffer
 {

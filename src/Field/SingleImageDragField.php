@@ -21,7 +21,7 @@ use Windwalker\Test\TestHelper;
 /**
  * The SingleImageField class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class SingleImageDragField extends TextField
 {

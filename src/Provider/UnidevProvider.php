@@ -20,7 +20,7 @@ use Windwalker\Utilities\Queue\PriorityQueue;
 /**
  * The UnidevProvider class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class UnidevProvider implements ServiceProviderInterface
 {

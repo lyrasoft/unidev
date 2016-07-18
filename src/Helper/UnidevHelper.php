@@ -13,7 +13,7 @@ use Lyrasoft\Unidev\UnidevPackage;
 /**
  * The UnidevHelper class.
  *
- * @since  {DEPLOY_VERSION}
+ * @since  1.0
  */
 class UnidevHelper
 {
