@@ -13,6 +13,7 @@ use Lyrasoft\Unidev\Image\Base64Image;
 use Phoenix\Controller\AbstractSaveController;
 use Windwalker\Core\Widget\WidgetHelper;
 use Windwalker\Data\Data;
+use Windwalker\Data\DataInterface;
 use Windwalker\Dom\HtmlElement;
 use Windwalker\Form\Field\TextField;
 use Windwalker\Test\TestHelper;
@@ -79,12 +80,12 @@ class SingleImageDragField extends TextField
 	 *
 	 * @param AbstractSaveController $controller
 	 * @param string                 $field
-	 * @param Data                   $data
+	 * @param DataInterface          $data
 	 * @param string                 $uri
 	 *
 	 * @return  boolean|string
 	 */
-	public static function uploadFromController(AbstractSaveController $controller, $field, Data $data, $uri)
+	public static function uploadFromController(AbstractSaveController $controller, $field, DataInterface $data, $uri)
 	{
 		// formControl is protected, we get it by TestHelper
 		$base64 = $controller->input->post->getRaw('input-' . TestHelper::getValue($controller, 'formControl') . '-' . $field . '-data');
