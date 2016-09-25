@@ -99,7 +99,7 @@ class ImageUploadController extends AbstractPhoenixController
 	 */
 	protected function getImageName($name)
 	{
-		return md5(uniqid(rand(0, 999)));
+		return md5(uniqid(mt_rand(0, 999)));
 	}
 
 	/**

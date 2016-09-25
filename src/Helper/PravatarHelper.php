@@ -66,7 +66,7 @@ class PravatarHelper
 	{
 		if ((string) $u === '')
 		{
-			$u = uniqid(rand(1, 1000));
+			$u = uniqid(mt_rand(1, 1000));
 		}
 
 		return static::url($size, null, $u);
