@@ -38,7 +38,7 @@ class UnsplashHelper
 	 *
 	 * @return  array
 	 */
-	protected function init()
+	protected static function init()
 	{
 		if (static::$ids === null)
 		{
@@ -62,7 +62,7 @@ class UnsplashHelper
 	 *
 	 * @return  string
 	 */
-	protected function getTempPath()
+	protected static function getTempPath()
 	{
 		return WINDWALKER_TEMP . '/unidev/images/unsplash-list.data';
 	}
@@ -119,11 +119,11 @@ class UnsplashHelper
 	public static function dump()
 	{
 		$list = static::getList();
-		
+
 		$ids = ArrayHelper::getColumn($list, 'id');
-		
+
 		$content = implode(',', $ids);
-		
+
 		File::write(static::getTempPath(), $content);
 	}
 }
