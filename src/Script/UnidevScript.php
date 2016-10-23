@@ -31,12 +31,17 @@ class UnidevScript extends AbstractScript
 	 *
 	 * @return  void
 	 */
-	public static function sweetAlert()
+	public static function sweetAlert($replaceAlert = false)
 	{
 		if (!static::inited(__METHOD__))
 		{
 			static::addJS(static::packageName() . '/js/sweetalert.min.js');
 			static::addCSS(static::packageName() . '/css/sweetalert.min.css');
+		}
+
+		if (!static::inited(__METHOD__, $replaceAlert))
+		{
+			static::internalJS("alert = swal;");
 		}
 	}
 
