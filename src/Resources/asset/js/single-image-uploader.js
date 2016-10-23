@@ -86,6 +86,12 @@
                 }
             });
 
+            // Reset file input if modal closed
+            self.modal.on('hide.bs.modal', function ()
+            {
+                $(self.fileSelector).val(null);
+            });
+
             // File drop
             this.filedrag.on("drop", function(event)
             {
@@ -177,6 +183,10 @@
             this.filePreview.css('display', 'block');
 
             this.modal.modal('hide');
+
+            // Trigger change
+            this.fileData.trigger('change');
+            this.filePreview.trigger('change');
         }
     };
 
