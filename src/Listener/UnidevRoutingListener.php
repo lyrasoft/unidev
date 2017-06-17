@@ -59,8 +59,8 @@ class UnidevRoutingListener
 			$name = $this->unidev->name . '@' . $name;
 
 			$pattern = ArrayHelper::getValue($route, 'pattern');
-			$variables = ArrayHelper::getValue($route, 'variables', array());
-			$allowMethods = ArrayHelper::getValue($route, 'method', array());
+			$variables = ArrayHelper::getValue($route, 'variables', []);
+			$allowMethods = ArrayHelper::getValue($route, 'method', []);
 
 			if (isset($route['controller']))
 			{

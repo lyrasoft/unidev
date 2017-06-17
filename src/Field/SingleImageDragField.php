@@ -114,10 +114,10 @@ class SingleImageDragField extends TextField
 	 */
 	public function renderView()
 	{
-		$attribs = array(
+		$attribs = [
 			'src' => $this->getValue(),
 			'id' => $this->getId() . '-view'
-		);
+		];
 
 		return (string) new HtmlElement('img', null, $attribs);
 	}

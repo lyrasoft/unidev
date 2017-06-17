@@ -87,9 +87,9 @@ class ImageUploadController extends AbstractPhoenixController
 
 		$this->addMessage('Upload success.');
 
-		return array(
+		return [
 			'url' => $url
-		);
+		];
 	}
 
 	/**

@@ -31,25 +31,25 @@ use Windwalker\Core\Facade\AbstractProxyFacade;
  * @method  static  boolean      deleteBucket($bucket)
  * @method  static  array|false  inputFile($file, $md5sum = true)
  * @method  static  array|false  inputResource(&$resource, $bufferSize = false, $md5sum = '')
- * @method  static  boolean      putObject($input, $bucket, $uri, $acl = \S3::ACL_PRIVATE, $metaHeaders = array(), $requestHeaders = array(), $storageClass = \S3::STORAGE_CLASS_STANDARD, $serverSideEncryption = \S3::SSE_NONE)
- * @method  static  boolean      putObjectFile($file, $bucket, $uri, $acl = \S3::ACL_PRIVATE, $metaHeaders = array(), $contentType = null)
- * @method  static  boolean      putObjectString($string, $bucket, $uri, $acl = \S3::ACL_PRIVATE, $metaHeaders = array(), $contentType = 'text/plain')
+ * @method  static  boolean      putObject($input, $bucket, $uri, $acl = \S3::ACL_PRIVATE, $metaHeaders = [], $requestHeaders = [], $storageClass = \S3::STORAGE_CLASS_STANDARD, $serverSideEncryption = \S3::SSE_NONE)
+ * @method  static  boolean      putObjectFile($file, $bucket, $uri, $acl = \S3::ACL_PRIVATE, $metaHeaders = [], $contentType = null)
+ * @method  static  boolean      putObjectString($string, $bucket, $uri, $acl = \S3::ACL_PRIVATE, $metaHeaders = [], $contentType = 'text/plain')
  * @method  static  mixed        getObject($bucket, $uri, $saveTo = false)
  * @method  static  mixed|false  getObjectInfo($bucket, $uri, $returnInfo = true)
- * @method  static  mixed|false  copyObject($srcBucket, $srcUri, $bucket, $uri, $acl = \S3::ACL_PRIVATE, $metaHeaders = array(), $requestHeaders = array(), $storageClass = \S3::STORAGE_CLASS_STANDARD)
+ * @method  static  mixed|false  copyObject($srcBucket, $srcUri, $bucket, $uri, $acl = \S3::ACL_PRIVATE, $metaHeaders = [], $requestHeaders = [], $storageClass = \S3::STORAGE_CLASS_STANDARD)
  * @method  static  boolean      setBucketRedirect($bucket = NULL, $location = NULL)
  * @method  static  boolean      setBucketLogging($bucket, $targetBucket, $targetPrefix = null)
  * @method  static  array|false  getBucketLogging($bucket)
  * @method  static  boolean       disableBucketLogging($bucket)
  * @method  static  string|false  getBucketLocation($bucket)
- * @method  static  boolean       setAccessControlPolicy($bucket, $uri = '', $acp = array())
+ * @method  static  boolean       setAccessControlPolicy($bucket, $uri = '', $acp = [])
  * @method  static  mixed|false  getAccessControlPolicy($bucket, $uri = '')
  * @method  static  boolean      deleteObject($bucket, $uri)
  * @method  static  string       getAuthenticatedURL($bucket, $uri, $lifetime, $hostBucket = false, $https = false)
  * @method  static  string       getSignedPolicyURL($policy)
  * @method  static  string       getSignedCannedURL($url, $lifetime)
- * @method  static  \stdClass    getHttpUploadPostParams($bucket, $uriPrefix = '', $acl = \S3::ACL_PRIVATE, $lifetime = 3600, $maxFileSize = 5242880, $successRedirect = "201", $amzHeaders = array(), $headers = array(), $flashVars = false)
- * @method  static  array|false  createDistribution($bucket, $enabled = true, $cnames = array(), $comment = null, $defaultRootObject = null, $originAccessIdentity = null, $trustedSigners = array())
+ * @method  static  \stdClass    getHttpUploadPostParams($bucket, $uriPrefix = '', $acl = \S3::ACL_PRIVATE, $lifetime = 3600, $maxFileSize = 5242880, $successRedirect = "201", $amzHeaders = [], $headers = [], $flashVars = false)
+ * @method  static  array|false  createDistribution($bucket, $enabled = true, $cnames = [], $comment = null, $defaultRootObject = null, $originAccessIdentity = null, $trustedSigners = [])
  * @method  static  array|false  getDistribution($distributionId)
  * @method  static  array|false  updateDistribution($dist)
  * @method  static  boolean      deleteDistribution($dist)
@@ -93,7 +93,7 @@ class S3Helper extends AbstractProxyFacade
 	 *
 	 * @return  boolean
 	 */
-	public static function upload($file, $uri, $acl = \S3::ACL_PUBLIC_READ, $metaHeaders = array())
+	public static function upload($file, $uri, $acl = \S3::ACL_PUBLIC_READ, $metaHeaders = [])
 	{
 		$uri = ltrim(static::getSubfolder() . '/' . $uri, '/');
 

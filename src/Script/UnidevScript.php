@@ -66,7 +66,7 @@ class UnidevScript extends AbstractScript
 	 * @param   string $selector
 	 * @param   array  $options
 	 */
-	public static function singleImageDragUpload($selector, $options = array())
+	public static function singleImageDragUpload($selector, $options = [])
 	{
 		$asset = static::getAsset();
 

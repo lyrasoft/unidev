@@ -26,10 +26,10 @@ class Base64Image
 	 *
 	 * @var  array
 	 */
-	protected static $fileTypes = array(
+	protected static $fileTypes = [
 		self::TYPE_JPEG => 'jpg',
 		self::TYPE_PNG => 'png'
-	);
+	];
 
 	/**
 	 * decode

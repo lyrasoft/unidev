@@ -29,7 +29,7 @@ class BufferFactory
 	 *
 	 * @return  AbstractBuffer
 	 */
-	public function create($format = self::FORMAT_JSON, $message = null, $data = array(), $success = true, $code = 200)
+	public function create($format = self::FORMAT_JSON, $message = null, $data = [], $success = true, $code = 200)
 	{
 		$class = __NAMESPACE__ . '\\' . ucfirst($format) . 'Buffer';
 

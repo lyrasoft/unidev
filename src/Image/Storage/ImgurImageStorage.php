@@ -57,10 +57,10 @@ class ImgurImageStorage implements ImageStorageInterface
 	 */
 	public function uploadRaw($image, $path)
 	{
-		$data = array(
+		$data = [
 			'image' => base64_encode($image),
 			'type' => 'base64'
-		);
+		];
 		
 		if ($this->config['album'])
 		{
@@ -82,10 +82,10 @@ class ImgurImageStorage implements ImageStorageInterface
 	 */
 	public function upload($file, $path)
 	{
-		$data = array(
+		$data = [
 			'image' => $file,
 			'type' => 'file'
-		);
+		];
 
 		if ($this->config['album'])
 		{
