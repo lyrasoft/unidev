@@ -100,7 +100,7 @@ class Base64Image
 		$image = file_get_contents($file);
 
 		$type = $type ? : File::getExtension($file);
-		$type = $type == 'jpg' ? 'jpeg' : $type;
+		$type = $type === 'jpg' ? 'jpeg' : $type;
 
 		return static::encode($image, $type);
 	}

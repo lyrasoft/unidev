@@ -28,7 +28,7 @@ abstract class AbstractStorageHelper implements StorageHelperInterface
 	{
 		$ext = strtolower($ext);
 
-		if ($ext == 'jpeg')
+		if ($ext === 'jpeg')
 		{
 			$ext = 'jpg';
 		}

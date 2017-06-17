@@ -136,7 +136,7 @@ class ImageUploadController extends AbstractPhoenixController
 	{
 		$ext = strtolower($ext);
 
-		if ($ext == 'jpeg')
+		if ($ext === 'jpeg')
 		{
 			$ext = 'jpg';
 		}
