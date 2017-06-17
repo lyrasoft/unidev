@@ -8,9 +8,7 @@
 
 namespace Lyrasoft\Unidev\Provider;
 
-use Lyrasoft\Unidev\Buffer\BufferFactory;
 use Lyrasoft\Unidev\Image\ImageUploaderFactory;
-use Windwalker\Core\Application\WebApplication;
 use Windwalker\Core\Application\WindwalkerApplicationInterface;
 use Windwalker\Core\Renderer\RendererManager;
 use Windwalker\DI\Container;

@@ -14,8 +14,6 @@ use Lyrasoft\Unidev\Image\ImageUploader;
 use Lyrasoft\Unidev\Image\ImageUploadHelper;
 use Phoenix\Controller\AbstractPhoenixController;
 use Windwalker\Core\Controller\Traits\JsonApiTrait;
-use Windwalker\Core\Controller\Traits\JsonResponseTrait;
-use Windwalker\Debugger\Helper\DebuggerHelper;
 use Windwalker\Filesystem\File;
 use Windwalker\Filesystem\Folder;
 use Windwalker\Http\Helper\UploadedFileHelper;
