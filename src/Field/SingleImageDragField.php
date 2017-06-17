@@ -20,6 +20,11 @@ use Windwalker\Test\TestHelper;
 /**
  * The SingleImageField class.
  *
+ * @method  mixed|$this  width(string $value = null)
+ * @method  mixed|$this  height(string $value = null)
+ * @method  mixed|$this  exportZoom(string $value = null)
+ * @method  mixed|$this  defaultImage(string $value = null)
+ *
  * @since  1.0
  */
 class SingleImageDragField extends TextField
@@ -119,5 +124,22 @@ class SingleImageDragField extends TextField
 		];
 
 		return (string) new HtmlElement('img', null, $attribs);
+	}
+
+	/**
+	 * getAccessors
+	 *
+	 * @return  array
+	 *
+	 * @since   3.1.2
+	 */
+	protected function getAccessors()
+	{
+		return array_merge(parent::getAccessors(), [
+			'width',
+			'height',
+			'exportZoom' => 'export_zoom',
+			'defaultImage' => 'default_image'
+		]);
 	}
 }
