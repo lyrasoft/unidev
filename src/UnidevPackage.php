@@ -9,6 +9,7 @@
 namespace Lyrasoft\Unidev;
 
 use Lyrasoft\Unidev\Helper\UnidevHelper;
+use Phoenix\Language\TranslatorHelper;
 use Windwalker\Core\Package\AbstractPackage;
 
 define('UNIDEV_ROOT', __DIR__);
@@ -26,5 +27,18 @@ class UnidevPackage extends AbstractPackage
 	public function __construct()
 	{
 		UnidevHelper::setPackage($this);
+	}
+
+	/**
+	 * initialise
+	 *
+	 * @throws  \LogicException
+	 * @return  void
+	 */
+	public function boot()
+	{
+		parent::boot();
+
+		TranslatorHelper::loadAll($this);
 	}
 }

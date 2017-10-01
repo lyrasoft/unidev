@@ -78,10 +78,26 @@ class UnidevScript extends AbstractScript
 			static::addJS(static::packageName() . '/js/single-image-uploader.min.js');
 
 			static::internalCSS(<<<CSS
+.sid-row::after {
+	content: "";
+	display: block;
+	clear: both;
+}
+
+.sid-left-col {
+	float: left;
+	width: 30%;
+	margin-right: 15px;
+}
+
+.sid-right-col {
+	overflow: hidden;
+}
+			
 .filedrag {
 	font-weight: bold;
 	text-align: center;
-	padding: 45px 0;
+	padding: 15% 0;
 	color: #ccc;
 	border: 2px dashed #ccc;
 	border-radius: 7px;

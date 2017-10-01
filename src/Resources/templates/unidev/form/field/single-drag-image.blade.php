@@ -5,20 +5,25 @@ $defaultImage = isset($defaultImage) ? $defaultImage : $asset->path . '/' . $pac
 ?>
 <div id="{{ $attrs['id'] }}-wrap">
 
-    <div class="row">
-        <div class="col-md-4">
+    <div class="sid-row">
+        <div class="sid-left-col">
             <img class="sid-preview img-responsive"
                 src="{{ $attrs['value'] ? $attrs['value'] . '#' . uniqid() : $defaultImage }}"
                 alt="Preview">
         </div>
-        <div class="col-md-8">
+        <div class="sid-right-col">
             <div class="sid-area filedrag">
-                <button class="btn btn-success btn-xs" type="button" onclick="$('{{ '#' . $attrs['id'] }}-selector').click();">Select File</button> or drop files here
+                <button class="btn btn-success btn-xs" type="button" onclick="$('{{ '#' . $attrs['id'] }}-selector').click();">
+                    @translate('unidev.field.single.image.button.select')
+                </button>
+                @translate('unidev.field.single.image.drop.desc')
                 <img src="{{ $asset->path . '/' . $packageName }}/images/ajax-loader.gif" id="{{ $attrs['id'] . '-loader' }}" class="sid-loader" alt="Lading" style="display: none;">
             </div>
             <div class="checkbox checkbox-primary">
-                <input type="checkbox" name="{{ $attrs['id'] }}-delete-image" class="sid-delete-image" />
-                <label for="{{ $attrs['id'] }}-delete-image">Delete</label>
+                <input type="checkbox" id="{{ $attrs['id'] }}-delete-image" name="{{ $attrs['id'] }}-delete-image" class="sid-delete-image" />
+                <label for="{{ $attrs['id'] }}-delete-image">
+                    @translate('unidev.field.single.image.delete')
+                </label>
             </div>
         </div>
     </div>
@@ -35,7 +40,9 @@ $defaultImage = isset($defaultImage) ? $defaultImage : $asset->path . '/' . $pac
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Crop image</h4>
+                    <h4 class="modal-title">
+                        @translate('unidev.field.single.image.crop')
+                    </h4>
                 </div>
                 <div class="modal-body">
                     <div id="{{ $attrs['id'] }}-cropper" class="sid-cropper">
@@ -54,8 +61,12 @@ $defaultImage = isset($defaultImage) ? $defaultImage : $asset->path . '/' . $pac
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary sid-save-button">Save</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        @translate('unidev.field.single.image.close')
+                    </button>
+                    <button type="button" class="btn btn-primary sid-save-button">
+                        @translate('unidev.field.single.image.ok')
+                    </button>
                 </div>
             </div>
         </div>
