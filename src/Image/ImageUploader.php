@@ -16,7 +16,7 @@ use Windwalker\Core\Facade\AbstractProxyFacade;
  *
  * @see  ImageUploaderManager
  *
- * @method  static  string                 uploadRaw($image, $path)
+ * @method  static  string                 uploadRaw($image, $path, $type = null)
  * @method  static  string                 upload($file, $path)
  * @method  static  string                 delete($path)
  * @method  static  ImageStorageInterface  getAdapter()

@@ -52,10 +52,11 @@ class ImgurImageStorage implements ImageStorageInterface
 	 *
 	 * @param   string $image
 	 * @param   string $path
+	 * @param   string $type
 	 *
-	 * @return  string
+	 * @return string
 	 */
-	public function uploadRaw($image, $path)
+	public function uploadRaw($image, $path, $type = null)
 	{
 		$data = [
 			'image' => base64_encode($image),

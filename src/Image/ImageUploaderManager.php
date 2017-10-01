@@ -37,14 +37,15 @@ class ImageUploaderManager
 	/**
 	 * uploadRaw
 	 *
-	 * @param   string  $image
-	 * @param   string  $path
+	 * @param   string $image
+	 * @param   string $path
+	 * @param   string $type
 	 *
-	 * @return  string
+	 * @return string
 	 */
-	public function uploadRaw($image, $path)
+	public function uploadRaw($image, $path, $type = null)
 	{
-		return $this->adapter->uploadRaw($image, $path);
+		return $this->adapter->uploadRaw($image, $path, $type);
 	}
 
 	/**
