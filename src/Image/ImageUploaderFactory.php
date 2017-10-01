@@ -60,10 +60,15 @@ class ImageUploaderFactory implements ContainerAwareInterface
 		{
 			$class = __NAMESPACE__ . '\\Storage\\' . ucfirst($storage) . 'ImageStorage';
 
-			$storage = new $class(
-				$this->container->get('unidev.storage.' . strtolower($storage)),
-				$config->extract('unidev.' . $storage)
-			);
+			$key = 'unidev.storage.' . strtolower($storage);
+			$client = null;
+
+			if ($this->container->exists($key))
+			{
+				$client = $this->container->get($key);
+			}
+
+			$storage = new $class($client, $config->extract('unidev.' . $storage));
 		}
 
 		return new ImageUploaderManager($storage);

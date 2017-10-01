@@ -52,7 +52,7 @@ class S3ImageStorage implements ImageStorageInterface
 
 		S3Helper::putObject($file, S3Helper::getBucketName(), $path, \S3::ACL_PUBLIC_READ);
 
-		return static::getRemoteUrl($path);
+		return $this->getRemoteUrl($path);
 	}
 
 	/**
@@ -67,7 +67,7 @@ class S3ImageStorage implements ImageStorageInterface
 	{
 		S3Helper::upload($file, $path);
 
-		return static::getRemoteUrl($path);
+		return $this->getRemoteUrl($path);
 	}
 
 	/**
@@ -101,6 +101,6 @@ class S3ImageStorage implements ImageStorageInterface
 	 */
 	public function getRemoteUrl($uri)
 	{
-		return rtrim(static::getHost(), '/') . '/' . ltrim($uri, '/');
+		return rtrim($this->getHost(), '/') . '/' . ltrim($uri, '/');
 	}
 }
