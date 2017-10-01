@@ -74,7 +74,11 @@
                 imageBackground: true,
                 exportZoom: this.options.export_zoom,
                 onImageError: function(error) {
-                    swal('Warning', error.message + ' Please upload a ' + self.options.width + ' x ' + self.options.height + ' image.', 'warning');
+                    swal(
+                        Phoenix.Translator.translate('unidev.field.single.image.message.invalid.size.title'),
+                        Phoenix.Translator.sprintf('unidev.field.single.image.message.invalid.size.desc', self.options.width, self.options.height),
+                        'warning'
+                    );
                     self.loader.hide();
                 },
                 onImageLoaded: function() {
@@ -137,7 +141,11 @@
 
             reader.onload = function (event)
             {
-                self.cropper.cropit('imageSrc', event.target.result);
+                if (self.options.crop) {
+                    self.cropper.cropit('imageSrc', event.target.result);
+                } else {
+                    self.saveImage(event.target.result, file.type);
+                }
             };
 
             reader.readAsDataURL(file);
@@ -157,9 +165,15 @@
                 'image/png'
             ];
 
+            types = this.options.allow_types || types;
+
             if (types.indexOf(file.type, types) < 0)
             {
-                swal('Not a image', 'Please select jpg or png file', 'error');
+                swal(
+                    Phoenix.Translator.translate('unidev.field.single.image.message.invalid.image.title'),
+                    Phoenix.Translator.translate('unidev.field.single.image.message.invalid.image.desc'),
+                    'error'
+                );
 
                 return false;
             }
@@ -170,12 +184,14 @@
         /**
          * Save image to input.
          */
-        saveImage: function ()
+        saveImage: function (image, type)
         {
-            var image = this.cropper.cropit('export', {
-                type: 'image/jpeg',
+            type = type || 'image/jpeg';
+
+            image = image || this.cropper.cropit('export', {
+                type: type,
                 quality: .9,
-                originalSize: false
+                originalSize: this.options.origin_size || false
             });
 
             this.fileData.val(image);

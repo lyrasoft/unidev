@@ -10,6 +10,7 @@ namespace Lyrasoft\Unidev\Script;
 
 use Lyrasoft\Unidev\UnidevPackage;
 use Phoenix\Script\JQueryScript;
+use Phoenix\Script\PhoenixScript;
 use Windwalker\Core\Asset\AbstractScript;
 
 /**
@@ -77,6 +78,11 @@ class UnidevScript extends AbstractScript
 
 			static::addJS(static::packageName() . '/js/single-image-uploader.min.js');
 
+			PhoenixScript::translate('unidev.field.single.image.message.invalid.image.title');
+			PhoenixScript::translate('unidev.field.single.image.message.invalid.image.desc');
+			PhoenixScript::translate('unidev.field.single.image.message.invalid.size.title');
+			PhoenixScript::translate('unidev.field.single.image.message.invalid.size.desc');
+
 			static::internalCSS(<<<CSS
 .sid-row::after {
 	content: "";
@@ -90,10 +96,14 @@ class UnidevScript extends AbstractScript
 	margin-right: 15px;
 }
 
+.sid-left-col img {
+	max-height: 250px;
+}
+
 .sid-right-col {
 	overflow: hidden;
 }
-			
+
 .filedrag {
 	font-weight: bold;
 	text-align: center;
@@ -104,8 +114,7 @@ class UnidevScript extends AbstractScript
 	cursor: default;
 }
 
-.filedrag.hover
-{
+.filedrag.hover {
 	color: #333;
 	border-color: #333;
 	background-color: #f9f9f9;
@@ -140,8 +149,7 @@ CSS
 			$options = static::getJSObject($options);
 
 			$asset->internalScript(<<<JS
-jQuery(function($)
-{
+jQuery(function($) {
     $('$selector').singleImageDragUploader($options);
 });
 JS
