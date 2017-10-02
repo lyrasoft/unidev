@@ -28,16 +28,28 @@ class UnidevScript extends AbstractScript
 	protected static $packageClass = UnidevPackage::class;
 
 	/**
-	 * sweetAlert
+	 * Official Sweet Alert.
 	 *
-	 * @return  void
+	 * @see https://sweetalert.js.org/guides/#installation
+	 *
+	 * @param bool $replaceAlert
+	 * @param int  $version
+	 *
+	 * @return void
 	 */
-	public static function sweetAlert($replaceAlert = false)
+	public static function sweetAlert($replaceAlert = false, $version = 1)
 	{
 		if (!static::inited(__METHOD__))
 		{
-			static::addJS(static::packageName() . '/js/sweetalert.min.js');
-			static::addCSS(static::packageName() . '/css/sweetalert.min.css');
+			if ($version == 1)
+			{
+				static::addJS(static::packageName() . '/js/sweetalert.min.js');
+				static::addCSS(static::packageName() . '/css/sweetalert.min.css');
+			}
+			else
+			{
+				static::addJS(static::packageName() . '/js/sweetalert2.min.js');
+			}
 		}
 
 		if (!static::inited(__METHOD__, $replaceAlert))
@@ -74,7 +86,7 @@ class UnidevScript extends AbstractScript
 		if (!static::inited(__METHOD__))
 		{
 			static::cropit();
-			static::sweetAlert();
+			static::sweetAlert(false, 2);
 
 			static::addJS(static::packageName() . '/js/single-image-uploader.min.js');
 
