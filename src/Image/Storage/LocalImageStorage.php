@@ -84,7 +84,7 @@ class LocalImageStorage implements ImageStorageInterface
 			File::delete($dest);
 		}
 
-		File::move($file, $dest);
+		File::copy($file, $dest);
 
 		return $this->getRemoteUrl($path);
 	}
