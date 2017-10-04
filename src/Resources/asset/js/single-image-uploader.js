@@ -35,7 +35,7 @@
         // Input
         this.fileData     = this.element.find(".sid-data");
         this.filedrag     = this.element.find(".sid-area");
-        this.fileSelector = this.element.find(".sid-selector");
+        this.fileSelector = this.element.find(".sid-file-select-button");
         this.filePreview  = this.element.find(".sid-preview");
         this.loader       = this.element.find(".sid-loader");
 
@@ -93,7 +93,7 @@
             // Reset file input if modal closed
             self.modal.on('hide.bs.modal', function ()
             {
-                $(self.fileSelector).val(null);
+                //$(self.fileSelector).val(null);
             });
 
             // File drop
@@ -108,13 +108,19 @@
 
                 self.handleFileSelect(files[0]);
             });
-
+console.log(this.fileSelector);
             // Selector
-            this.fileSelector.on('change', function(event)
-            {
-                var files = event.originalEvent.target.files || event.originalEvent.dataTransfer.files;
+            this.fileSelector.on('click', function () {
+                var $input = $('<input type="file">');
+console.log(this);
+                $input.on('change', function(event)
+                {
+                    var files = event.originalEvent.target.files || event.originalEvent.dataTransfer.files;
 
-                self.handleFileSelect(files[0])
+                    self.handleFileSelect(files[0])
+                });
+
+                $input.click();
             });
 
             // Save button
