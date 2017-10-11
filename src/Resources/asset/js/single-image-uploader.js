@@ -108,11 +108,11 @@
 
                 self.handleFileSelect(files[0]);
             });
-console.log(this.fileSelector);
+
             // Selector
             this.fileSelector.on('click', function () {
                 var $input = $('<input type="file">');
-console.log(this);
+
                 $input.on('change', function(event)
                 {
                     var files = event.originalEvent.target.files || event.originalEvent.dataTransfer.files;
