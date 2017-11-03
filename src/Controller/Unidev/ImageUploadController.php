@@ -57,9 +57,16 @@ class ImageUploadController extends AbstractPhoenixController
 		$folder = $this->input->getPath('folder');
 		$folder = ltrim($folder . '/', '/');
 
-		if ($file->getError())
+		if (!$file || $file->getError())
 		{
-			throw new \RuntimeException('Upload fail: ' . UploadedFileHelper::getUploadMessage($file->getError()), 500);
+			$msg = 'Upload fail';
+
+			if (WINDWALKER_DEBUG)
+			{
+				$msg .= ': ' . UploadedFileHelper::getUploadMessage($file->getError());
+			}
+
+			throw new \RuntimeException($msg, 500);
 		}
 
 		$id = $this->getImageName($file->getClientFilename());
