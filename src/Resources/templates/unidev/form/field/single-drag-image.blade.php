@@ -2,13 +2,15 @@
 <?php
 $packageName = $app->packageResolver->getAlias(\Lyrasoft\Unidev\UnidevPackage::class);
 $defaultImage = isset($defaultImage) ? $defaultImage : $asset->path . '/' . $packageName . '/images/default-img.png';
+$image = $attrs['value'] ? $attrs['value'] . '#' . uniqid() : e($defaultImage);
 ?>
 <div id="{{ $attrs['id'] }}-wrap">
 
     <div class="sid-row">
         <div class="sid-left-col">
             <img class="sid-preview img-responsive img-fluid"
-                src="{{ $attrs['value'] ? $attrs['value'] . '#' . uniqid() : $defaultImage }}"
+                {{-- TextField has escaped value, so we don't need to escape again --}}
+                src="{!! $image !!}"
                 alt="Preview">
         </div>
         <div class="sid-right-col">
