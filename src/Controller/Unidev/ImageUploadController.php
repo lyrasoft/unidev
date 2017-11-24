@@ -14,6 +14,7 @@ use Lyrasoft\Unidev\Image\ImageUploader;
 use Lyrasoft\Unidev\Image\ImageUploadHelper;
 use Phoenix\Controller\AbstractPhoenixController;
 use Windwalker\Core\Controller\Traits\JsonApiTrait;
+use Windwalker\Core\Language\Translator;
 use Windwalker\Filesystem\File;
 use Windwalker\Filesystem\Folder;
 use Windwalker\Http\Helper\UploadedFileHelper;
@@ -156,9 +157,10 @@ class ImageUploadController extends AbstractPhoenixController
 	 *
 	 * @link  https://github.com/Gregwar/Image
 	 *
-	 * @param   string  $file
+	 * @param   string $file
 	 *
 	 * @return  string
+	 * @throws \UnexpectedValueException
 	 */
 	protected function resize($file)
 	{
@@ -178,20 +180,27 @@ class ImageUploadController extends AbstractPhoenixController
 		$quality = $resize->get('quality', 85);
 		$crop    = $resize->get('crop', false);
 
-		$image = Image::open($file);
+		try
+		{
+			$image = Image::open($file);
 
-		if ($image->width() < $width && $image->height() < $height)
-		{
-			return $file;
-		}
+			if ($image->width() < $width && $image->height() < $height)
+			{
+				return $file;
+			}
 
-		if ($crop)
-		{
-			$image->zoomCrop($width, $height);
+			if ($crop)
+			{
+				$image->zoomCrop($width, $height);
+			}
+			else
+			{
+				$image->cropResize($width, $height);
+			}
 		}
-		else
+		catch (\UnexpectedValueException $e)
 		{
-			$image->cropResize($width, $height);
+			throw new \UnexpectedValueException(Translator::translate('unidev.image.upload.message.load.fail'), $e->getCode(), $e);
 		}
 
 		$image->save($file, 'guess', $quality);
