@@ -95,6 +95,11 @@ class UnidevScript extends AbstractScript
 			PhoenixScript::translate('unidev.field.single.image.message.invalid.size.title');
 			PhoenixScript::translate('unidev.field.single.image.message.invalid.size.desc');
 
+			PhoenixScript::translate('unidev.field.single.image.message.invalid.size.max.width');
+			PhoenixScript::translate('unidev.field.single.image.message.invalid.size.min.width');
+			PhoenixScript::translate('unidev.field.single.image.message.invalid.size.max.height');
+			PhoenixScript::translate('unidev.field.single.image.message.invalid.size.min.height');
+
 			static::internalCSS(<<<CSS
 .sid-row::after {
 	content: "";
@@ -119,7 +124,7 @@ class UnidevScript extends AbstractScript
 .filedrag {
 	font-weight: bold;
 	text-align: center;
-	padding: 15% 0;
+	padding: 9% 0;
 	color: #ccc;
 	border: 2px dashed #ccc;
 	border-radius: 7px;
@@ -134,6 +139,11 @@ class UnidevScript extends AbstractScript
 
 .cropit-image-background {
 	opacity: .2;
+}
+
+.sid-size-info {
+	margin-top: 5px;
+	font-size: 13px;
 }
 
 /*

@@ -20,9 +20,14 @@ use Windwalker\Test\TestHelper;
 /**
  * The SingleImageField class.
  *
- * @method  mixed|$this  width(string $value = null)
- * @method  mixed|$this  height(string $value = null)
+ * @method  mixed|$this  width(int $value = null)
+ * @method  mixed|$this  height(int $value = null)
+ * @method  mixed|$this  maxWidth(int $value = null)
+ * @method  mixed|$this  minWidth(int $value = null)
+ * @method  mixed|$this  maxHeight(int $value = null)
+ * @method  mixed|$this  minHeight(int $value = null)
  * @method  mixed|$this  crop(bool $value = null)
+ * @method  mixed|$this  originSize(bool $value = null)
  * @method  mixed|$this  exportZoom(string $value = null)
  * @method  mixed|$this  defaultImage(string $value = null)
  *
@@ -54,10 +59,23 @@ class SingleImageDragField extends TextField
 	 */
 	public function buildInput($attrs)
 	{
-		$this->prepareScript($attrs);
+		$options['export_zoom'] = (int) $exportZoom = $this->getAttribute('export_zoom', 1);
+		$options['crop'] = $this->getBool('crop', true);
+		$options['origin_size'] = $this->getBool('originSize', false);
+
+		$options['width']  = $exportZoom * (int) $this->get('width', 300);
+		$options['height'] = $exportZoom * (int) $this->get('height', 300);
+		$options['max_width'] = $this->get('max_width');
+		$options['min_width'] = $this->get('min_width');
+		$options['max_height'] = $this->get('max_height');
+		$options['min_height'] = $this->get('min_height');
+
+		$this->prepareScript($attrs, $options);
 
 		return WidgetHelper::render('unidev.form.field.single-drag-image', [
 			'crop'  => $this->get('crop', true),
+			'field' => $this,
+			'options' => $options,
 			'attrs' => $attrs,
 			'defaultImage' => $this->get('default_image')
 		], WidgetHelper::EDGE);
@@ -66,19 +84,14 @@ class SingleImageDragField extends TextField
 	/**
 	 * prepareScript
 	 *
-	 * @param   array  $attrs
+	 * @param   array $attrs
+	 * @param array   $options
 	 *
-	 * @return  void
+	 * @return void
 	 */
-	protected function prepareScript($attrs)
+	protected function prepareScript($attrs, array $options)
 	{
 		$selector = '#' . $attrs['id'];
-
-		$options['export_zoom'] = $exportZoom = $this->getAttribute('export_zoom', 1);
-		$options['width']  = $exportZoom * $this->get('width', 300);
-		$options['height'] = $exportZoom * $this->get('height', 300);
-		$options['crop'] = $this->getAttribute('crop', true);
-		$options['origin_size'] = $this->getAttribute('originSize', false);
 
 		UnidevScript::singleImageDragUpload($selector, $options);
 	}
@@ -142,6 +155,10 @@ class SingleImageDragField extends TextField
 		return array_merge(parent::getAccessors(), [
 			'width',
 			'height',
+			'maxWidth' => 'max_width',
+			'minWidth' => 'min_width',
+			'maxHeight' => 'max_height',
+			'minHeight' => 'min_height',
 			'crop',
 			'originSize',
 			'exportZoom' => 'export_zoom',

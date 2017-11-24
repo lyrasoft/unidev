@@ -14,7 +14,12 @@
     var defaultOptions = {
         width: 300,
         height: 300,
-        export_zoom: 1
+        max_width: null,
+        min_width: null,
+        max_height: null,
+        min_height: null,
+        export_zoom: 1,
+        origin_size: false,
     };
 
     /**
@@ -150,7 +155,17 @@
                 if (self.options.crop) {
                     self.cropper.cropit('imageSrc', event.target.result);
                 } else {
-                    self.saveImage(event.target.result, file.type);
+                    var image = new Image;
+
+                    image.onload = function () {
+                        if (!self.checkSize(image)) {
+                            return;
+                        }
+
+                        self.saveImage(event.target.result, file.type);
+                    };
+
+                    image.src = event.target.result;
                 }
             };
 
@@ -178,6 +193,43 @@
                 swal(
                     Phoenix.Translator.translate('unidev.field.single.image.message.invalid.image.title'),
                     Phoenix.Translator.translate('unidev.field.single.image.message.invalid.image.desc'),
+                    'error'
+                );
+
+                return false;
+            }
+
+            return true;
+        },
+
+        /**
+         * Check image size.
+         *
+         * @param {Image} image
+         *
+         * @returns {boolean}
+         */
+        checkSize: function (image) {
+            try {
+                if (this.options.max_width !== null && this.options.max_width < image.width) {
+                    throw new Error(Phoenix.Translator.sprintf('unidev.field.single.image.message.invalid.size.max.width', this.options.max_width));
+                }
+
+                if (this.options.min_width !== null && this.options.min_width > image.width) {
+                    throw new Error(Phoenix.Translator.sprintf('unidev.field.single.image.message.invalid.size.min.width', this.options.min_width));
+                }
+
+                if (this.options.max_height !== null && this.options.max_height < image.height) {
+                    throw new Error(Phoenix.Translator.sprintf('unidev.field.single.image.message.invalid.size.max.height', this.options.max_height));
+                }
+
+                if (this.options.min_height !== null && this.options.min_height > image.height) {
+                    throw new Error(Phoenix.Translator.sprintf('unidev.field.single.image.message.invalid.size.min.height', this.options.min_height));
+                }
+            } catch (e) {
+                swal(
+                    Phoenix.Translator.translate('unidev.field.single.image.message.invalid.size.title'),
+                    e.message,
                     'error'
                 );
 

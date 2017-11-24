@@ -1,5 +1,12 @@
 {{-- Part of virtualset project. --}}
 <?php
+/**
+ * @var $field    \Lyrasoft\Unidev\Field\SingleImageDragField
+ * @var $crop     bool
+ * @var $attrs    array
+ * @var $options  array
+ */
+
 $packageName = $app->packageResolver->getAlias(\Lyrasoft\Unidev\UnidevPackage::class);
 $defaultImage = isset($defaultImage) ? $defaultImage : $asset->path . '/' . $packageName . '/images/default-img.png';
 $image = $attrs['value'] ? $attrs['value'] . '#' . uniqid() : e($defaultImage);
@@ -15,10 +22,47 @@ $image = $attrs['value'] ? $attrs['value'] . '#' . uniqid() : e($defaultImage);
         </div>
         <div class="sid-right-col">
             <div class="sid-area filedrag">
-                <button class="btn btn-success btn-sm btn-xs sid-file-select-button" type="button">
-                    @translate('unidev.field.single.image.button.select')
-                </button>
-                @translate('unidev.field.single.image.drop.desc')
+                <p class="sid-upload-actions">
+                    <button class="btn btn-success btn-sm btn-xs sid-file-select-button" type="button">
+                        <span class="fa fa-picture-o"></span>
+                        @translate('unidev.field.single.image.button.select')
+                    </button>
+                </p>
+                <div class="sid-upload-desc">
+                    @translate('unidev.field.single.image.drop.desc')
+                </div>
+                @if ($options['crop'])
+                    <br />
+                    <div class="sid-size-info">
+                        @sprintf('unidev.field.single.image.crop.size.desc', $options['width'], $options['height'])
+                    </div>
+                @elseif ($options['max_width'] || $options['max_height'] || $options['min_width'] || $options['min_height'])
+                    <div class="sid-size-info">
+                        @if ($options['max_width'] || $options['max_height'])
+                            <div class="max-size">
+                                @if ($options['max_width'] !== null && $options['max_height'] !== null)
+                                    @sprintf('unidev.field.single.image.max.width.height', $options['max_width'], $options['max_height'])
+                                @elseif ($options['max_width'] !== null)
+                                    @sprintf('unidev.field.single.image.max.width', $options['max_width'])
+                                @elseif ($options['max_height'] !== null)
+                                    @sprintf('unidev.field.single.image.max.height', $options['max_height'])
+                                @endif
+                            </div>
+                        @endif
+
+                        @if ($options['min_width'] || $options['min_height'])
+                            <div class="min-size">
+                                @if ($options['min_width'] !== null && $options['min_height'] !== null)
+                                    @sprintf('unidev.field.single.image.min.width.height', $options['min_width'], $options['min_height'])
+                                @elseif ($options['min_width'] !== null)
+                                    @sprintf('unidev.field.single.image.min.width', $options['min_width'])
+                                @elseif ($options['min_height'] !== null)
+                                    @sprintf('unidev.field.single.image.min.height', $options['min_height'])
+                                @endif
+                            </div>
+                        @endif
+                    </div>
+                @endif
                 <img src="{{ $asset->path . '/' . $packageName }}/images/ajax-loader.gif" id="{{ $attrs['id'] . '-loader' }}" class="sid-loader" alt="Lading" style="display: none;">
             </div>
             <div class="checkbox checkbox-primary mt-2" style="">
