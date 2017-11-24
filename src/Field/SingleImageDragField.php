@@ -26,6 +26,7 @@ use Windwalker\Test\TestHelper;
  * @method  mixed|$this  minWidth(int $value = null)
  * @method  mixed|$this  maxHeight(int $value = null)
  * @method  mixed|$this  minHeight(int $value = null)
+ * @method  mixed|$this  showSizeNotice(bool $value = null)
  * @method  mixed|$this  crop(bool $value = null)
  * @method  mixed|$this  originSize(bool $value = null)
  * @method  mixed|$this  exportZoom(string $value = null)
@@ -201,6 +202,7 @@ class SingleImageDragField extends TextField
 			'maxWidth' => 'max_width',
 			'minHeight' => 'min_height',
 			'minWidth' => 'min_width',
+			'showSizeNotice' => 'show_size_notice',
 			'originSize',
 			'version',
 			'width',

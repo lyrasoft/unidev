@@ -146,6 +146,10 @@ class UnidevScript extends AbstractScript
 	font-size: 13px;
 }
 
+.sid-delete-image {
+	margin-left: -17px;
+}
+
 /*
  * If the slider or anything else is covered by the background image,
  * use relative or absolute position on it

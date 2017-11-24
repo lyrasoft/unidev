@@ -32,36 +32,38 @@ $image = $attrs['value'] ? $attrs['value'] . '#' . uniqid() : e($defaultImage);
                 <div class="sid-upload-desc">
                     @translate('unidev.field.single.image.drop.desc')
                 </div>
-                @if ($options['crop'])
-                    <div class="sid-size-info">
-                        @sprintf('unidev.field.single.image.crop.size.desc', $options['width'], $options['height'])
-                    </div>
-                @elseif ($options['max_width'] || $options['max_height'] || $options['min_width'] || $options['min_height'])
-                    <div class="sid-size-info">
-                        @if ($options['max_width'] || $options['max_height'])
-                            <div class="max-size">
-                                @if ($options['max_width'] !== null && $options['max_height'] !== null)
-                                    @sprintf('unidev.field.single.image.max.width.height', $options['max_width'], $options['max_height'])
-                                @elseif ($options['max_width'] !== null)
-                                    @sprintf('unidev.field.single.image.max.width', $options['max_width'])
-                                @elseif ($options['max_height'] !== null)
-                                    @sprintf('unidev.field.single.image.max.height', $options['max_height'])
-                                @endif
-                            </div>
-                        @endif
+                @if ($field->get('show_size_notice', false))
+                    @if ($options['crop'])
+                        <div class="sid-size-info">
+                            @sprintf('unidev.field.single.image.crop.size.desc', $options['width'], $options['height'])
+                        </div>
+                    @elseif ($options['max_width'] || $options['max_height'] || $options['min_width'] || $options['min_height'])
+                        <div class="sid-size-info">
+                            @if ($options['max_width'] || $options['max_height'])
+                                <div class="max-size">
+                                    @if ($options['max_width'] !== null && $options['max_height'] !== null)
+                                        @sprintf('unidev.field.single.image.max.width.height', $options['max_width'], $options['max_height'])
+                                    @elseif ($options['max_width'] !== null)
+                                        @sprintf('unidev.field.single.image.max.width', $options['max_width'])
+                                    @elseif ($options['max_height'] !== null)
+                                        @sprintf('unidev.field.single.image.max.height', $options['max_height'])
+                                    @endif
+                                </div>
+                            @endif
 
-                        @if ($options['min_width'] || $options['min_height'])
-                            <div class="min-size">
-                                @if ($options['min_width'] !== null && $options['min_height'] !== null)
-                                    @sprintf('unidev.field.single.image.min.width.height', $options['min_width'], $options['min_height'])
-                                @elseif ($options['min_width'] !== null)
-                                    @sprintf('unidev.field.single.image.min.width', $options['min_width'])
-                                @elseif ($options['min_height'] !== null)
-                                    @sprintf('unidev.field.single.image.min.height', $options['min_height'])
-                                @endif
-                            </div>
-                        @endif
-                    </div>
+                            @if ($options['min_width'] || $options['min_height'])
+                                <div class="min-size">
+                                    @if ($options['min_width'] !== null && $options['min_height'] !== null)
+                                        @sprintf('unidev.field.single.image.min.width.height', $options['min_width'], $options['min_height'])
+                                    @elseif ($options['min_width'] !== null)
+                                        @sprintf('unidev.field.single.image.min.width', $options['min_width'])
+                                    @elseif ($options['min_height'] !== null)
+                                        @sprintf('unidev.field.single.image.min.height', $options['min_height'])
+                                    @endif
+                                </div>
+                            @endif
+                        </div>
+                    @endif
                 @endif
                 <img src="{{ $asset->path . '/' . $packageName }}/images/ajax-loader.gif" id="{{ $attrs['id'] . '-loader' }}" class="sid-loader" alt="Lading" style="display: none;">
             </div>
