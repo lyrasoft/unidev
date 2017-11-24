@@ -74,12 +74,13 @@ $image = $attrs['value'] ? $attrs['value'] . '#' . uniqid() : e($defaultImage);
         </div>
     </div>
 
+    @if ($version === 1)
     <div style="display: none;">
-        @if ($version === 1)
-            <input type="text" id="{{ $attrs['id'] }}-data" class="sid-data" name="{{ $attrs['id'] }}-data" value="" />
-        @else
-            <input type="text" id="{{ $field->getId() }}" class="sid-data" name="{{ $field->getFieldName() }}" value="{{ $field->getValue() }}" />
-        @endif
+        <input type="text" id="{{ $attrs['id'] }}-data" class="sid-data" name="{{ $attrs['id'] }}-data" value="" />
+    </div>
+    @else
+        {!! new \Windwalker\Dom\HtmlElement('input', null, $attrs) !!}
+    @endif
     </div>
 
     {{-- Push this modal to page bottom --}}
