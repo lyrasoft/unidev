@@ -20,6 +20,7 @@
         min_height: null,
         export_zoom: 1,
         origin_size: false,
+        version: 1
     };
 
     /**
@@ -42,6 +43,7 @@
         this.filedrag     = this.element.find(".sid-area");
         this.fileSelector = this.element.find(".sid-file-select-button");
         this.filePreview  = this.element.find(".sid-preview");
+        this.deleteBox    = this.element.find(".sid-delete-image");
         this.loader       = this.element.find(".sid-loader");
 
         // Modal
@@ -59,6 +61,7 @@
         bindEvents: function ()
         {
             var self = this;
+            var value;
 
             this.filedrag.on('dragover', function(event)
             {
@@ -133,6 +136,21 @@
             {
                 self.saveImage();
             });
+
+            // Delete box
+            if (this.options.version !== 1) {
+                this.deleteBox.on('change', function () {
+                    var $this = $(this);
+
+                    if ($this.is(':checked')) {
+                        value = self.fileData.val();
+                        self.fileData.val('');
+                    } else {
+                        self.fileData.val(value);
+                        value = null;
+                    }
+                });
+            }
         },
 
         /**
@@ -257,6 +275,9 @@
             this.filePreview.css('display', 'block');
 
             this.modal.modal('hide');
+
+            // Make delete box unchecked
+            this.deleteBox.prop('checked', false);
 
             // Trigger change
             this.fileData.trigger('change');

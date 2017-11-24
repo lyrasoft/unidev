@@ -4,6 +4,7 @@
  * @var $field    \Lyrasoft\Unidev\Field\SingleImageDragField
  * @var $crop     bool
  * @var $attrs    array
+ * @var $version  int
  * @var $options  array
  */
 
@@ -32,7 +33,6 @@ $image = $attrs['value'] ? $attrs['value'] . '#' . uniqid() : e($defaultImage);
                     @translate('unidev.field.single.image.drop.desc')
                 </div>
                 @if ($options['crop'])
-                    <br />
                     <div class="sid-size-info">
                         @sprintf('unidev.field.single.image.crop.size.desc', $options['width'], $options['height'])
                     </div>
@@ -75,7 +75,11 @@ $image = $attrs['value'] ? $attrs['value'] . '#' . uniqid() : e($defaultImage);
     </div>
 
     <div style="display: none;">
-        <input type="text" id="{{ $attrs['id'] }}-data" class="sid-data" name="{{ $attrs['id'] }}-data" value="" />
+        @if ($version === 1)
+            <input type="text" id="{{ $attrs['id'] }}-data" class="sid-data" name="{{ $attrs['id'] }}-data" value="" />
+        @else
+            <input type="text" id="{{ $field->getId() }}" class="sid-data" name="{{ $field->getFieldName() }}" value="{{ $field->getValue() }}" />
+        @endif
     </div>
 
     {{-- Push this modal to page bottom --}}

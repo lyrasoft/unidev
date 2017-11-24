@@ -30,6 +30,7 @@ use Windwalker\Test\TestHelper;
  * @method  mixed|$this  originSize(bool $value = null)
  * @method  mixed|$this  exportZoom(string $value = null)
  * @method  mixed|$this  defaultImage(string $value = null)
+ * @method  mixed|$this  version(int $value = null)
  *
  * @since  1.0
  */
@@ -69,6 +70,7 @@ class SingleImageDragField extends TextField
 		$options['min_width'] = $this->get('min_width');
 		$options['max_height'] = $this->get('max_height');
 		$options['min_height'] = $this->get('min_height');
+		$options['version'] = (int) $this->get('version', 1);
 
 		$this->prepareScript($attrs, $options);
 
@@ -77,6 +79,7 @@ class SingleImageDragField extends TextField
 			'field' => $this,
 			'options' => $options,
 			'attrs' => $attrs,
+			'version' => $options['version'],
 			'defaultImage' => $this->get('default_image')
 		], WidgetHelper::EDGE);
 	}
@@ -105,6 +108,8 @@ class SingleImageDragField extends TextField
 	 * @param string                 $uri
 	 *
 	 * @return  boolean|string
+	 *
+	 * @deprecated Use uploadBase64() instead.
 	 */
 	public static function uploadFromController(AbstractSaveController $controller, $field, DataInterface $data, $uri)
 	{
@@ -126,6 +131,38 @@ class SingleImageDragField extends TextField
 		}
 
 		return false;
+	}
+
+	/**
+	 * Upload base64 to cloud.
+	 *
+	 * You must set SingleDragImageField to version 2.
+	 *
+	 * ```
+	 * $this->singleDragImage('foo')
+	 *     ->version(2)
+	 * ```
+	 *
+	 * @param string $base64
+	 * @param string $uri
+	 *
+	 * @return  string
+	 *
+	 * @since   1.3
+	 */
+	public static function uploadBase64($base64, $uri)
+	{
+		if (strpos($base64, 'data:image') !== 0)
+		{
+			return $base64;
+		}
+
+		if ($url = Base64Image::quickUpload($base64, $uri))
+		{
+			return $url;
+		}
+
+		return $base64;
 	}
 
 	/**
@@ -153,16 +190,17 @@ class SingleImageDragField extends TextField
 	protected function getAccessors()
 	{
 		return array_merge(parent::getAccessors(), [
-			'width',
-			'height',
-			'maxWidth' => 'max_width',
-			'minWidth' => 'min_width',
-			'maxHeight' => 'max_height',
-			'minHeight' => 'min_height',
 			'crop',
-			'originSize',
+			'defaultImage' => 'default_image',
 			'exportZoom' => 'export_zoom',
-			'defaultImage' => 'default_image'
+			'height',
+			'maxHeight' => 'max_height',
+			'maxWidth' => 'max_width',
+			'minHeight' => 'min_height',
+			'minWidth' => 'min_width',
+			'originSize',
+			'version',
+			'width',
 		]);
 	}
 }
