@@ -81,7 +81,6 @@ $image = $attrs['value'] ? $attrs['value'] . '#' . uniqid() : e($defaultImage);
     @else
         {!! new \Windwalker\Dom\HtmlElement('input', null, $attrs) !!}
     @endif
-    </div>
 
     {{-- Push this modal to page bottom --}}
     @assetTemplate('single-image-upload@' . $attrs['id'])
