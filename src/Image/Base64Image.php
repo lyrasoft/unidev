@@ -148,10 +148,11 @@ class Base64Image
 	/**
 	 * quickUpload
 	 *
-	 * @param   string  $base64
-	 * @param   string  $uri
+	 * @param   string $base64
+	 * @param   string $uri
 	 *
 	 * @return  string
+	 * @throws \RuntimeException
 	 */
 	public static function quickUpload($base64, $uri)
 	{
@@ -159,7 +160,7 @@ class Base64Image
 
 		if (!$ext)
 		{
-			return false;
+			throw new \RuntimeException('The base64 image ha no type information.');
 		}
 
 		$temp = WINDWALKER_TEMP . '/unidev/images/temp/' . gmdate('Ymd') . '/' . md5(uniqid(mt_rand(1, 999))) . '.' . $ext;
