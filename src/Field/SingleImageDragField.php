@@ -147,18 +147,23 @@ class SingleImageDragField extends TextField
 	 *     ->version(2)
 	 * ```
 	 *
-	 * @param string $base64
-	 * @param string $uri
+	 * @param string        $base64
+	 * @param string        $uri
+	 * @param callable|null $handler
 	 *
-	 * @return  string
-	 *
+	 * @return string
 	 * @since   1.3
 	 */
-	public static function uploadBase64($base64, $uri)
+	public static function uploadBase64($base64, $uri, callable $handler = null)
 	{
 		if (strpos($base64, 'data:image') !== 0)
 		{
 			return $base64;
+		}
+
+		if($handler)
+		{
+			$base64 = $handler($base64);
 		}
 
 		if ($url = Base64Image::quickUpload($base64, $uri))

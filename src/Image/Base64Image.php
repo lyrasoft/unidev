@@ -20,6 +20,7 @@ class Base64Image
 {
 	const TYPE_JPEG = 'jpeg';
 	const TYPE_PNG = 'png';
+	const TYPE_GIF = 'gif';
 
 	/**
 	 * Property fileTypes.
@@ -28,7 +29,8 @@ class Base64Image
 	 */
 	protected static $fileTypes = [
 		self::TYPE_JPEG => 'jpg',
-		self::TYPE_PNG => 'png'
+		self::TYPE_PNG => 'png',
+		self::TYPE_GIF => 'gif',
 	];
 
 	/**
