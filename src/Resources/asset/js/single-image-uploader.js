@@ -12,15 +12,16 @@
     var plugin = 'singleImageDragUploader';
 
     var defaultOptions = {
-        width: 300,
-        height: 300,
-        max_width: null,
-        min_width: null,
-        max_height: null,
-        min_height: null,
+        crop: true,
         export_zoom: 1,
+        height: 300,
+        max_height: null,
+        max_width: null,
+        min_height: null,
+        min_width: null,
         origin_size: false,
-        version: 1
+        version: 1,
+        width: 300
     };
 
     /**
