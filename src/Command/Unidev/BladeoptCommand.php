@@ -38,7 +38,7 @@ class BladeoptCommand extends CoreCommand
 	 *
 	 * @var  string
 	 */
-	protected $file = 'https://raw.githubusercontent.com/lyrasoft/development-tools/master/Editor/PHPStorm/blade.xml';
+	protected $file = 'https://raw.githubusercontent.com/lyrasoft/unidev/master/resources/ide/phpstorm/blade.xml';
 
 	/**
 	 * doExecute
@@ -54,10 +54,12 @@ class BladeoptCommand extends CoreCommand
 			Folder::create(dirname($dest));
 		}
 
-		$http = new HttpClient;
-		$http->download($this->file, $dest);
+		$file = $this->getArgument(0) ? : $this->file;
 
-		$this->out('Downloaded <info>blade.xml</info> to <info>.idea</info> folder');
+		$http = new HttpClient;
+		$http->download($file, $dest);
+
+		$this->out('Downloaded <info>' . $file . '</info> to <info>.idea</info> folder');
 
 		return true;
 	}
