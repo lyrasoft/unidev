@@ -70,19 +70,22 @@
 			<data directive="@yield" injection="true" prefix="&lt;?php echo $__env-&gt;yieldContent(" suffix="); ?&gt;" />
 
 			<!-- Windwalker directives -->
-			<data directive="@route" injection="true" prefix="&lt;?php echo htmlspecialchars($router-&gt;route(" suffix="); ?&gt;" />
-			<data directive="@sprintf" injection="true" prefix="&lt;?php echo $translator-&gt;sprintf(" suffix="); ?&gt;" />
-			<data directive="@messages" />
-			<data directive="@plural" injection="true" prefix="&lt;?php echo $translator-&gt;plural(" suffix="); ?&gt;" />
-			<data directive="@widget" injection="true" prefix="&lt;?php echo $widget-&gt;render(" suffix="); ?&gt;" />
-			<data directive="@translate" injection="true" prefix="&lt;?php echo $translator-&gt;translate(" suffix="); ?&gt;" />
-			<data directive="@auth" injection="true" prefix="&lt;?php if ($app-&gt;user-&gt;authorise(" suffix="); ?&gt;" />
-			<data directive="@endauth" />
 			<data directive="@assetTemplate" injection="true" prefix="&lt;?php $asset-&gt;getTemplate()-&gt;startTemplate(" suffix="); ?&gt;" />
+			<data directive="@auth" injection="true" prefix="&lt;?php if ($app-&gt;user-&gt;authorise(" suffix="); ?&gt;" />
+			<data directive="@css" injection="true" prefix="&lt;?php $asset-&gt;addCSS(" suffix="); ?&gt;" />
+			<data directive="@dd" injection="true" prefix="&lt;?php show(" suffix="); die; ?&gt;" />
+			<data directive="@die" injection="true" prefix="&lt;?php die(" suffix="); ?&gt;" />
+			<data directive="@endauth" />
 			<data directive="@endTemplate" />
 			<data directive="@formToken" injection="true" prefix="&lt;?php echo $package-&gt;csrf-&gt;input" suffix="); ?&gt;" />
-			<data directive="@css" injection="true" prefix="&lt;?php $asset-&gt;addCSS(" suffix="); ?&gt;" />
 			<data directive="@js" injection="true" prefix="&lt;?php $asset-&gt;addJS(" suffix="); ?&gt;" />
+			<data directive="@messages" />
+			<data directive="@plural" injection="true" prefix="&lt;?php echo $translator-&gt;plural(" suffix="); ?&gt;" />
+			<data directive="@route" injection="true" prefix="&lt;?php echo htmlspecialchars($router-&gt;route(" suffix="); ?&gt;" />
+			<data directive="@shown" injection="true" prefix="&lt;?php show(" suffix="); ?&gt;" />
+			<data directive="@sprintf" injection="true" prefix="&lt;?php echo $translator-&gt;sprintf(" suffix="); ?&gt;" />
+			<data directive="@translate" injection="true" prefix="&lt;?php echo $translator-&gt;translate(" suffix="); ?&gt;" />
+			<data directive="@widget" injection="true" prefix="&lt;?php echo $widget-&gt;render(" suffix="); ?&gt;" />
 		</directives>
 	</component>
 </project>
