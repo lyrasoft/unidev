@@ -74,8 +74,10 @@
 			<data directive="@auth" injection="true" prefix="&lt;?php if ($app-&gt;user-&gt;authorise(" suffix="); ?&gt;" />
 			<data directive="@css" injection="true" prefix="&lt;?php $asset-&gt;addCSS(" suffix="); ?&gt;" />
 			<data directive="@dd" injection="true" prefix="&lt;?php show(" suffix="); die; ?&gt;" />
+			<data directive="@debug" injection="true" prefix="&lt;?php if($app->get('system.debug')) {" suffix="; } ?&gt;" />
 			<data directive="@die" injection="true" prefix="&lt;?php die(" suffix="); ?&gt;" />
 			<data directive="@endauth" />
+			<data directive="@enddebug" />
 			<data directive="@endTemplate" />
 			<data directive="@formToken" injection="true" prefix="&lt;?php echo $package-&gt;csrf-&gt;input" suffix="); ?&gt;" />
 			<data directive="@js" injection="true" prefix="&lt;?php $asset-&gt;addJS(" suffix="); ?&gt;" />

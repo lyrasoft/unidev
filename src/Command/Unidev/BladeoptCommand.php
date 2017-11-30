@@ -9,6 +9,7 @@
 namespace Lyrasoft\Unidev\Command\Unidev;
 
 use Windwalker\Core\Console\CoreCommand;
+use Windwalker\Filesystem\File;
 use Windwalker\Filesystem\Folder;
 use Windwalker\Http\HttpClient;
 
@@ -41,6 +42,21 @@ class BladeoptCommand extends CoreCommand
 	protected $file = 'https://raw.githubusercontent.com/lyrasoft/unidev/master/resources/ide/phpstorm/blade.xml';
 
 	/**
+	 * Initialise command.
+	 *
+	 * @return void
+	 *
+	 * @since  2.0
+	 */
+	protected function init()
+	{
+		$this->addOption('r')
+			->alias('remote')
+			->description('Download blade.xml from remote repository.')
+			->defaultValue(false);
+	}
+
+	/**
 	 * doExecute
 	 *
 	 * @return  bool
@@ -54,12 +70,26 @@ class BladeoptCommand extends CoreCommand
 			Folder::create(dirname($dest));
 		}
 
-		$file = $this->getArgument(0) ? : $this->file;
+		$remote = $this->getOption('r');
+		$file = $remote ? $this->file : realpath(__DIR__ . '/../../../resources/ide/phpstorm/blade.xml');
 
-		$http = new HttpClient;
-		$http->download($file, $dest);
+		$filePath = $this->getArgument(0) ? : $file;
 
-		$this->out('Downloaded <info>' . $file . '</info> to <info>.idea</info> folder');
+		if ($remote)
+		{
+			$this->out('Downloading...');
+
+			$http = new HttpClient;
+			$http->download($filePath, $dest);
+
+			$this->out('Downloaded <info>' . $filePath . '</info> to <info>.idea</info> folder');
+		}
+		else
+		{
+			File::copy($filePath, $dest, true);
+
+			$this->out('Copy <info>' . $filePath . '</info> to <info>.idea</info> folder');
+		}
 
 		return true;
 	}
