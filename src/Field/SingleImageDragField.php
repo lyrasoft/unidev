@@ -64,7 +64,7 @@ class SingleImageDragField extends TextField
 	 */
 	public function buildInput($attrs)
 	{
-		$options['export_zoom'] = (int) $exportZoom = $this->getAttribute('export_zoom', 1);
+		$options['export_zoom'] = (float) $exportZoom = $this->getAttribute('export_zoom', 1);
 		$options['crop'] = $this->getBool('crop', true);
 		$options['origin_size'] = $this->getBool('originSize', false);
 
