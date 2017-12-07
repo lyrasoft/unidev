@@ -169,6 +169,6 @@ class S3Helper extends AbstractProxyFacade
 
 		$subfolder = $subfolder ? '/' . static::getSubfolder() : null;
 
-		return rtrim($host . $subfolder);
+		return rtrim($host . $subfolder, '/');
 	}
 }
