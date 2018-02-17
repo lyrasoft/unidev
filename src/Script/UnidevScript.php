@@ -8,10 +8,16 @@
 
 namespace Lyrasoft\Unidev\Script;
 
+use Lyrasoft\Unidev\Browser\WhichBrowserFactory;
 use Lyrasoft\Unidev\UnidevPackage;
 use Phoenix\Script\JQueryScript;
 use Phoenix\Script\PhoenixScript;
+use Psr\Http\Message\ResponseInterface;
+use WhichBrowser\Parser;
 use Windwalker\Core\Asset\AbstractScript;
+use Windwalker\Dom\Builder\HtmlBuilder;
+use Windwalker\Event\Event;
+use Windwalker\Ioc;
 
 /**
  * The EditorScript class.
@@ -180,6 +186,116 @@ jQuery(function($) {
 });
 JS
 			);
+		}
+	}
+
+	/**
+	 * polyfill
+	 *
+	 * @param callable $condition
+	 *
+	 * @return  void
+	 *
+	 * @since  1.3.4
+	 */
+	public static function polyfill(callable $condition = null)
+	{
+		if (!static::inited(__METHOD__))
+		{
+			$condition = $condition ?: function (Parser $browser)
+			{
+				return $browser->isBrowser('Internet Explorer', '<=', 11);
+			};
+
+			if ($condition(WhichBrowserFactory::getInstance()))
+			{
+				static::addJS(static::packageName() . '/js/polyfill/core.min.js');
+			}
+		}
+	}
+
+	/**
+	 * babel
+	 *
+	 * @param callable $condition
+	 *
+	 * @return  void
+	 *
+	 * @since  1.3.4
+	 */
+	public static function babel(array $presets = [], callable $condition = null)
+	{
+		if (!static::inited(__METHOD__))
+		{
+			$condition = $condition ?: function (Parser $browser) use ($presets)
+			{
+				$presets = $presets ?: ['stage-2'];
+				array_unshift($presets, 'es2015');
+
+				return array_intersect($presets, ['stage-0', 'stage-1']) || $browser->isBrowser('Internet Explorer', '<=', 11);
+			};
+
+			static::polyfill($condition);
+
+			if ($condition(WhichBrowserFactory::getInstance()))
+			{
+				static::addJS(static::packageName() . '/js/polyfill/babel-polyfill.min.js');
+				static::addJS(static::packageName() . '/js/polyfill/babel.min.js');
+			}
+
+			// Parse all scripts
+			Ioc::getDispatcher()->listen('onBeforeRespond', function (Event $event) use ($presets)
+			{
+				/** @var ResponseInterface $response */
+				$response = $event['response'];
+
+				if (strpos($response->getHeaderLine('content-type'), 'text/html') === false)
+				{
+					return;
+				}
+
+				$body = $response->getBody()->__toString();
+
+				$body = preg_replace_callback('/<script(.*?)>(.*?)<\/script>/is', function ($matches) use ($presets)
+				{
+					if (isset($matches[1]))
+					{
+						preg_match_all('/(.*?)="(.*?)"/', $matches[1], $matches2, PREG_SET_ORDER);
+
+						$attrs = [];
+
+						foreach ($matches2 as $m)
+						{
+							if (isset($m[1], $m[2]))
+							{
+								$attrs[trim($m[1])] = $m[2];
+							}
+						}
+
+						if (isset($attrs['type']) && $attrs['type'] === 'text/babel')
+						{
+							$tagPresets = [];
+							$browser = WhichBrowserFactory::getInstance();
+
+							if ($attrs['data-presets'])
+							{
+								$tagPresets = array_map('trim', explode(',', $attrs['data-presets']));
+							}
+
+							if (array_intersect($tagPresets, ['stage-0', 'stage-1']) === [] && !$browser->isBrowser('Internet Explorer', '<=', 11))
+							{
+								unset($attrs['type']);
+							}
+						}
+					}
+
+					return sprintf('<script%s>%s</script>', HtmlBuilder::buildAttributes($attrs), $matches[2]);
+				}, $body);
+
+				echo $body;
+
+				die;
+			});
 		}
 	}
 }
