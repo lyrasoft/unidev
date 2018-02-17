@@ -2,7 +2,7 @@
     "name": "lyrasoft/unidev",
     "description": "LYRASOFT dev tools",
     "homepage": "https://github.com/lyrasoft/unidev",
-    "license": "GNU Lesser General Public License",
+    "license": "LGPL-2.0-or-later",
     "minimum-stability": "beta",
     "require": {
         "windwalker/phoenix": "~1.1",
