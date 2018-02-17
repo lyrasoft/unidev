@@ -196,7 +196,7 @@ JS
 	 *
 	 * @return  void
 	 *
-	 * @since  1.3.4
+	 * @since  1.3.5
 	 */
 	public static function polyfill(callable $condition = null)
 	{
@@ -221,7 +221,7 @@ JS
 	 *
 	 * @return  void
 	 *
-	 * @since  1.3.4
+	 * @since  1.3.5
 	 */
 	public static function babel(array $presets = [], callable $condition = null)
 	{
