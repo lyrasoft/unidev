@@ -17,6 +17,7 @@ use WhichBrowser\Parser;
 use Windwalker\Core\Asset\AbstractScript;
 use Windwalker\Dom\Builder\HtmlBuilder;
 use Windwalker\Event\Event;
+use Windwalker\Http\Stream\Stream;
 use Windwalker\Ioc;
 
 /**
@@ -292,9 +293,12 @@ JS
 					return sprintf('<script%s>%s</script>', HtmlBuilder::buildAttributes($attrs), $matches[2]);
 				}, $body);
 
-				echo $body;
+				$stream = new Stream('php://temp');
+				$stream->rewind();
+				$stream->write($body);
+				$response = $response->withBody($stream);
 
-				die;
+				$event['response'] = $response;
 			});
 		}
 	}
