@@ -8,7 +8,8 @@
         "windwalker/phoenix": "~1.1",
         "tpyo/amazon-s3-php-class": "*",
         "j0k3r/php-imgur-api-client": "~1.1",
-        "gregwar/image": "2.*"
+        "gregwar/image": "2.*",
+        "whichbrowser/parser": "^2.0"
     },
     "require-dev": {
     },
@@ -21,7 +22,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.1.x-dev"
+            "dev-master": "1.3.x-dev"
         }
     }
 }
