@@ -293,8 +293,7 @@ JS
 					return sprintf('<script%s>%s</script>', HtmlBuilder::buildAttributes($attrs), $matches[2]);
 				}, $body);
 
-				$stream = new Stream('php://temp');
-				$stream->rewind();
+				$stream = new Stream('php://temp', 'wb+');
 				$stream->write($body);
 				$response = $response->withBody($stream);
 
