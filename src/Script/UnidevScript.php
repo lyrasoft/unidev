@@ -19,6 +19,7 @@ use Windwalker\Dom\Builder\HtmlBuilder;
 use Windwalker\Event\Event;
 use Windwalker\Http\Stream\Stream;
 use Windwalker\Ioc;
+use Windwalker\Utilities\Arr;
 
 /**
  * The EditorScript class.
@@ -193,25 +194,19 @@ JS
 	/**
 	 * polyfill
 	 *
-	 * @param callable $condition
-	 *
 	 * @return  void
 	 *
 	 * @since  1.3.5
 	 */
-	public static function polyfill(callable $condition = null)
+	public static function polyfill()
 	{
 		if (!static::inited(__METHOD__))
 		{
-			$condition = $condition ?: function (Parser $browser)
-			{
-				return $browser->isBrowser('Internet Explorer', '<=', 11);
-			};
+			// Safari / iOS and IE not support URL API
+			static::addJS(static::packageName() . '/js/polyfill/url-polyfill.min.js');
 
-			if ($condition(WhichBrowserFactory::getInstance()))
-			{
-				static::addJS(static::packageName() . '/js/polyfill/core.min.js');
-			}
+			// All polyfill from core.js
+			static::addJS(static::packageName() . '/js/polyfill/babel-polyfill.min.js');
 		}
 	}
 
@@ -236,11 +231,10 @@ JS
 				return array_intersect($presets, ['stage-0', 'stage-1']) || $browser->isBrowser('Internet Explorer', '<=', 11);
 			};
 
-			static::polyfill($condition);
+			static::polyfill();
 
 			if ($condition(WhichBrowserFactory::getInstance()))
 			{
-				static::addJS(static::packageName() . '/js/polyfill/babel-polyfill.min.js');
 				static::addJS(static::packageName() . '/js/polyfill/babel.min.js');
 			}
 
@@ -277,6 +271,8 @@ JS
 						{
 							$tagPresets = [];
 							$browser = WhichBrowserFactory::getInstance();
+
+							$attrs = Arr::def($attrs, 'data-presets', 'es2015,stage-2');
 
 							if ($attrs['data-presets'])
 							{
