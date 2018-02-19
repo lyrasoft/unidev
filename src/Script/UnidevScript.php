@@ -56,6 +56,7 @@ class UnidevScript extends AbstractScript
 			}
 			else
 			{
+				static::polyfill();
 				static::addJS(static::packageName() . '/js/sweetalert2.min.js');
 			}
 		}
