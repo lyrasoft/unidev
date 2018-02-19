@@ -10,7 +10,15 @@
 
 $packageName = $app->packageResolver->getAlias(\Lyrasoft\Unidev\UnidevPackage::class);
 $defaultImage = isset($defaultImage) ? $defaultImage : $asset->path . '/' . $packageName . '/images/default-img.png';
-$image = $attrs['value'] ? $attrs['value'] . '#' . uniqid() : e($defaultImage);
+$image = $attrs['value'] ? $attrs['value'] : e($defaultImage);
+$suffix = $field->get('version_suffix', '?');
+
+if ($suffix === '?' && strpos($image, '?') !== false)
+{
+	$suffix = '&';
+}
+
+$image .= $suffix . uniqid();
 ?>
 <div id="{{ $attrs['id'] }}-wrap">
 
@@ -67,12 +75,15 @@ $image = $attrs['value'] ? $attrs['value'] . '#' . uniqid() : e($defaultImage);
                 @endif
                 <img src="{{ $asset->path . '/' . $packageName }}/images/ajax-loader.gif" id="{{ $attrs['id'] . '-loader' }}" class="sid-loader" alt="Lading" style="display: none;">
             </div>
-            <div class="checkbox checkbox-primary mt-2" style="">
-                <input type="checkbox" id="{{ $attrs['id'] }}-delete-image" name="{{ $attrs['id'] }}-delete-image" class="sid-delete-image" />
-                <label for="{{ $attrs['id'] }}-delete-image">
-                    @translate('unidev.field.single.image.delete')
-                </label>
-            </div>
+
+            @if (!$field->get('required'))
+                <div class="checkbox checkbox-primary mt-2" style="">
+                    <input type="checkbox" id="{{ $attrs['id'] }}-delete-image" name="{{ $attrs['id'] }}-delete-image" class="sid-delete-image" />
+                    <label for="{{ $attrs['id'] }}-delete-image">
+                        @translate('unidev.field.single.image.delete')
+                    </label>
+                </div>
+            @endif
         </div>
     </div>
 
