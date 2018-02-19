@@ -18,12 +18,12 @@ use Windwalker\Core\Console\CoreCommand;
  */
 class UnidevCommand extends CoreCommand
 {
-	protected $name = 'unidev';
+    protected $name = 'unidev';
 
-	protected $description = 'Unidev helpers';
+    protected $description = 'Unidev helpers';
 
-	protected function init()
-	{
-		$this->addCommand(BladeoptCommand::class);
-	}
+    protected function init()
+    {
+        $this->addCommand(BladeoptCommand::class);
+    }
 }

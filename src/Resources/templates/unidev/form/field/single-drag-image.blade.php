@@ -13,9 +13,8 @@ $defaultImage = isset($defaultImage) ? $defaultImage : $asset->path . '/' . $pac
 $image = $attrs['value'] ? $attrs['value'] : e($defaultImage);
 $suffix = $field->get('version_suffix', '?');
 
-if ($suffix === '?' && strpos($image, '?') !== false)
-{
-	$suffix = '&';
+if ($suffix === '?' && strpos($image, '?') !== false) {
+    $suffix = '&';
 }
 
 $image .= $suffix . uniqid();
@@ -25,9 +24,9 @@ $image .= $suffix . uniqid();
     <div class="sid-row">
         <div class="sid-left-col">
             <img class="sid-preview img-responsive img-fluid"
-                {{-- TextField has escaped value, so we don't need to escape again --}}
-                src="{!! $image !!}"
-                alt="Preview">
+                 {{-- TextField has escaped value, so we don't need to escape again --}}
+                 src="{!! $image !!}"
+                 alt="Preview">
         </div>
         <div class="sid-right-col">
             <div class="sid-area filedrag">
@@ -50,7 +49,8 @@ $image .= $suffix . uniqid();
                             @if ($options['max_width'] || $options['max_height'])
                                 <div class="max-size">
                                     @if ($options['max_width'] !== null && $options['max_height'] !== null)
-                                        @sprintf('unidev.field.single.image.max.width.height', $options['max_width'], $options['max_height'])
+                                        @sprintf('unidev.field.single.image.max.width.height', $options['max_width'],
+                                        $options['max_height'])
                                     @elseif ($options['max_width'] !== null)
                                         @sprintf('unidev.field.single.image.max.width', $options['max_width'])
                                     @elseif ($options['max_height'] !== null)
@@ -62,7 +62,8 @@ $image .= $suffix . uniqid();
                             @if ($options['min_width'] || $options['min_height'])
                                 <div class="min-size">
                                     @if ($options['min_width'] !== null && $options['min_height'] !== null)
-                                        @sprintf('unidev.field.single.image.min.width.height', $options['min_width'], $options['min_height'])
+                                        @sprintf('unidev.field.single.image.min.width.height', $options['min_width'],
+                                        $options['min_height'])
                                     @elseif ($options['min_width'] !== null)
                                         @sprintf('unidev.field.single.image.min.width', $options['min_width'])
                                     @elseif ($options['min_height'] !== null)
@@ -73,12 +74,14 @@ $image .= $suffix . uniqid();
                         </div>
                     @endif
                 @endif
-                <img src="{{ $asset->path . '/' . $packageName }}/images/ajax-loader.gif" id="{{ $attrs['id'] . '-loader' }}" class="sid-loader" alt="Lading" style="display: none;">
+                <img src="{{ $asset->path . '/' . $packageName }}/images/ajax-loader.gif"
+                     id="{{ $attrs['id'] . '-loader' }}" class="sid-loader" alt="Lading" style="display: none;">
             </div>
 
             @if (!$field->get('required'))
                 <div class="checkbox checkbox-primary mt-2" style="">
-                    <input type="checkbox" id="{{ $attrs['id'] }}-delete-image" name="{{ $attrs['id'] }}-delete-image" class="sid-delete-image" />
+                    <input type="checkbox" id="{{ $attrs['id'] }}-delete-image" name="{{ $attrs['id'] }}-delete-image"
+                           class="sid-delete-image"/>
                     <label for="{{ $attrs['id'] }}-delete-image">
                         @translate('unidev.field.single.image.delete')
                     </label>
@@ -88,9 +91,9 @@ $image .= $suffix . uniqid();
     </div>
 
     @if ($version === 1)
-    <div style="display: none;">
-        <input type="text" id="{{ $attrs['id'] }}-data" class="sid-data" name="{{ $attrs['id'] }}-data" value="" />
-    </div>
+        <div style="display: none;">
+            <input type="text" id="{{ $attrs['id'] }}-data" class="sid-data" name="{{ $attrs['id'] }}-data" value=""/>
+        </div>
     @else
         {!! new \Windwalker\Dom\HtmlElement('input', null, $attrs) !!}
     @endif
@@ -109,14 +112,17 @@ $image .= $suffix . uniqid();
                     <div id="{{ $attrs['id'] }}-cropper" class="sid-cropper">
 
                         <!-- preview image -->
-                        <div class="cropit-image-preview-container center-block" style="width: {{ $attrs['width'] }}px; height: {{ $attrs['height'] }}px; margin: 0 auto;">
-                            <div class="cropit-image-preview" style="width: {{ $attrs['width'] }}px; height: {{ $attrs['height'] }}px;"></div>
+                        <div class="cropit-image-preview-container center-block"
+                             style="width: {{ $attrs['width'] }}px; height: {{ $attrs['height'] }}px; margin: 0 auto;">
+                            <div class="cropit-image-preview"
+                                 style="width: {{ $attrs['width'] }}px; height: {{ $attrs['height'] }}px;"></div>
                         </div>
 
                         <!-- This range input controls zoom -->
                         <div class="slider-wrapper text-center" style="margin-top: 25px;">
                             <span class="fa fa-picture-o small-image" style="font-size: 15px"></span>
-                            <input type="range" class="cropit-image-zoom-input custom" style="width: 130px; display: inline;">
+                            <input type="range" class="cropit-image-zoom-input custom"
+                                   style="width: 130px; display: inline;">
                             <span class="fa fa-picture-o large-image" style="font-size: 25px"></span>
                         </div>
                     </div>

@@ -21,24 +21,24 @@ define('UNIDEV_ROOT', __DIR__);
  */
 class UnidevPackage extends AbstractPackage
 {
-	/**
-	 * UnidevPackage constructor.
-	 */
-	public function __construct()
-	{
-		UnidevHelper::setPackage($this);
-	}
+    /**
+     * UnidevPackage constructor.
+     */
+    public function __construct()
+    {
+        UnidevHelper::setPackage($this);
+    }
 
-	/**
-	 * initialise
-	 *
-	 * @throws  \LogicException
-	 * @return  void
-	 */
-	public function boot()
-	{
-		parent::boot();
+    /**
+     * initialise
+     *
+     * @throws  \LogicException
+     * @return  void
+     */
+    public function boot()
+    {
+        parent::boot();
 
-		TranslatorHelper::loadAll($this);
-	}
+        TranslatorHelper::loadAll($this);
+    }
 }

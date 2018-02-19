@@ -17,38 +17,32 @@ use WhichBrowser\Parser;
  */
 class WhichBrowserFactory
 {
-	/**
-	 * Property instances.
-	 *
-	 * @var  Parser
-	 */
-	protected static $instance;
+    /**
+     * Property instances.
+     *
+     * @var  Parser
+     */
+    protected static $instance;
 
-	/**
-	 * getInstance
-	 *
-	 * @return Parser
-	 */
-	public static function getInstance()
-	{
-		if (!static::$instance)
-		{
-			if (function_exists('getallheaders'))
-			{
-				$userAgent = getallheaders();
-			}
-			elseif (isset($_SERVER['HTTP_USER_AGENT']))
-			{
-				$userAgent = $_SERVER['HTTP_USER_AGENT'];
-			}
-			else
-			{
-				$userAgent = '';
-			}
+    /**
+     * getInstance
+     *
+     * @return Parser
+     */
+    public static function getInstance()
+    {
+        if (!static::$instance) {
+            if (function_exists('getallheaders')) {
+                $userAgent = getallheaders();
+            } elseif (isset($_SERVER['HTTP_USER_AGENT'])) {
+                $userAgent = $_SERVER['HTTP_USER_AGENT'];
+            } else {
+                $userAgent = '';
+            }
 
-			static::$instance = new Parser($userAgent);
-		}
+            static::$instance = new Parser($userAgent);
+        }
 
-		return static::$instance;
-	}
+        return static::$instance;
+    }
 }

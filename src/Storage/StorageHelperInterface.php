@@ -15,37 +15,37 @@ namespace Lyrasoft\Unidev\Storage;
  */
 interface StorageHelperInterface
 {
-	/**
-	 * Get file temp path.
-	 *
-	 * @param   mixed  $identify  The identify of this file or item.
-	 *
-	 * @return  string  Identify path.
-	 */
-	public static function getTempFile($identify);
+    /**
+     * Get file temp path.
+     *
+     * @param   mixed $identify The identify of this file or item.
+     *
+     * @return  string  Identify path.
+     */
+    public static function getTempFile($identify);
 
-	/**
-	 * Get remote uri path.
-	 *
-	 * @param   mixed  $identify  The identify of this file or item.
-	 *
-	 * @return  string  Identify path.
-	 */
-	public static function getPath($identify);
+    /**
+     * Get remote uri path.
+     *
+     * @param   mixed $identify The identify of this file or item.
+     *
+     * @return  string  Identify path.
+     */
+    public static function getPath($identify);
 
-	/**
-	 * Get remote url.
-	 *
-	 * @param   mixed  $identify  The identify of this file or item.
-	 *
-	 * @return  string  Identify URL.
-	 */
-	public static function getRemoteUrl($identify);
+    /**
+     * Get remote url.
+     *
+     * @param   mixed $identify The identify of this file or item.
+     *
+     * @return  string  Identify URL.
+     */
+    public static function getRemoteUrl($identify);
 
-	/**
-	 * Get base folder name.
-	 *
-	 * @return  string
-	 */
-	public static function getBaseFolder();
+    /**
+     * Get base folder name.
+     *
+     * @return  string
+     */
+    public static function getBaseFolder();
 }

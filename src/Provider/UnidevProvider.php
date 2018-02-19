@@ -22,77 +22,71 @@ use Windwalker\Utilities\Queue\PriorityQueue;
  */
 class UnidevProvider implements ServiceProviderInterface
 {
-	/**
-	 * Property app.
-	 *
-	 * @var  WindwalkerApplicationInterface
-	 */
-	protected $app;
+    /**
+     * Property app.
+     *
+     * @var  WindwalkerApplicationInterface
+     */
+    protected $app;
 
-	/**
-	 * UnidevProvider constructor.
-	 *
-	 * @param WindwalkerApplicationInterface $app
-	 */
-	public function __construct(WindwalkerApplicationInterface $app)
-	{
-		$this->app = $app;
-	}
+    /**
+     * UnidevProvider constructor.
+     *
+     * @param WindwalkerApplicationInterface $app
+     */
+    public function __construct(WindwalkerApplicationInterface $app)
+    {
+        $this->app = $app;
+    }
 
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container $container The DI container.
-	 *
-	 * @return  void
-	 */
-	public function register(Container $container)
-	{
-		$container = $container->getParent();
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container $container The DI container.
+     *
+     * @return  void
+     */
+    public function register(Container $container)
+    {
+        $container = $container->getParent();
 
-		// S3
-		$container->share(\S3::class, function(Container $container)
-		{
-			$config = $container->get('config');
+        // S3
+        $container->share(\S3::class, function (Container $container) {
+            $config = $container->get('config');
 
-			$endpoint = $config->get('unidev.amazon.endpoint', 's3.amazonaws.com');
+            $endpoint = $config->get('unidev.amazon.endpoint', 's3.amazonaws.com');
 
-			return new \S3($config->get('unidev.amazon.key'), $config->get('unidev.amazon.secret'), false, $endpoint);
-		})->alias('unidev.storage.s3', \S3::class);
+            return new \S3($config->get('unidev.amazon.key'), $config->get('unidev.amazon.secret'), false, $endpoint);
+        })->alias('unidev.storage.s3', \S3::class);
 
-		// Imgur
-		$container->prepareSharedObject(\Imgur\Client::class, function(\Imgur\Client $client, Container $container)
-		{
-			$config = $container->get('config');
-			$client->setOption('client_id', $config->get('unidev.imgur.key'));
-			$client->setOption('client_secret', $config->get('unidev.imgur.secret'));
+        // Imgur
+        $container->prepareSharedObject(\Imgur\Client::class, function (\Imgur\Client $client, Container $container) {
+            $config = $container->get('config');
+            $client->setOption('client_id', $config->get('unidev.imgur.key'));
+            $client->setOption('client_secret', $config->get('unidev.imgur.secret'));
 
-			return $client;
-		})->alias('unidev.storage.imgur', \Imgur\Client::class);
+            return $client;
+        })->alias('unidev.storage.imgur', \Imgur\Client::class);
 
-		// Image Uploader
-		$container->share('unidev.image.uploader.factory', function(Container $container)
-		{
-			return new ImageUploaderFactory($container);
-		});
+        // Image Uploader
+        $container->share('unidev.image.uploader.factory', function (Container $container) {
+            return new ImageUploaderFactory($container);
+        });
 
-		// Uploader
-		$container->share('unidev.image.uploader', function(Container $container)
-		{
-			return $container->get('unidev.image.uploader.factory')->create();
-		});
+        // Uploader
+        $container->share('unidev.image.uploader', function (Container $container) {
+            return $container->get('unidev.image.uploader.factory')->create();
+        });
 
-		if ($this->app->isConsole())
-		{
-			return;
-		}
+        if ($this->app->isConsole()) {
+            return;
+        }
 
-		// Add global paths
-		$container->extend(RendererManager::class, function (RendererManager $manager)
-		{
-		    $manager->addGlobalPath(UNIDEV_ROOT . '/Resources/templates', PriorityQueue::LOW - 30);
+        // Add global paths
+        $container->extend(RendererManager::class, function (RendererManager $manager) {
+            $manager->addGlobalPath(UNIDEV_ROOT . '/Resources/templates', PriorityQueue::LOW - 30);
 
-			return $manager;
-		});
-	}
+            return $manager;
+        });
+    }
 }

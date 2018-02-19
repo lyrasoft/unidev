@@ -7,13 +7,13 @@
  */
 
 return [
-	'providers' => [
-		'unidev' => \Lyrasoft\Unidev\Provider\UnidevProvider::class
-	],
+    'providers' => [
+        'unidev' => \Lyrasoft\Unidev\Provider\UnidevProvider::class,
+    ],
 
-	'console' => [
-		'commands' => [
-			'unidev' => \Lyrasoft\Unidev\Command\UnidevCommand::class
-		]
-	]
+    'console' => [
+        'commands' => [
+            'unidev' => \Lyrasoft\Unidev\Command\UnidevCommand::class,
+        ],
+    ],
 ];

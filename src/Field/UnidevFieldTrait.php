@@ -17,13 +17,13 @@ namespace Lyrasoft\Unidev\Field;
  */
 trait UnidevFieldTrait
 {
-	/**
-	 * bootPhoenixFieldTrait
-	 *
-	 * @return  void
-	 */
-	public function bootUnidevFieldTrait()
-	{
-		$this->addNamespace('Lyrasoft\Unidev\Field');
-	}
+    /**
+     * bootPhoenixFieldTrait
+     *
+     * @return  void
+     */
+    public function bootUnidevFieldTrait()
+    {
+        $this->addNamespace('Lyrasoft\Unidev\Field');
+    }
 }

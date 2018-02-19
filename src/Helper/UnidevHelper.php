@@ -17,32 +17,32 @@ use Lyrasoft\Unidev\UnidevPackage;
  */
 class UnidevHelper
 {
-	/**
-	 * Property package.
-	 *
-	 * @var  UnidevPackage
-	 */
-	protected static $package;
+    /**
+     * Property package.
+     *
+     * @var  UnidevPackage
+     */
+    protected static $package;
 
-	/**
-	 * setPackage
-	 *
-	 * @param   UnidevPackage $unidev
-	 *
-	 * @return  void
-	 */
-	public static function setPackage(UnidevPackage $unidev)
-	{
-		static::$package = $unidev;
-	}
+    /**
+     * setPackage
+     *
+     * @param   UnidevPackage $unidev
+     *
+     * @return  void
+     */
+    public static function setPackage(UnidevPackage $unidev)
+    {
+        static::$package = $unidev;
+    }
 
-	/**
-	 * Method to get property Package
-	 *
-	 * @return  UnidevPackage
-	 */
-	public static function getPackage()
-	{
-		return static::$package;
-	}
+    /**
+     * Method to get property Package
+     *
+     * @return  UnidevPackage
+     */
+    public static function getPackage()
+    {
+        return static::$package;
+    }
 }

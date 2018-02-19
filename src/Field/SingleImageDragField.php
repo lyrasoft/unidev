@@ -37,180 +37,176 @@ use Windwalker\Test\TestHelper;
  */
 class SingleImageDragField extends TextField
 {
-	/**
-	 * prepareRenderInput
-	 *
-	 * @param array $attrs
-	 *
-	 * @return  array
-	 */
-	public function prepare(&$attrs)
-	{
-		$this->appendAttribute('class', 'sid-data');
+    /**
+     * prepareRenderInput
+     *
+     * @param array $attrs
+     *
+     * @return  array
+     */
+    public function prepare(&$attrs)
+    {
+        $this->appendAttribute('class', 'sid-data');
 
-		parent::prepare($attrs);
+        parent::prepare($attrs);
 
-		$attrs['width']  = $this->get('width', 300);
-		$attrs['height'] = $this->get('height', 300);
-		$attrs['type']   = 'hidden';
-	}
+        $attrs['width']  = $this->get('width', 300);
+        $attrs['height'] = $this->get('height', 300);
+        $attrs['type']   = 'hidden';
+    }
 
-	/**
-	 * buildInput
-	 *
-	 * @param array $attrs
-	 *
-	 * @return  mixed
-	 */
-	public function buildInput($attrs)
-	{
-		$options['export_zoom'] = (float) $exportZoom = $this->getAttribute('export_zoom', 1);
-		$options['crop'] = $this->getBool('crop', true);
-		$options['origin_size'] = $this->getBool('originSize', false);
+    /**
+     * buildInput
+     *
+     * @param array $attrs
+     *
+     * @return  mixed
+     */
+    public function buildInput($attrs)
+    {
+        $options['export_zoom'] = (float) $exportZoom = $this->getAttribute('export_zoom', 1);
+        $options['crop']        = $this->getBool('crop', true);
+        $options['origin_size'] = $this->getBool('originSize', false);
 
-		$options['width']  = $exportZoom * (int) $this->get('width', 300);
-		$options['height'] = $exportZoom * (int) $this->get('height', 300);
-		$options['max_width'] = $this->get('max_width');
-		$options['min_width'] = $this->get('min_width');
-		$options['max_height'] = $this->get('max_height');
-		$options['min_height'] = $this->get('min_height');
-		$options['version'] = (int) $this->get('version', 1);
+        $options['width']      = $exportZoom * (int) $this->get('width', 300);
+        $options['height']     = $exportZoom * (int) $this->get('height', 300);
+        $options['max_width']  = $this->get('max_width');
+        $options['min_width']  = $this->get('min_width');
+        $options['max_height'] = $this->get('max_height');
+        $options['min_height'] = $this->get('min_height');
+        $options['version']    = (int) $this->get('version', 1);
 
-		$this->prepareScript($attrs, $options);
+        $this->prepareScript($attrs, $options);
 
-		return WidgetHelper::render('unidev.form.field.single-drag-image', [
-			'crop'  => $this->get('crop', true),
-			'field' => $this,
-			'options' => $options,
-			'attrs' => $attrs,
-			'version' => $options['version'],
-			'defaultImage' => $this->get('default_image')
-		], WidgetHelper::EDGE);
-	}
+        return WidgetHelper::render('unidev.form.field.single-drag-image', [
+            'crop' => $this->get('crop', true),
+            'field' => $this,
+            'options' => $options,
+            'attrs' => $attrs,
+            'version' => $options['version'],
+            'defaultImage' => $this->get('default_image'),
+        ], WidgetHelper::EDGE);
+    }
 
-	/**
-	 * prepareScript
-	 *
-	 * @param   array $attrs
-	 * @param array   $options
-	 *
-	 * @return void
-	 */
-	protected function prepareScript($attrs, array $options)
-	{
-		$selector = '#' . $attrs['id'];
+    /**
+     * prepareScript
+     *
+     * @param   array $attrs
+     * @param array   $options
+     *
+     * @return void
+     */
+    protected function prepareScript($attrs, array $options)
+    {
+        $selector = '#' . $attrs['id'];
 
-		UnidevScript::singleImageDragUpload($selector, $options);
-	}
+        UnidevScript::singleImageDragUpload($selector, $options);
+    }
 
-	/**
-	 * uploadFromController
-	 *
-	 * @param AbstractSaveController $controller
-	 * @param string                 $field
-	 * @param DataInterface          $data
-	 * @param string                 $uri
-	 *
-	 * @return  boolean|string
-	 *
-	 * @deprecated Use uploadBase64() instead.
-	 */
-	public static function uploadFromController(AbstractSaveController $controller, $field, DataInterface $data, $uri)
-	{
-		// formControl is protected, we get it by TestHelper
-		$base64 = $controller->input->post->getRaw('input-' . TestHelper::getValue($controller, 'formControl') . '-' . $field . '-data');
-		$delete = $controller->input->post->get('input-' . TestHelper::getValue($controller, 'formControl') . '-' . $field . '-delete-image');
+    /**
+     * uploadFromController
+     *
+     * @param AbstractSaveController $controller
+     * @param string                 $field
+     * @param DataInterface          $data
+     * @param string                 $uri
+     *
+     * @return  boolean|string
+     *
+     * @deprecated Use uploadBase64() instead.
+     */
+    public static function uploadFromController(AbstractSaveController $controller, $field, DataInterface $data, $uri)
+    {
+        // formControl is protected, we get it by TestHelper
+        $base64 = $controller->input->post->getRaw('input-' . TestHelper::getValue($controller,
+                'formControl') . '-' . $field . '-data');
+        $delete = $controller->input->post->get('input-' . TestHelper::getValue($controller,
+                'formControl') . '-' . $field . '-delete-image');
 
-		if ($base64 && $url = Base64Image::quickUpload($base64, $uri))
-		{
-			$data->$field = $url;
+        if ($base64 && $url = Base64Image::quickUpload($base64, $uri)) {
+            $data->$field = $url;
 
-			return $url;
-		}
-		elseif ($delete)
-		{
-			$data->$field = '';
+            return $url;
+        } elseif ($delete) {
+            $data->$field = '';
 
-			return true;
-		}
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	/**
-	 * Upload base64 to cloud.
-	 *
-	 * You must set SingleDragImageField to version 2.
-	 *
-	 * ```
-	 * $this->singleDragImage('foo')
-	 *     ->version(2)
-	 * ```
-	 *
-	 * @param string        $base64
-	 * @param string        $uri
-	 * @param callable|null $handler
-	 *
-	 * @return string
-	 * @since   1.3
-	 */
-	public static function uploadBase64($base64, $uri, callable $handler = null)
-	{
-		if (strpos($base64, 'data:image') !== 0)
-		{
-			return $base64;
-		}
+    /**
+     * Upload base64 to cloud.
+     *
+     * You must set SingleDragImageField to version 2.
+     *
+     * ```
+     * $this->singleDragImage('foo')
+     *     ->version(2)
+     * ```
+     *
+     * @param string        $base64
+     * @param string        $uri
+     * @param callable|null $handler
+     *
+     * @return string
+     * @since   1.3
+     */
+    public static function uploadBase64($base64, $uri, callable $handler = null)
+    {
+        if (strpos($base64, 'data:image') !== 0) {
+            return $base64;
+        }
 
-		if($handler)
-		{
-			$base64 = $handler($base64);
-		}
+        if ($handler) {
+            $base64 = $handler($base64);
+        }
 
-		if ($url = Base64Image::quickUpload($base64, $uri))
-		{
-			return $url;
-		}
+        if ($url = Base64Image::quickUpload($base64, $uri)) {
+            return $url;
+        }
 
-		return $base64;
-	}
+        return $base64;
+    }
 
-	/**
-	 * renderView
-	 *
-	 * @return  string
-	 */
-	public function renderView()
-	{
-		$attribs = [
-			'src' => $this->getValue(),
-			'id' => $this->getId() . '-view'
-		];
+    /**
+     * renderView
+     *
+     * @return  string
+     */
+    public function renderView()
+    {
+        $attribs = [
+            'src' => $this->getValue(),
+            'id' => $this->getId() . '-view',
+        ];
 
-		return (string) new HtmlElement('img', null, $attribs);
-	}
+        return (string) new HtmlElement('img', null, $attribs);
+    }
 
-	/**
-	 * getAccessors
-	 *
-	 * @return  array
-	 *
-	 * @since   3.1.2
-	 */
-	protected function getAccessors()
-	{
-		return array_merge(parent::getAccessors(), [
-			'crop',
-			'defaultImage' => 'default_image',
-			'exportZoom' => 'export_zoom',
-			'height',
-			'maxHeight' => 'max_height',
-			'maxWidth' => 'max_width',
-			'minHeight' => 'min_height',
-			'minWidth' => 'min_width',
-			'showSizeNotice' => 'show_size_notice',
-			'originSize',
-			'version',
-			'width',
-		]);
-	}
+    /**
+     * getAccessors
+     *
+     * @return  array
+     *
+     * @since   3.1.2
+     */
+    protected function getAccessors()
+    {
+        return array_merge(parent::getAccessors(), [
+            'crop',
+            'defaultImage' => 'default_image',
+            'exportZoom' => 'export_zoom',
+            'height',
+            'maxHeight' => 'max_height',
+            'maxWidth' => 'max_width',
+            'minHeight' => 'min_height',
+            'minWidth' => 'min_width',
+            'showSizeNotice' => 'show_size_notice',
+            'originSize',
+            'version',
+            'width',
+        ]);
+    }
 }

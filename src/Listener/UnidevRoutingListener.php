@@ -23,63 +23,59 @@ use Windwalker\Utilities\ArrayHelper;
  */
 class UnidevRoutingListener
 {
-	/**
-	 * Property unidev.
-	 *
-	 * @var  UnidevPackage
-	 */
-	protected $unidev;
+    /**
+     * Property unidev.
+     *
+     * @var  UnidevPackage
+     */
+    protected $unidev;
 
-	/**
-	 * UnidevListener constructor.
-	 *
-	 * @param UnidevPackage $unidev
-	 */
-	public function __construct(UnidevPackage $unidev = null)
-	{
-		$this->unidev = $unidev ? : UnidevHelper::getPackage();
-	}
+    /**
+     * UnidevListener constructor.
+     *
+     * @param UnidevPackage $unidev
+     */
+    public function __construct(UnidevPackage $unidev = null)
+    {
+        $this->unidev = $unidev ?: UnidevHelper::getPackage();
+    }
 
-	/**
-	 * onRouterBeforeRouteMatch
-	 *
-	 * @param Event $event
-	 *
-	 * @return  void
-	 */
-	public function onRouterBeforeRouteMatch(Event $event)
-	{
-		/** @var MainRouter $router */
-		$router = $event['router'];
-		
-		$routing = $this->unidev->loadRouting();
+    /**
+     * onRouterBeforeRouteMatch
+     *
+     * @param Event $event
+     *
+     * @return  void
+     */
+    public function onRouterBeforeRouteMatch(Event $event)
+    {
+        /** @var MainRouter $router */
+        $router = $event['router'];
 
-		foreach ($routing as $name => $route)
-		{
-			$name = $this->unidev->name . '@' . $name;
+        $routing = $this->unidev->loadRouting();
 
-			$pattern = ArrayHelper::getValue($route, 'pattern');
-			$variables = ArrayHelper::getValue($route, 'variables', []);
-			$allowMethods = ArrayHelper::getValue($route, 'method', []);
+        foreach ($routing as $name => $route) {
+            $name = $this->unidev->name . '@' . $name;
 
-			if (isset($route['controller']))
-			{
-				$route['extra']['controller'] = $route['controller'];
-			}
+            $pattern      = ArrayHelper::getValue($route, 'pattern');
+            $variables    = ArrayHelper::getValue($route, 'variables', []);
+            $allowMethods = ArrayHelper::getValue($route, 'method', []);
 
-			if (isset($route['action']))
-			{
-				$route['extra']['action'] = $route['action'];
-			}
+            if (isset($route['controller'])) {
+                $route['extra']['controller'] = $route['controller'];
+            }
 
-			if (isset($route['hook']))
-			{
-				$route['extra']['hook'] = $route['hook'];
-			}
+            if (isset($route['action'])) {
+                $route['extra']['action'] = $route['action'];
+            }
 
-			$route['extra']['package'] = $this->unidev->name;
+            if (isset($route['hook'])) {
+                $route['extra']['hook'] = $route['hook'];
+            }
 
-			$router->addRoute(new Route($name, $pattern, $variables, $allowMethods, $route));
-		}
-	}
+            $route['extra']['package'] = $this->unidev->name;
+
+            $router->addRoute(new Route($name, $pattern, $variables, $allowMethods, $route));
+        }
+    }
 }

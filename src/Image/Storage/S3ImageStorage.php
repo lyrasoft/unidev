@@ -19,88 +19,87 @@ use Windwalker\Utilities\Arr;
  */
 class S3ImageStorage implements ImageStorageInterface
 {
-	/**
-	 * uploadRaw
-	 *
-	 * @param   string $image
-	 * @param   string $path
-	 * @param   string $type
-	 *
-	 * @return string
-	 */
-	public function uploadRaw($image, $path, $type = null)
-	{
-		$path = ltrim(S3Helper::getSubfolder() . '/' . $path, '/');
+    /**
+     * uploadRaw
+     *
+     * @param   string $image
+     * @param   string $path
+     * @param   string $type
+     *
+     * @return string
+     */
+    public function uploadRaw($image, $path, $type = null)
+    {
+        $path = ltrim(S3Helper::getSubfolder() . '/' . $path, '/');
 
-		if (!$type)
-		{
-			$types = [
-				'jpg' => 'image/jpeg',
-				'jpeg' => 'image/jpeg',
-				'png' => 'image/png',
-				'gif' => 'image/gif',
-			];
+        if (!$type) {
+            $types = [
+                'jpg' => 'image/jpeg',
+                'jpeg' => 'image/jpeg',
+                'png' => 'image/png',
+                'gif' => 'image/gif',
+            ];
 
-			$type = Arr::get($types, strtolower(File::getExtension($path)));
-		}
+            $type = Arr::get($types, strtolower(File::getExtension($path)));
+        }
 
-		$file = [
-			'data' => $image,
-			'size' => strlen($image),
-			'type' => $type
-		];
+        $file = [
+            'data' => $image,
+            'size' => strlen($image),
+            'type' => $type,
+        ];
 
-		S3Helper::putObject($file, S3Helper::getBucketName(), $path, \S3::ACL_PUBLIC_READ);
+        S3Helper::putObject($file, S3Helper::getBucketName(), $path, \S3::ACL_PUBLIC_READ);
 
-		return $this->getRemoteUrl($path);
-	}
+        return $this->getRemoteUrl($path);
+    }
 
-	/**
-	 * upload
-	 *
-	 * @param   string  $file
-	 * @param   string  $path
-	 *
-	 * @return  string
-	 */
-	public function upload($file, $path)
-	{
-		S3Helper::upload($file, $path);
+    /**
+     * upload
+     *
+     * @param   string $file
+     * @param   string $path
+     *
+     * @return  string
+     */
+    public function upload($file, $path)
+    {
+        S3Helper::upload($file, $path);
 
-		return $this->getRemoteUrl($path);
-	}
+        return $this->getRemoteUrl($path);
+    }
 
-	/**
-	 * delete
-	 *
-	 * @param   string  $path
-	 *
-	 * @return  boolean
-	 */
-	public function delete($path)
-	{
-		return S3Helper::delete($path);
-	}
+    /**
+     * delete
+     *
+     * @param   string $path
+     *
+     * @return  boolean
+     */
+    public function delete($path)
+    {
+        return S3Helper::delete($path);
+    }
 
-	/**
-	 * getHost
-	 *
-	 * @return  string
-	 */
-	public function getHost()
-	{
-		return S3Helper::getHost();
-	}
+    /**
+     * getHost
+     *
+     * @return  string
+     */
+    public function getHost()
+    {
+        return S3Helper::getHost();
+    }
 
-	/**
-	 * getRemoteUrl
-	 *
-	 * @param   string $uri
-	 *
-	 * @return  string
-	 */
-	public function getRemoteUrl($uri)
-	{
-		return rtrim($this->getHost(), '/') . '/' . ltrim($uri, '/');
-	}
+    /**
+     * getRemoteUrl
+     *
+     * @param   string $uri
+     *
+     * @return  string
+     */
+    public function getRemoteUrl($uri)
+    {
+        return rtrim($this->getHost(), '/') . '/' . ltrim($uri, '/');
+    }
 }

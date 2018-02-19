@@ -17,153 +17,150 @@ use Windwalker\Structure\Structure;
  *
  * @since  1.0
  *
- * @link  https://github.com/Adyg/php-imgur-api-client
+ * @link   https://github.com/Adyg/php-imgur-api-client
  */
 class ImgurImageStorage implements ImageStorageInterface
 {
-	/**
-	 * Property imgur.
-	 *
-	 * @var  Client
-	 */
-	protected $imgur;
+    /**
+     * Property imgur.
+     *
+     * @var  Client
+     */
+    protected $imgur;
 
-	/**
-	 * Property config.
-	 *
-	 * @var  Structure
-	 */
-	protected $config;
+    /**
+     * Property config.
+     *
+     * @var  Structure
+     */
+    protected $config;
 
-	/**
-	 * ImgurImageStorage constructor.
-	 *
-	 * @param Client    $imgur
-	 * @param Structure $config
-	 */
-	public function __construct(Client $imgur, Structure $config)
-	{
-		$this->imgur = $imgur;
-		$this->config = $config;
-	}
+    /**
+     * ImgurImageStorage constructor.
+     *
+     * @param Client    $imgur
+     * @param Structure $config
+     */
+    public function __construct(Client $imgur, Structure $config)
+    {
+        $this->imgur  = $imgur;
+        $this->config = $config;
+    }
 
-	/**
-	 * uploadRaw
-	 *
-	 * @param   string $image
-	 * @param   string $path
-	 * @param   string $type
-	 *
-	 * @return string
-	 */
-	public function uploadRaw($image, $path, $type = null)
-	{
-		$data = [
-			'image' => base64_encode($image),
-			'type' => 'base64'
-		];
-		
-		if ($this->config['album'])
-		{
-			$data['alumb'] = $this->config['album'];
-		}
+    /**
+     * uploadRaw
+     *
+     * @param   string $image
+     * @param   string $path
+     * @param   string $type
+     *
+     * @return string
+     */
+    public function uploadRaw($image, $path, $type = null)
+    {
+        $data = [
+            'image' => base64_encode($image),
+            'type' => 'base64',
+        ];
 
-		$basic = $this->imgur->api('image')->upload($data)->getData();
+        if ($this->config['album']) {
+            $data['alumb'] = $this->config['album'];
+        }
 
-		return $basic['link'];
-	}
+        $basic = $this->imgur->api('image')->upload($data)->getData();
 
-	/**
-	 * upload
-	 *
-	 * @param   string $file
-	 * @param   string $path
-	 *
-	 * @return  string
-	 */
-	public function upload($file, $path)
-	{
-		$data = [
-			'image' => $file,
-			'type' => 'file'
-		];
+        return $basic['link'];
+    }
 
-		if ($this->config['album'])
-		{
-			$data['alumb'] = $this->config['album'];
-		}
+    /**
+     * upload
+     *
+     * @param   string $file
+     * @param   string $path
+     *
+     * @return  string
+     */
+    public function upload($file, $path)
+    {
+        $data = [
+            'image' => $file,
+            'type' => 'file',
+        ];
 
-		$basic = $this->imgur->api('image')->upload($data)->getData();
+        if ($this->config['album']) {
+            $data['alumb'] = $this->config['album'];
+        }
 
-		return $basic['link'];
-	}
+        $basic = $this->imgur->api('image')->upload($data)->getData();
 
-	/**
-	 * delete
-	 *
-	 * @param   string $path
-	 *
-	 * @return  boolean
-	 */
-	public function delete($path)
-	{
-		$path = File::stripExtension($path);
+        return $basic['link'];
+    }
 
-		$basic = $this->imgur->api('image')->deleteImage($path)->getData();
+    /**
+     * delete
+     *
+     * @param   string $path
+     *
+     * @return  boolean
+     */
+    public function delete($path)
+    {
+        $path = File::stripExtension($path);
 
-		return $basic['success'];
-	}
+        $basic = $this->imgur->api('image')->deleteImage($path)->getData();
 
-	/**
-	 * getHost
-	 *
-	 * @return  string
-	 */
-	public function getHost()
-	{
-		return 'https://i.imgur.com';
-	}
+        return $basic['success'];
+    }
 
-	/**
-	 * getRemoteUrl
-	 *
-	 * @param   string  $path
-	 *
-	 * @return  string
-	 */
-	public function getRemoteUrl($path)
-	{
-		if (!File::getExtension($path))
-		{
-			$img = $this->imgur->image($path);
+    /**
+     * getHost
+     *
+     * @return  string
+     */
+    public function getHost()
+    {
+        return 'https://i.imgur.com';
+    }
 
-			return $img->link;
-		}
+    /**
+     * getRemoteUrl
+     *
+     * @param   string $path
+     *
+     * @return  string
+     */
+    public function getRemoteUrl($path)
+    {
+        if (!File::getExtension($path)) {
+            $img = $this->imgur->image($path);
 
-		return static::getHost() . '/' . $path;
-	}
+            return $img->link;
+        }
 
-	/**
-	 * Method to get property Imgur
-	 *
-	 * @return  Client
-	 */
-	public function getImgur()
-	{
-		return $this->imgur;
-	}
+        return static::getHost() . '/' . $path;
+    }
 
-	/**
-	 * Method to set property imgur
-	 *
-	 * @param   Client $imgur
-	 *
-	 * @return  static  Return self to support chaining.
-	 */
-	public function setImgur($imgur)
-	{
-		$this->imgur = $imgur;
+    /**
+     * Method to get property Imgur
+     *
+     * @return  Client
+     */
+    public function getImgur()
+    {
+        return $this->imgur;
+    }
 
-		return $this;
-	}
+    /**
+     * Method to set property imgur
+     *
+     * @param   Client $imgur
+     *
+     * @return  static  Return self to support chaining.
+     */
+    public function setImgur($imgur)
+    {
+        $this->imgur = $imgur;
+
+        return $this;
+    }
 }

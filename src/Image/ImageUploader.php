@@ -14,22 +14,22 @@ use Windwalker\Core\Facade\AbstractProxyFacade;
 /**
  * The ImageUploader class.
  *
- * @see  ImageUploaderManager
+ * @see    ImageUploaderManager
  *
- * @method  static  string                 uploadRaw($image, $path, $type = null)
- * @method  static  string                 upload($file, $path)
- * @method  static  string                 delete($path)
- * @method  static  ImageStorageInterface  getAdapter()
- * @method  static  void                   setAdapter(ImageStorageInterface $adapter)
+ * @method  static string                 uploadRaw($image, $path, $type = null)
+ * @method  static string                 upload($file, $path)
+ * @method  static string                 delete($path)
+ * @method  static ImageStorageInterface  getAdapter()
+ * @method  static void                   setAdapter(ImageStorageInterface $adapter)
  *
  * @since  1.0
  */
 class ImageUploader extends AbstractProxyFacade
 {
-	/**
-	 * Property _key.
-	 *
-	 * @var  string
-	 */
-	protected static $_key = 'unidev.image.uploader';
+    /**
+     * Property _key.
+     *
+     * @var  string
+     */
+    protected static $_key = 'unidev.image.uploader';
 }

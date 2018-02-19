@@ -18,168 +18,162 @@ use Windwalker\Filesystem\Folder;
  */
 class Base64Image
 {
-	const TYPE_JPEG = 'jpeg';
-	const TYPE_PNG = 'png';
-	const TYPE_GIF = 'gif';
+    const TYPE_JPEG = 'jpeg';
+    const TYPE_PNG = 'png';
+    const TYPE_GIF = 'gif';
 
-	/**
-	 * Property fileTypes.
-	 *
-	 * @var  array
-	 */
-	protected static $fileTypes = [
-		self::TYPE_JPEG => 'jpg',
-		self::TYPE_PNG => 'png',
-		self::TYPE_GIF => 'gif',
-	];
+    /**
+     * Property fileTypes.
+     *
+     * @var  array
+     */
+    protected static $fileTypes = [
+        self::TYPE_JPEG => 'jpg',
+        self::TYPE_PNG => 'png',
+        self::TYPE_GIF => 'gif',
+    ];
 
-	/**
-	 * decode
-	 *
-	 * @param   string  $base64
-	 *
-	 * @return  string
-	 */
-	public static function decode($base64)
-	{
-		preg_match('/data:(\w+\/\w+);base64,(.*)/', $base64, $matches);
+    /**
+     * decode
+     *
+     * @param   string $base64
+     *
+     * @return  string
+     */
+    public static function decode($base64)
+    {
+        preg_match('/data:(\w+\/\w+);base64,(.*)/', $base64, $matches);
 
-		$code = $matches[2];
+        $code = $matches[2];
 
-		return base64_decode($code);
-	}
+        return base64_decode($code);
+    }
 
-	/**
-	 * encode
-	 *
-	 * @param string $image
-	 * @param string $type
-	 *
-	 * @return  string
-	 */
-	public static function encode($image, $type = self::TYPE_JPEG)
-	{
-		return 'data:image/' . $type . ';base64,' . base64_encode($image);
-	}
+    /**
+     * encode
+     *
+     * @param string $image
+     * @param string $type
+     *
+     * @return  string
+     */
+    public static function encode($image, $type = self::TYPE_JPEG)
+    {
+        return 'data:image/' . $type . ';base64,' . base64_encode($image);
+    }
 
-	/**
-	 * toFile
-	 *
-	 * @param   string  $base64
-	 * @param   string  $file
-	 *
-	 * @return  boolean
-	 */
-	public static function toFile($base64, $file)
-	{
-		$image = static::decode($base64);
+    /**
+     * toFile
+     *
+     * @param   string $base64
+     * @param   string $file
+     *
+     * @return  boolean
+     */
+    public static function toFile($base64, $file)
+    {
+        $image = static::decode($base64);
 
-		if (!is_dir(dirname($file)))
-		{
-			Folder::create(dirname($file));
-		}
+        if (!is_dir(dirname($file))) {
+            Folder::create(dirname($file));
+        }
 
-		file_put_contents($file, $image);
+        file_put_contents($file, $image);
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * loadFile
-	 *
-	 * @param string $file
-	 * @param string $type
-	 *
-	 * @return  string
-	 */
-	public static function loadFile($file, $type = null)
-	{
-		if (!is_file($file))
-		{
-			throw new \RuntimeException('File not found.');
-		}
+    /**
+     * loadFile
+     *
+     * @param string $file
+     * @param string $type
+     *
+     * @return  string
+     */
+    public static function loadFile($file, $type = null)
+    {
+        if (!is_file($file)) {
+            throw new \RuntimeException('File not found.');
+        }
 
-		$image = file_get_contents($file);
+        $image = file_get_contents($file);
 
-		$type = $type ? : File::getExtension($file);
-		$type = $type === 'jpg' ? 'jpeg' : $type;
+        $type = $type ?: File::getExtension($file);
+        $type = $type === 'jpg' ? 'jpeg' : $type;
 
-		return static::encode($image, $type);
-	}
+        return static::encode($image, $type);
+    }
 
-	/**
-	 * getType
-	 *
-	 * @param   string  $base64
-	 *
-	 * @return  string
-	 */
-	public static function getTypeFromBase64($base64)
-	{
-		preg_match('/data:image\/(\w+);/', $base64, $matches);
+    /**
+     * getType
+     *
+     * @param   string $base64
+     *
+     * @return  string
+     */
+    public static function getTypeFromBase64($base64)
+    {
+        preg_match('/data:image\/(\w+);/', $base64, $matches);
 
-		if ($matches[1])
-		{
-			$type = $matches[1];
+        if ($matches[1]) {
+            $type = $matches[1];
 
-			return static::getFileType($type);
-		}
+            return static::getFileType($type);
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * getFileType
-	 *
-	 * @param   string  $type
-	 *
-	 * @return  string
-	 */
-	public static function getFileType($type)
-	{
-		if (isset(static::$fileTypes[$type]))
-		{
-			return static::$fileTypes[$type];
-		}
+    /**
+     * getFileType
+     *
+     * @param   string $type
+     *
+     * @return  string
+     */
+    public static function getFileType($type)
+    {
+        if (isset(static::$fileTypes[$type])) {
+            return static::$fileTypes[$type];
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * quickUpload
-	 *
-	 * @param   string $base64
-	 * @param   string $uri
-	 *
-	 * @return  string
-	 * @throws \RuntimeException
-	 */
-	public static function quickUpload($base64, $uri)
-	{
-		$ext = Base64Image::getTypeFromBase64($base64);
+    /**
+     * quickUpload
+     *
+     * @param   string $base64
+     * @param   string $uri
+     *
+     * @return  string
+     * @throws \RuntimeException
+     */
+    public static function quickUpload($base64, $uri)
+    {
+        $ext = Base64Image::getTypeFromBase64($base64);
 
-		if (!$ext)
-		{
-			throw new \RuntimeException('The base64 image ha no type information.');
-		}
+        if (!$ext) {
+            throw new \RuntimeException('The base64 image ha no type information.');
+        }
 
-		$temp = WINDWALKER_TEMP . '/unidev/images/temp/' . gmdate('Ymd') . '/' . md5(uniqid(mt_rand(1, 999))) . '.' . $ext;
+        $temp = WINDWALKER_TEMP . '/unidev/images/temp/' . gmdate('Ymd') . '/' . md5(uniqid(mt_rand(1,
+                999))) . '.' . $ext;
 
-		if (!is_dir(dirname($temp)))
-		{
-			Folder::create(dirname($temp));
-		}
+        if (!is_dir(dirname($temp))) {
+            Folder::create(dirname($temp));
+        }
 
-		Base64Image::toFile($base64, $temp);
+        Base64Image::toFile($base64, $temp);
 
-		// Upload to Cloud
-		$url = ImageUploader::upload($temp, $uri);
+        // Upload to Cloud
+        $url = ImageUploader::upload($temp, $uri);
 
-		if (is_file($temp))
-		{
-			File::delete($temp);
-		}
+        if (is_file($temp)) {
+            File::delete($temp);
+        }
 
-		return $url;
-	}
+        return $url;
+    }
 }

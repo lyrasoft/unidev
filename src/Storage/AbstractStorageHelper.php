@@ -17,56 +17,55 @@ use Lyrasoft\Unidev\Image\ImageUploader;
  */
 abstract class AbstractStorageHelper implements StorageHelperInterface
 {
-	/**
-	 * getRealExtension
-	 *
-	 * @param   string  $ext
-	 *
-	 * @return  string
-	 */
-	public static function getRealExtension($ext)
-	{
-		$ext = strtolower($ext);
+    /**
+     * getRealExtension
+     *
+     * @param   string $ext
+     *
+     * @return  string
+     */
+    public static function getRealExtension($ext)
+    {
+        $ext = strtolower($ext);
 
-		if ($ext === 'jpeg')
-		{
-			$ext = 'jpg';
-		}
+        if ($ext === 'jpeg') {
+            $ext = 'jpg';
+        }
 
-		return $ext;
-	}
+        return $ext;
+    }
 
-	/**
-	 * Get file temp path.
-	 *
-	 * @param   mixed $identify The identify of this file or item.
-	 *
-	 * @return  string  Identify path.
-	 */
-	public static function getTempFile($identify)
-	{
-		return static::getTempPath() . '/' . static::getPath($identify);
-	}
+    /**
+     * Get file temp path.
+     *
+     * @param   mixed $identify The identify of this file or item.
+     *
+     * @return  string  Identify path.
+     */
+    public static function getTempFile($identify)
+    {
+        return static::getTempPath() . '/' . static::getPath($identify);
+    }
 
-	/**
-	 * getTempPath
-	 *
-	 * @return  string
-	 */
-	public static function getTempPath()
-	{
-		return WINDWALKER_TEMP . '/lyra';
-	}
+    /**
+     * getTempPath
+     *
+     * @return  string
+     */
+    public static function getTempPath()
+    {
+        return WINDWALKER_TEMP . '/lyra';
+    }
 
-	/**
-	 * Get remote url.
-	 *
-	 * @param   mixed $identify The identify of this file or item.
-	 *
-	 * @return  string  Identify URL.
-	 */
-	public static function getRemoteUrl($identify)
-	{
-		return ImageUploader::getAdapter()->getHost() . '/' . static::getPath($identify);
-	}
+    /**
+     * Get remote url.
+     *
+     * @param   mixed $identify The identify of this file or item.
+     *
+     * @return  string  Identify URL.
+     */
+    public static function getRemoteUrl($identify)
+    {
+        return ImageUploader::getAdapter()->getHost() . '/' . static::getPath($identify);
+    }
 }

@@ -19,111 +19,106 @@ use Windwalker\Utilities\ArrayHelper;
  */
 class UnsplashHelper
 {
-	/**
-	 * Property images.
-	 *
-	 * @var  array
-	 */
-	protected static $images = [];
+    /**
+     * Property images.
+     *
+     * @var  array
+     */
+    protected static $images = [];
 
-	/**
-	 * Property ids.
-	 *
-	 * @var  array
-	 */
-	protected static $ids = null;
+    /**
+     * Property ids.
+     *
+     * @var  array
+     */
+    protected static $ids = null;
 
-	/**
-	 * init
-	 *
-	 * @return  array
-	 */
-	protected static function init()
-	{
-		if (static::$ids === null)
-		{
-			$file = static::getTempPath();
+    /**
+     * init
+     *
+     * @return  array
+     */
+    protected static function init()
+    {
+        if (static::$ids === null) {
+            $file = static::getTempPath();
 
-			if (!is_file($file))
-			{
-				static::dump();
-			}
+            if (!is_file($file)) {
+                static::dump();
+            }
 
-			$content = file_get_contents($file);
+            $content = file_get_contents($file);
 
-			static::$ids = (array) explode(',', $content);
-		}
+            static::$ids = (array) explode(',', $content);
+        }
 
-		return static::$ids;
-	}
+        return static::$ids;
+    }
 
-	/**
-	 * getTempPath
-	 *
-	 * @return  string
-	 */
-	protected static function getTempPath()
-	{
-		return WINDWALKER_TEMP . '/unidev/images/unsplash-list.data';
-	}
+    /**
+     * getTempPath
+     *
+     * @return  string
+     */
+    protected static function getTempPath()
+    {
+        return WINDWALKER_TEMP . '/unidev/images/unsplash-list.data';
+    }
 
-	/**
-	 * getImageUrl
-	 *
-	 * @param int  $width
-	 * @param int  $height
-	 * @param int  $id
-	 *
-	 * @return  string
-	 */
-	public static function getImageUrl($width = 800, $height = 600, $id = null)
-	{
-		static::init();
+    /**
+     * getImageUrl
+     *
+     * @param int $width
+     * @param int $height
+     * @param int $id
+     *
+     * @return  string
+     */
+    public static function getImageUrl($width = 800, $height = 600, $id = null)
+    {
+        static::init();
 
-		if (!isset(static::$ids[$id]))
-		{
-			$id = static::$ids[array_rand(static::$ids)];
-		}
+        if (!isset(static::$ids[$id])) {
+            $id = static::$ids[array_rand(static::$ids)];
+        }
 
-		return 'https://unsplash.it/' . $width . '/' . $height . '?image=' . $id;
-	}
+        return 'https://unsplash.it/' . $width . '/' . $height . '?image=' . $id;
+    }
 
-	/**
-	 * getList
-	 *
-	 * @return  array
-	 */
-	public static function getList()
-	{
-		if (!static::$images)
-		{
-			$http = new HttpClient;
-			$response = $http->get('https://unsplash.it/list');
+    /**
+     * getList
+     *
+     * @return  array
+     */
+    public static function getList()
+    {
+        if (!static::$images) {
+            $http     = new HttpClient;
+            $response = $http->get('https://unsplash.it/list');
 
-			$images = json_decode($response->getBody()->__toString());
+            $images = json_decode($response->getBody()->__toString());
 
-			foreach ($images as $image)
-			{
-				static::$images[$image->id] = $image;
-			}
-		}
+            foreach ($images as $image) {
+                static::$images[$image->id] = $image;
+            }
+        }
 
-		return static::$images;
-	}
+        return static::$images;
+    }
 
-	/**
-	 * dump
-	 *
-	 * @return  void
-	 */
-	public static function dump()
-	{
-		$list = static::getList();
+    /**
+     * dump
+     *
+     * @return  void
+     */
+    public static function dump()
+    {
+        $list = static::getList();
 
-		$ids = ArrayHelper::getColumn($list, 'id');
+        $ids = ArrayHelper::getColumn($list, 'id');
 
-		$content = implode(',', $ids);
+        $content = implode(',', $ids);
 
-		File::write(static::getTempPath(), $content);
-	}
+        File::write(static::getTempPath(), $content);
+    }
 }

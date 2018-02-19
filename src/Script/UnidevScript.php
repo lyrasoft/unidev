@@ -28,88 +28,81 @@ use Windwalker\Utilities\Arr;
  */
 class UnidevScript extends AbstractScript
 {
-	/**
-	 * Property packageClass.
-	 *
-	 * @var  string
-	 */
-	protected static $packageClass = UnidevPackage::class;
+    /**
+     * Property packageClass.
+     *
+     * @var  string
+     */
+    protected static $packageClass = UnidevPackage::class;
 
-	/**
-	 * Official Sweet Alert.
-	 *
-	 * @see https://sweetalert.js.org/guides/#installation
-	 *
-	 * @param bool $replaceAlert
-	 * @param int  $version
-	 *
-	 * @return void
-	 */
-	public static function sweetAlert($replaceAlert = false, $version = 1)
-	{
-		if (!static::inited(__METHOD__))
-		{
-			if ($version == 1)
-			{
-				static::addJS(static::packageName() . '/js/sweetalert.min.js');
-				static::addCSS(static::packageName() . '/css/sweetalert.min.css');
-			}
-			else
-			{
-				static::polyfill();
-				static::addJS(static::packageName() . '/js/sweetalert2.min.js');
-			}
-		}
+    /**
+     * Official Sweet Alert.
+     *
+     * @see https://sweetalert.js.org/guides/#installation
+     *
+     * @param bool $replaceAlert
+     * @param int  $version
+     *
+     * @return void
+     */
+    public static function sweetAlert($replaceAlert = false, $version = 1)
+    {
+        if (!static::inited(__METHOD__)) {
+            if ($version == 1) {
+                static::addJS(static::packageName() . '/js/sweetalert.min.js');
+                static::addCSS(static::packageName() . '/css/sweetalert.min.css');
+            } else {
+                static::polyfill();
+                static::addJS(static::packageName() . '/js/sweetalert2.min.js');
+            }
+        }
 
-		if (!static::inited(__METHOD__, $replaceAlert))
-		{
-			static::internalJS("alert = swal;");
-		}
-	}
+        if (!static::inited(__METHOD__, $replaceAlert)) {
+            static::internalJS("alert = swal;");
+        }
+    }
 
-	/**
-	 * cropit
-	 *
-	 * @return  void
-	 */
-	public static function cropit()
-	{
-		if (!static::inited(__METHOD__))
-		{
-			JQueryScript::core();
+    /**
+     * cropit
+     *
+     * @return  void
+     */
+    public static function cropit()
+    {
+        if (!static::inited(__METHOD__)) {
+            JQueryScript::core();
 
-			static::addJS(static::packageName() . '/js/jquery.cropit.min.js');
-		}
-	}
+            static::addJS(static::packageName() . '/js/jquery.cropit.min.js');
+        }
+    }
 
-	/**
-	 * singleDrapUpload
-	 *
-	 * @param   string $selector
-	 * @param   array  $options
-	 */
-	public static function singleImageDragUpload($selector, $options = [])
-	{
-		$asset = static::getAsset();
+    /**
+     * singleDrapUpload
+     *
+     * @param   string $selector
+     * @param   array  $options
+     */
+    public static function singleImageDragUpload($selector, $options = [])
+    {
+        $asset = static::getAsset();
 
-		if (!static::inited(__METHOD__))
-		{
-			static::cropit();
-			static::sweetAlert(false, 2);
+        if (!static::inited(__METHOD__)) {
+            static::cropit();
+            static::sweetAlert(false, 2);
 
-			static::addJS(static::packageName() . '/js/single-image-uploader.min.js');
+            static::addJS(static::packageName() . '/js/single-image-uploader.min.js');
 
-			PhoenixScript::translate('unidev.field.single.image.message.invalid.image.title');
-			PhoenixScript::translate('unidev.field.single.image.message.invalid.image.desc');
-			PhoenixScript::translate('unidev.field.single.image.message.invalid.size.title');
-			PhoenixScript::translate('unidev.field.single.image.message.invalid.size.desc');
+            PhoenixScript::translate('unidev.field.single.image.message.invalid.image.title');
+            PhoenixScript::translate('unidev.field.single.image.message.invalid.image.desc');
+            PhoenixScript::translate('unidev.field.single.image.message.invalid.size.title');
+            PhoenixScript::translate('unidev.field.single.image.message.invalid.size.desc');
 
-			PhoenixScript::translate('unidev.field.single.image.message.invalid.size.max.width');
-			PhoenixScript::translate('unidev.field.single.image.message.invalid.size.min.width');
-			PhoenixScript::translate('unidev.field.single.image.message.invalid.size.max.height');
-			PhoenixScript::translate('unidev.field.single.image.message.invalid.size.min.height');
+            PhoenixScript::translate('unidev.field.single.image.message.invalid.size.max.width');
+            PhoenixScript::translate('unidev.field.single.image.message.invalid.size.min.width');
+            PhoenixScript::translate('unidev.field.single.image.message.invalid.size.max.height');
+            PhoenixScript::translate('unidev.field.single.image.message.invalid.size.min.height');
 
-			static::internalCSS(<<<CSS
+            static::internalCSS(<<<CSS
 .sid-row::after {
 	content: "";
 	display: block;
@@ -176,126 +169,115 @@ input.cropit-image-zoom-input {
 	position: relative;
 }
 CSS
-			);
-		}
+            );
+        }
 
-		if (!static::inited(__METHOD__, func_get_args()))
-		{
-			$options = static::getJSObject($options);
+        if (!static::inited(__METHOD__, func_get_args())) {
+            $options = static::getJSObject($options);
 
-			$asset->internalScript(<<<JS
+            $asset->internalScript(<<<JS
 jQuery(function($) {
     $('$selector').singleImageDragUploader($options);
 });
 JS
-			);
-		}
-	}
+            );
+        }
+    }
 
-	/**
-	 * polyfill
-	 *
-	 * @return  void
-	 *
-	 * @since  1.3.5
-	 */
-	public static function polyfill()
-	{
-		if (!static::inited(__METHOD__))
-		{
-			// Safari / iOS and IE not support URL API
-			static::addJS(static::packageName() . '/js/polyfill/url-polyfill.min.js');
+    /**
+     * polyfill
+     *
+     * @return  void
+     *
+     * @since  1.3.5
+     */
+    public static function polyfill()
+    {
+        if (!static::inited(__METHOD__)) {
+            // Safari / iOS and IE not support URL API
+            static::addJS(static::packageName() . '/js/polyfill/url-polyfill.min.js');
 
-			// All polyfill from core.js
-			static::addJS(static::packageName() . '/js/polyfill/babel-polyfill.min.js');
-		}
-	}
+            // All polyfill from core.js
+            static::addJS(static::packageName() . '/js/polyfill/babel-polyfill.min.js');
+        }
+    }
 
-	/**
-	 * babel
-	 *
-	 * @param callable $condition
-	 *
-	 * @return  void
-	 *
-	 * @since  1.3.5
-	 */
-	public static function babel(array $presets = [], callable $condition = null)
-	{
-		if (!static::inited(__METHOD__))
-		{
-			$condition = $condition ?: function (Parser $browser) use ($presets)
-			{
-				$presets = $presets ?: ['stage-2'];
-				array_unshift($presets, 'es2015');
+    /**
+     * babel
+     *
+     * @param callable $condition
+     *
+     * @return  void
+     *
+     * @since  1.3.5
+     */
+    public static function babel(array $presets = [], callable $condition = null)
+    {
+        if (!static::inited(__METHOD__)) {
+            $condition = $condition ?: function (Parser $browser) use ($presets) {
+                $presets = $presets ?: ['stage-2'];
+                array_unshift($presets, 'es2015');
 
-				return array_intersect($presets, ['stage-0', 'stage-1']) || $browser->isBrowser('Internet Explorer', '<=', 11);
-			};
+                return array_intersect($presets, ['stage-0', 'stage-1']) || $browser->isBrowser('Internet Explorer',
+                        '<=', 11);
+            };
 
-			static::polyfill();
+            static::polyfill();
 
-			if ($condition(WhichBrowserFactory::getInstance()))
-			{
-				static::addJS(static::packageName() . '/js/polyfill/babel.min.js');
-			}
+            if ($condition(WhichBrowserFactory::getInstance())) {
+                static::addJS(static::packageName() . '/js/polyfill/babel.min.js');
+            }
 
-			// Parse all scripts
-			Ioc::getDispatcher()->listen('onBeforeRespond', function (Event $event) use ($presets)
-			{
-				/** @var ResponseInterface $response */
-				$response = $event['response'];
+            // Parse all scripts
+            Ioc::getDispatcher()->listen('onBeforeRespond', function (Event $event) use ($presets) {
+                /** @var ResponseInterface $response */
+                $response = $event['response'];
 
-				if (strpos($response->getHeaderLine('content-type'), 'text/html') === false)
-				{
-					return;
-				}
+                if (strpos($response->getHeaderLine('content-type'), 'text/html') === false) {
+                    return;
+                }
 
-				$body = $response->getBody()->__toString();
+                $body = $response->getBody()->__toString();
 
-				$body = preg_replace_callback('/<script(.*?)>(.*?)<\/script>/is', function ($matches) use ($presets)
-				{
-					if (isset($matches[1]))
-					{
-						preg_match_all('/(.*?)="(.*?)"/', $matches[1], $matches2, PREG_SET_ORDER);
+                $body = preg_replace_callback('/<script(.*?)>(.*?)<\/script>/is', function ($matches) use ($presets) {
+                    if (isset($matches[1])) {
+                        preg_match_all('/(.*?)="(.*?)"/', $matches[1], $matches2, PREG_SET_ORDER);
 
-						$attrs = [];
+                        $attrs = [];
 
-						foreach ($matches2 as $m)
-						{
-							if (isset($m[1], $m[2]))
-							{
-								$attrs[trim($m[1])] = $m[2];
-							}
-						}
+                        foreach ($matches2 as $m) {
+                            if (isset($m[1], $m[2])) {
+                                $attrs[trim($m[1])] = $m[2];
+                            }
+                        }
 
-						if (isset($attrs['type']) && $attrs['type'] === 'text/babel')
-						{
-							$tagPresets = [];
-							$browser = WhichBrowserFactory::getInstance();
+                        if (isset($attrs['type']) && $attrs['type'] === 'text/babel') {
+                            $tagPresets = [];
+                            $browser    = WhichBrowserFactory::getInstance();
 
-							$attrs = Arr::def($attrs, 'data-presets', 'es2015,stage-2');
+                            $attrs = Arr::def($attrs, 'data-presets', 'es2015,stage-2');
 
-							if ($attrs['data-presets'])
-							{
-								$tagPresets = array_map('trim', explode(',', $attrs['data-presets']));
-							}
+                            if ($attrs['data-presets']) {
+                                $tagPresets = array_map('trim', explode(',', $attrs['data-presets']));
+                            }
 
-							if (array_intersect($tagPresets, ['stage-0', 'stage-1']) === [] && !$browser->isBrowser('Internet Explorer', '<=', 11))
-							{
-								unset($attrs['type']);
-							}
-						}
-					}
+                            if (array_intersect($tagPresets,
+                                    ['stage-0', 'stage-1']) === [] && !$browser->isBrowser('Internet Explorer', '<=',
+                                    11)) {
+                                unset($attrs['type']);
+                            }
+                        }
+                    }
 
-					return sprintf('<script%s>%s</script>', HtmlBuilder::buildAttributes($attrs), $matches[2]);
-				}, $body);
+                    return sprintf('<script%s>%s</script>', HtmlBuilder::buildAttributes($attrs), $matches[2]);
+                }, $body);
 
-				$stream = new Stream('php://temp', 'wb+');
-				$stream->write($body);
-				$response = $response->withBody($stream);
+                $stream = new Stream('php://temp', 'wb+');
+                $stream->write($body);
+                $response = $response->withBody($stream);
 
-				$event['response'] = $response;
-			});
-		}
-	}
+                $event['response'] = $response;
+            });
+        }
+    }
 }

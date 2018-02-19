@@ -21,62 +21,60 @@ use Windwalker\Utilities\Arr;
  */
 class ImageHtmlHelper
 {
-	/**
-	 * bgThumb
-	 *
-	 * @param string     $image
-	 * @param int|string $width
-	 * @param int|string $height
-	 * @param string     $sizeType
-	 * @param array      $attribs
-	 *
-	 * @return string
-	 */
-	public static function bgThumb($image = null, $width = 50, $height = 50, $sizeType = 'cover', $attribs = [])
-	{
-		if (!$image)
-		{
-			$image = static::defaultImage();
-		}
+    /**
+     * bgThumb
+     *
+     * @param string     $image
+     * @param int|string $width
+     * @param int|string $height
+     * @param string     $sizeType
+     * @param array      $attribs
+     *
+     * @return string
+     */
+    public static function bgThumb($image = null, $width = 50, $height = 50, $sizeType = 'cover', $attribs = [])
+    {
+        if (!$image) {
+            $image = static::defaultImage();
+        }
 
-		$width = is_numeric($width) ? $width . 'px' : $width;
-		$height = is_numeric($height) ? $height . 'px' : $height;
+        $width  = is_numeric($width) ? $width . 'px' : $width;
+        $height = is_numeric($height) ? $height . 'px' : $height;
 
-		$image = static::addBase(htmlentities($image, ENT_QUOTES, 'UTF-8'));
+        $image = static::addBase(htmlentities($image, ENT_QUOTES, 'UTF-8'));
 
-		$style = "width: $width; height: $height; background-image: url('$image'); background-size: $sizeType; background-position: center center; background-repeat: no-repeat;";
-		$attribs['style'] = Arr::get($attribs, 'style') . ';' . $style;
-		$attribs['class'] = Arr::get($attribs, 'class') . ' sq-thumb';
+        $style            = "width: $width; height: $height; background-image: url('$image'); background-size: $sizeType; background-position: center center; background-repeat: no-repeat;";
+        $attribs['style'] = Arr::get($attribs, 'style') . ';' . $style;
+        $attribs['class'] = Arr::get($attribs, 'class') . ' sq-thumb';
 
-		return new HtmlElement('div', '', $attribs);
-	}
+        return new HtmlElement('div', '', $attribs);
+    }
 
-	/**
-	 * defaultImage
-	 *
-	 * @return  string
-	 */
-	public static function defaultImage()
-	{
-		$alias = PackageHelper::getAlias(UnidevPackage::class);
+    /**
+     * defaultImage
+     *
+     * @return  string
+     */
+    public static function defaultImage()
+    {
+        $alias = PackageHelper::getAlias(UnidevPackage::class);
 
-		return Asset::root() . '/' . $alias . '/images/default-img.png';
-	}
+        return Asset::root() . '/' . $alias . '/images/default-img.png';
+    }
 
-	/**
-	 * addBase
-	 *
-	 * @param string $url
-	 *
-	 * @return  string
-	 */
-	public static function addBase($url)
-	{
-		if (strpos($url, 'http') === 0 || strpos($url, '//') === 0)
-		{
-			return $url;
-		}
+    /**
+     * addBase
+     *
+     * @param string $url
+     *
+     * @return  string
+     */
+    public static function addBase($url)
+    {
+        if (strpos($url, 'http') === 0 || strpos($url, '//') === 0) {
+            return $url;
+        }
 
-		return Asset::root() . ltrim($url, '/');
-	}
+        return Asset::root() . ltrim($url, '/');
+    }
 }
