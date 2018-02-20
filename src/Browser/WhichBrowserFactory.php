@@ -13,7 +13,7 @@ use WhichBrowser\Parser;
 /**
  * The BrowserDetect class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.3
  */
 class WhichBrowserFactory
 {

@@ -17,7 +17,7 @@ use Windwalker\Utilities\Arr;
 /**
  * The ImageHtmlHelper class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.3
  */
 class ImageHtmlHelper
 {

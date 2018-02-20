@@ -14,7 +14,7 @@ use Windwalker\Filter\OutputFilter;
 /**
  * The SlugHelper class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.3
  */
 class SlugHelper
 {
