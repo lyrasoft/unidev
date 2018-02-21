@@ -194,17 +194,26 @@ JS
     public static function polyfill()
     {
         if (!static::inited(__METHOD__)) {
+            // TODO: Replace all with core.js v3, @see https://github.com/zloirock/core-js/pull/325
+
             // Safari / iOS and IE not support URL API
             static::addJS(static::packageName() . '/js/polyfill/url-polyfill.min.js');
 
             // All polyfill from core.js
             static::addJS(static::packageName() . '/js/polyfill/babel-polyfill.min.js');
+
+            static::internalJS(<<<JS
+// NodeList loop polyfill
+NodeList.prototype.forEach = Array.prototype.forEach;
+JS
+            );
         }
     }
 
     /**
      * babel
      *
+     * @param array    $presets
      * @param callable $condition
      *
      * @return  void
@@ -218,8 +227,8 @@ JS
                 $presets = $presets ?: ['stage-2'];
                 array_unshift($presets, 'es2015');
 
-                return array_intersect($presets, ['stage-0', 'stage-1']) || $browser->isBrowser('Internet Explorer',
-                        '<=', 11);
+                return array_intersect($presets, ['stage-0', 'stage-1'])
+                    || $browser->isBrowser('Internet Explorer', '<=', 11);
             };
 
             static::polyfill();
@@ -239,38 +248,43 @@ JS
 
                 $body = $response->getBody()->__toString();
 
-                $body = preg_replace_callback('/<script(.*?)>(.*?)<\/script>/is', function ($matches) use ($presets) {
-                    if (isset($matches[1])) {
-                        preg_match_all('/(.*?)="(.*?)"/', $matches[1], $matches2, PREG_SET_ORDER);
+                $body = preg_replace_callback(
+                    '/<script(.*?)>(.*?)<\/script>/is',
+                    function ($matches) use ($presets) {
+                        if (isset($matches[1])) {
+                            preg_match_all('/(.*?)="(.*?)"/', $matches[1], $matches2, PREG_SET_ORDER);
 
-                        $attrs = [];
+                            $attrs = [];
 
-                        foreach ($matches2 as $m) {
-                            if (isset($m[1], $m[2])) {
-                                $attrs[trim($m[1])] = $m[2];
+                            foreach ($matches2 as $m) {
+                                if (isset($m[1], $m[2])) {
+                                    $attrs[trim($m[1])] = $m[2];
+                                }
+                            }
+
+                            if (isset($attrs['type']) && $attrs['type'] === 'text/babel') {
+                                $tagPresets = [];
+                                $browser    = WhichBrowserFactory::getInstance();
+
+                                $attrs = Arr::def($attrs, 'data-presets', 'es2015,stage-2');
+
+                                if ($attrs['data-presets']) {
+                                    $tagPresets = array_map('trim', explode(',', $attrs['data-presets']));
+                                }
+
+                                if (array_intersect($tagPresets,
+                                        ['stage-0', 'stage-1']) === [] && !$browser->isBrowser('Internet Explorer',
+                                        '<=',
+                                        11)) {
+                                    unset($attrs['type']);
+                                }
                             }
                         }
 
-                        if (isset($attrs['type']) && $attrs['type'] === 'text/babel') {
-                            $tagPresets = [];
-                            $browser    = WhichBrowserFactory::getInstance();
-
-                            $attrs = Arr::def($attrs, 'data-presets', 'es2015,stage-2');
-
-                            if ($attrs['data-presets']) {
-                                $tagPresets = array_map('trim', explode(',', $attrs['data-presets']));
-                            }
-
-                            if (array_intersect($tagPresets,
-                                    ['stage-0', 'stage-1']) === [] && !$browser->isBrowser('Internet Explorer', '<=',
-                                    11)) {
-                                unset($attrs['type']);
-                            }
-                        }
-                    }
-
-                    return sprintf('<script%s>%s</script>', HtmlBuilder::buildAttributes($attrs), $matches[2]);
-                }, $body);
+                        return sprintf('<script%s>%s</script>', HtmlBuilder::buildAttributes($attrs), $matches[2]);
+                    },
+                    $body
+                );
 
                 $stream = new Stream('php://temp', 'wb+');
                 $stream->write($body);
