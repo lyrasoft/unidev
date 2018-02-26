@@ -227,7 +227,7 @@ JS
                 $presets = $presets ?: ['stage-2'];
                 array_unshift($presets, 'es2015');
 
-                return array_intersect($presets, ['stage-0', 'stage-1'])
+                return array_intersect($presets, ['stage-0', 'stage-1']) === []
                     || $browser->isBrowser('Internet Explorer', '<=', 11);
             };
 
@@ -272,10 +272,10 @@ JS
                                     $tagPresets = array_map('trim', explode(',', $attrs['data-presets']));
                                 }
 
-                                if (array_intersect($tagPresets,
-                                        ['stage-0', 'stage-1']) === [] && !$browser->isBrowser('Internet Explorer',
-                                        '<=',
-                                        11)) {
+                                if (
+                                    array_intersect($tagPresets, ['stage-0', 'stage-1']) === []
+                                    && !$browser->isBrowser('Internet Explorer', '<=', 11)
+                                ) {
                                     unset($attrs['type']);
                                 }
                             }

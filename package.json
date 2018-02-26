@@ -5,7 +5,7 @@
   "dependencies": {
     "babel": "^6.23.0",
     "babel-polyfill": "^6.26.0",
-    "babel-standalone": "^6.26.0",
+    "babel-standalone": "^7.0.0-beta.3",
     "sweetalert": "^2.1.0",
     "url-polyfill": "^1.0.11"
   }
