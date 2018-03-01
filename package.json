@@ -1,12 +1,20 @@
 {
-  "scripts": {
-    "postinstall": "php bin/asset-install.php %"
-  },
-  "dependencies": {
-    "babel": "^6.23.0",
-    "babel-polyfill": "^6.26.0",
-    "babel-standalone": "^7.0.0-beta.3",
-    "sweetalert": "^2.1.0",
-    "url-polyfill": "^1.0.11"
-  }
+    "scripts": {
+        "postinstall": "npm run build -- install",
+        "build": "cross-env NODE_ENV=development node_modules/gulp/bin/gulp.js --gulpfile=fusionfile.js",
+        "watch": "cross-env NODE_ENV=development node_modules/gulp/bin/gulp.js --gulpfile=fusionfile.js --watch=1",
+        "watch:reload": "cross-env NODE_ENV=development node_modules/gulp/bin/gulp.js --gulpfile=fusionfile.js --watch=1 --livereload=1",
+        "prod": "cross-env NODE_ENV=production node_modules/gulp/bin/gulp.js --gulpfile=fusionfile.js"
+    },
+    "dependencies": {
+        "@webcomponents/webcomponentsjs": "^1.1.0",
+        "babel": "^6.23.0",
+        "babel-polyfill": "^6.26.0",
+        "babel-standalone": "^7.0.0-beta.3",
+        "sweetalert": "^2.1.0",
+        "url-polyfill": "^1.0.11"
+    },
+    "devDependencies": {
+        "windwalker-fusion": "^0.1.9"
+    }
 }

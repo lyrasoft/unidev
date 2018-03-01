@@ -19,6 +19,7 @@ use Windwalker\Dom\Builder\HtmlBuilder;
 use Windwalker\Event\Event;
 use Windwalker\Http\Stream\Stream;
 use Windwalker\Ioc;
+use Windwalker\String\Str;
 use Windwalker\Utilities\Arr;
 
 /**
@@ -185,6 +186,36 @@ JS
     }
 
     /**
+     * webComponent
+     *
+     * @param array  $components
+     * @param array  $options
+     * @param array  $attribs
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function webComponent(array $components, array $options = [], array $attribs = [])
+    {
+        if (!static::inited(__METHOD__)) {
+            static::addJS(static::packageName() . '/js/webcomponent/webcomponents-loader.min.js');
+        }
+
+        foreach ($components as $uri) {
+            if (Str::endsWith($uri, '.html')) {
+                static::import($uri, $options, $attribs);
+            } else {
+                if (self::inited(static::class . '::babel')) {
+                    $attribs['type'] = 'text/babel';
+                }
+
+                static::addJS($uri, $options, $attribs);
+            }
+        }
+    }
+
+    /**
      * polyfill
      *
      * @return  void
@@ -199,8 +230,8 @@ JS
             // Safari / iOS and IE not support URL API
             static::addJS(static::packageName() . '/js/polyfill/url-polyfill.min.js');
 
-            // All polyfill from core.js
-            static::addJS(static::packageName() . '/js/polyfill/babel-polyfill.min.js');
+            // All polyfill from babel-polyfill.js
+            static::addJS(static::packageName() . '/js/polyfill/polyfill.min.js');
 
             static::internalJS(<<<JS
 // NodeList loop polyfill
@@ -231,9 +262,9 @@ JS
                     || $browser->isBrowser('Internet Explorer', '<=', 11);
             };
 
-            static::polyfill();
-
             if ($condition(WhichBrowserFactory::getInstance())) {
+                static::polyfill();
+
                 static::addJS(static::packageName() . '/js/polyfill/babel.min.js');
             }
 
