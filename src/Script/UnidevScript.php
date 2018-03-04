@@ -199,7 +199,7 @@ JS
     public static function webComponent(array $components, array $options = [], array $attribs = [])
     {
         if (!static::inited(__METHOD__)) {
-            static::addJS(static::packageName() . '/js/webcomponent/webcomponents-loader.min.js');
+            static::addJS(static::packageName() . '/js/webcomponent/webcomponents-lite.min.js');
         }
 
         foreach ($components as $uri) {
