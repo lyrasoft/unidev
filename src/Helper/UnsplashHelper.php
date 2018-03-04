@@ -34,38 +34,6 @@ class UnsplashHelper
     protected static $ids = null;
 
     /**
-     * init
-     *
-     * @return  array
-     */
-    protected static function init()
-    {
-        if (static::$ids === null) {
-            $file = static::getTempPath();
-
-            if (!is_file($file)) {
-                static::dump();
-            }
-
-            $content = file_get_contents($file);
-
-            static::$ids = (array) explode(',', $content);
-        }
-
-        return static::$ids;
-    }
-
-    /**
-     * getTempPath
-     *
-     * @return  string
-     */
-    protected static function getTempPath()
-    {
-        return WINDWALKER_TEMP . '/unidev/images/unsplash-list.data';
-    }
-
-    /**
      * getImageUrl
      *
      * @param int $width
@@ -82,7 +50,87 @@ class UnsplashHelper
             $id = static::$ids[array_rand(static::$ids)];
         }
 
-        return 'https://unsplash.it/' . $width . '/' . $height . '?image=' . $id;
+        return 'https://picsum.photos/' . $width . '/' . $height . '?image=' . $id;
+    }
+
+    /**
+     * getImages
+     *
+     * @param int       $count   Images number.
+     * @param int|array $width   Can be int or array as random [start, end].
+     * @param int|array $height  Can be int or array as random [start, end].
+     * @param int       $id      Image id or let fetch random id.
+     *
+     * @return  array
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function getImages($count, $width = 800, $height = 600, $id = null)
+    {
+        $images = [];
+
+        foreach (range(1, $count) as $i) {
+            if (is_array($width)) {
+                $width = mt_rand(...$width);
+            }
+
+            if (is_array($height)) {
+                $width = mt_rand(...$height);
+            }
+
+            $images[] = static::getImageUrl($width, $height, $id);
+        }
+
+        return $images;
+    }
+
+    /**
+     * getImages
+     *
+     * @param int $count
+     * @param int $width
+     * @param int $height
+     * @param int $id
+     *
+     * @return  string
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function getImagesJson($count, $width = 800, $height = 600, $id = null)
+    {
+        return json_encode(static::getImages($count, $width, $height, $id));
+    }
+
+    /**
+     * init
+     *
+     * @return  array
+     */
+    protected static function init()
+    {
+        if (static::$ids === null) {
+            $file = static::getTempPath();
+
+            if (!is_file($file)) {
+                static::dump();
+            }
+
+            $content = file_get_contents($file);
+
+            static::$ids = explode(',', $content);
+        }
+
+        return static::$ids;
+    }
+
+    /**
+     * getTempPath
+     *
+     * @return  string
+     */
+    protected static function getTempPath()
+    {
+        return WINDWALKER_TEMP . '/unidev/images/picsum-list.data';
     }
 
     /**
@@ -94,7 +142,7 @@ class UnsplashHelper
     {
         if (!static::$images) {
             $http     = new HttpClient;
-            $response = $http->get('https://unsplash.it/list');
+            $response = $http->get('https://picsum.photos/list');
 
             $images = json_decode($response->getBody()->__toString());
 
