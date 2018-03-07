@@ -75,7 +75,7 @@ class UnsplashHelper
             }
 
             if (is_array($height)) {
-                $width = mt_rand(...$height);
+                $height = mt_rand(...$height);
             }
 
             $images[] = static::getImageUrl($width, $height, $id);
