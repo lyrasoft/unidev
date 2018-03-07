@@ -70,15 +70,11 @@ class UnsplashHelper
         $images = [];
 
         foreach (range(1, $count) as $i) {
-            if (is_array($width)) {
-                $width = mt_rand(...$width);
-            }
-
-            if (is_array($height)) {
-                $height = mt_rand(...$height);
-            }
-
-            $images[] = static::getImageUrl($width, $height, $id);
+            $images[] = static::getImageUrl(
+                is_array($width) ? mt_rand(...$width) : $width,
+                is_array($height) ? mt_rand(...$height) : $height,
+                $id
+            );
         }
 
         return $images;
