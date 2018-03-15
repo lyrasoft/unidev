@@ -98,7 +98,9 @@ class SingleImageDragField extends TextField
      */
     protected function prepareScript($attrs, array $options)
     {
-        $selector = '#' . $attrs['id'];
+        $selector = '#' . $attrs['id'] . '-wrap';
+
+        $options['modal_target'] = '#' . $attrs['id'] . '-modal';
 
         UnidevScript::singleImageDragUpload($selector, $options);
     }

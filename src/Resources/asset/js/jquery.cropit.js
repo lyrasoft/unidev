@@ -273,7 +273,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.zoomer = new _Zoomer2['default']();
 
 	      if (this.options.allowDragNDrop) {
-	        _jquery2['default'].event.props.push('dataTransfer');
+	        // Hack to fix jQuery 3
+          if ($.event.props === undefined) {
+            $.event.addProp('dataTransfer');
+          } else {
+            $.event.props.push('dataTransfer');
+          }
 	      }
 
 	      this.bindListeners();

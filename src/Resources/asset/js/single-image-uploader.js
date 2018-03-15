@@ -20,33 +20,32 @@
     min_width: null,
     origin_size: false,
     version: 1,
-    width: 300
+    width: 300,
+    modal_target: ''
   };
 
   /**
    * Init class.
    *
-   * @param {jQuery} input
+   * @param {jQuery} element
    * @param {Object} options
    *
    * @constructor
    */
-  var SingleImageDragUploader = function(input, options) {
-    this.input = input;
-    this.selector = input.selector;
-    this.element = $(this.selector + '-wrap');
+  var SingleImageDragUploader = function(element, options) {
+    this.element = element;
     this.options = $.extend(true, {}, defaultOptions, options);
 
     // Input
-    this.fileData = this.element.find(".sid-data");
-    this.filedrag = this.element.find(".sid-area");
-    this.fileSelector = this.element.find(".sid-file-select-button");
-    this.filePreview = this.element.find(".sid-preview");
-    this.deleteBox = this.element.find(".sid-delete-image");
-    this.loader = this.element.find(".sid-loader");
+    this.fileData = this.element.find('.sid-data');
+    this.filedrag = this.element.find('.sid-area');
+    this.fileSelector = this.element.find('.sid-file-select-button');
+    this.filePreview = this.element.find('.sid-preview');
+    this.deleteBox = this.element.find('.sid-delete-image');
+    this.loader = this.element.find('.sid-loader');
 
     // Modal
-    this.modal = $(this.selector + '-modal');
+    this.modal = $(this.options.modal_target);
     this.cropper = this.modal.find('.sid-cropper');
     this.saveButton = this.modal.find('.sid-save-button');
 
