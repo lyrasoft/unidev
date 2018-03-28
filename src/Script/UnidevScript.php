@@ -227,17 +227,8 @@ JS
         if (!static::inited(__METHOD__)) {
             // TODO: Replace all with core.js v3, @see https://github.com/zloirock/core-js/pull/325
 
-            // Safari / iOS and IE not support URL API
-            static::addJS(static::packageName() . '/js/polyfill/url-polyfill.min.js');
-
             // All polyfill from babel-polyfill.js
             static::addJS(static::packageName() . '/js/polyfill/polyfill.min.js');
-
-            static::internalJS(<<<JS
-// NodeList loop polyfill
-NodeList.prototype.forEach = Array.prototype.forEach;
-JS
-            );
         }
     }
 

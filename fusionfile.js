@@ -31,9 +31,12 @@ fusion.task('install', function () {
     '!**/gulpfile.js'
   ], 'src/Resources/asset/js/webcomponent/');
 
-  fusion.copy(`${nodePath}/babel-polyfill/dist/*.js`, `${destPath}/polyfill/`);
   fusion.copy(`${nodePath}/babel-standalone/*.js`, `${destPath}/polyfill/`);
-  fusion.copy(`${nodePath}/url-polyfill/url-polyfill*.js`, `${destPath}/polyfill/`);
+  fusion.js([
+    `${nodePath}/babel-polyfill/dist/*.js`,
+    `${nodePath}/url-polyfill/url-polyfill*.js`,
+    `${destPath}/polyfill/node-list-loop.js`
+  ], `${destPath}/polyfill/polyfill.js`);
   fusion.copy(`${nodePath}/sweetalert/dist/sweetalert.min.js`, `${destPath}/sweetalert2.min.js`);
 });
 
