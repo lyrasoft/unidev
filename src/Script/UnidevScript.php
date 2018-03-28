@@ -258,7 +258,7 @@ JS
                 $presets = $presets ?: ['stage-2'];
                 array_unshift($presets, 'es2015');
 
-                return array_intersect($presets, ['stage-0', 'stage-1']) === []
+                return array_intersect($presets, ['stage-0', 'stage-1']) !== []
                     || $browser->isBrowser('Internet Explorer', '<=', 11);
             };
 
