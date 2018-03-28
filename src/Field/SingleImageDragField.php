@@ -32,6 +32,7 @@ use Windwalker\Test\TestHelper;
  * @method  mixed|$this  exportZoom(string $value = null)
  * @method  mixed|$this  defaultImage(string $value = null)
  * @method  mixed|$this  version(int $value = null)
+ * @method  mixed|$this  layout(string $value = null)
  *
  * @since  1.0
  */
@@ -42,7 +43,7 @@ class SingleImageDragField extends TextField
      *
      * @param array $attrs
      *
-     * @return  array
+     * @return void
      */
     public function prepare(&$attrs)
     {
@@ -78,7 +79,7 @@ class SingleImageDragField extends TextField
 
         $this->prepareScript($attrs, $options);
 
-        return WidgetHelper::render('unidev.form.field.single-drag-image', [
+        return WidgetHelper::render($this->get('layout', 'unidev.form.field.single-drag-image'), [
             'crop' => $this->get('crop', true),
             'field' => $this,
             'options' => $options,
@@ -209,6 +210,7 @@ class SingleImageDragField extends TextField
             'originSize',
             'version',
             'width',
+            'layout'
         ]);
     }
 }
