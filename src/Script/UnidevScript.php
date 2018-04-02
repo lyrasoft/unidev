@@ -13,9 +13,9 @@ use Lyrasoft\Unidev\UnidevPackage;
 use Phoenix\Script\JQueryScript;
 use Phoenix\Script\PhoenixScript;
 use Psr\Http\Message\ResponseInterface;
-use WhichBrowser\Parser;
 use Windwalker\Core\Asset\AbstractScript;
 use Windwalker\Dom\Builder\HtmlBuilder;
+use Windwalker\Environment\Browser\Browser;
 use Windwalker\Event\Event;
 use Windwalker\Http\Stream\Stream;
 use Windwalker\Ioc;
@@ -245,15 +245,15 @@ JS
     public static function babel(array $presets = [], callable $condition = null)
     {
         if (!static::inited(__METHOD__)) {
-            $condition = $condition ?: function (Parser $browser) use ($presets) {
+            $condition = $condition ?: function (Browser $browser) use ($presets) {
                 $presets = $presets ?: ['stage-2'];
                 array_unshift($presets, 'es2015');
 
                 return array_intersect($presets, ['stage-0', 'stage-1']) !== []
-                    || $browser->isBrowser('Internet Explorer', '<=', 11);
+                    || $browser->getBrowser() === $browser::IE;
             };
 
-            if ($condition(WhichBrowserFactory::getInstance())) {
+            if ($condition(Ioc::getEnvironment()->getBrowser())) {
                 static::polyfill();
 
                 static::addJS(static::packageName() . '/js/polyfill/babel.min.js');
@@ -286,7 +286,7 @@ JS
 
                             if (isset($attrs['type']) && $attrs['type'] === 'text/babel') {
                                 $tagPresets = [];
-                                $browser    = WhichBrowserFactory::getInstance();
+                                $browser    = Ioc::getEnvironment()->getBrowser();
 
                                 $attrs = Arr::def($attrs, 'data-presets', 'es2015,stage-2');
 
@@ -296,7 +296,7 @@ JS
 
                                 if (
                                     array_intersect($tagPresets, ['stage-0', 'stage-1']) === []
-                                    && !$browser->isBrowser('Internet Explorer', '<=', 11)
+                                    && $browser->getBrowser() !== $browser::IE
                                 ) {
                                     unset($attrs['type']);
                                 }
