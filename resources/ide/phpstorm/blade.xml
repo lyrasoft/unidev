@@ -71,6 +71,7 @@
 
 			<!-- Windwalker directives -->
 			<data directive="@assetTemplate" injection="true" prefix="&lt;?php $asset-&gt;getTemplate()-&gt;startTemplate(" suffix="); ?&gt;" />
+            <data directive="@attr" injection="true" prefix="&lt;?php echo \Windwalker\Core\Renderer\Edge\EdgeHelper::attr(" suffix="); ?&gt;" />
 			<data directive="@auth" injection="true" prefix="&lt;?php if ($app-&gt;user-&gt;authorise(" suffix="); ?&gt;" />
 			<data directive="@css" injection="true" prefix="&lt;?php $asset-&gt;addCSS(" suffix="); ?&gt;" />
 			<data directive="@dd" injection="true" prefix="&lt;?php show(" suffix="); die; ?&gt;" />
