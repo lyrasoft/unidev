@@ -19,6 +19,11 @@ if ($suffix === '?' && strpos($image, '?') !== false) {
 
 $image .= $suffix . uniqid();
 ?>
+@if (WINDWALKER_DEBUG && $version === 1 && !$field->get('force_v1', false))
+    <div class="alert alert-warning">
+        You are using Single Image Drag v1, please convert to v2 soon.
+    </div>
+@endif
 <div id="{{ $attrs['id'] }}-wrap">
 
     <div class="sid-row">
