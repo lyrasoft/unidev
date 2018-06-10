@@ -186,7 +186,7 @@ class ImageUploadController extends AbstractPhoenixController
                 $image->cropResize($width, $height);
             }
         } catch (\UnexpectedValueException $e) {
-            throw new \UnexpectedValueException(Translator::translate('unidev.image.upload.message.load.fail'),
+            throw new \UnexpectedValueException(__('unidev.image.upload.message.load.fail'),
                 $e->getCode(), $e);
         }
 
