@@ -46,6 +46,7 @@ class ImageUploadController extends AbstractPhoenixController
      * doAjax
      *
      * @return  mixed
+     * @throws \Exception
      */
     protected function doExecute()
     {
@@ -154,7 +155,7 @@ class ImageUploadController extends AbstractPhoenixController
      * @param   string $file
      *
      * @return  string
-     * @throws \UnexpectedValueException
+     * @throws \Exception
      */
     protected function resize($file)
     {

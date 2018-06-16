@@ -116,6 +116,7 @@ class SingleImageDragField extends TextField
      *
      * @return  boolean|string
      *
+     * @throws \ReflectionException
      * @deprecated Use uploadBase64() instead.
      */
     public static function uploadFromController(AbstractSaveController $controller, $field, DataInterface $data, $uri)

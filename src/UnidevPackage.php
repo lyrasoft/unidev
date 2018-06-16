@@ -32,8 +32,9 @@ class UnidevPackage extends AbstractPackage
     /**
      * initialise
      *
-     * @throws  \LogicException
      * @return  void
+     * @throws \ReflectionException
+     * @throws \Windwalker\DI\Exception\DependencyResolutionException
      */
     public function boot()
     {
