@@ -53,7 +53,8 @@ class SingleImageDragField extends TextField
 
         $attrs['width']  = $this->get('width', 300);
         $attrs['height'] = $this->get('height', 300);
-        $attrs['type']   = 'hidden';
+        $attrs['type']   = 'text';
+        $attrs['style']  = (isset($attrs['style']) ? $attrs['style'] : '') . '; display: none;';
     }
 
     /**
