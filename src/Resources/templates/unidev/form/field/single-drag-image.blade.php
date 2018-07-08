@@ -33,66 +33,68 @@ $image .= $suffix . uniqid();
                  src="{!! $image !!}"
                  alt="Preview">
         </div>
-        <div class="sid-right-col">
-            <div class="sid-area filedrag">
-                <p class="sid-upload-actions">
-                    <button class="btn btn-success btn-sm btn-xs sid-file-select-button" type="button">
-                        <span class="fa fa-picture-o"></span>
-                        @translate('unidev.field.single.image.button.select')
-                    </button>
-                </p>
-                <div class="sid-upload-desc">
-                    @translate('unidev.field.single.image.drop.desc')
-                </div>
-                @if ($field->get('show_size_notice', false))
-                    @if ($options['crop'])
-                        <div class="sid-size-info">
-                            @sprintf('unidev.field.single.image.crop.size.desc', $options['width'], $options['height'])
-                        </div>
-                    @elseif ($options['max_width'] || $options['max_height'] || $options['min_width'] || $options['min_height'])
-                        <div class="sid-size-info">
-                            @if ($options['max_width'] || $options['max_height'])
-                                <div class="max-size">
-                                    @if ($options['max_width'] !== null && $options['max_height'] !== null)
-                                        @sprintf('unidev.field.single.image.max.width.height', $options['max_width'],
-                                        $options['max_height'])
-                                    @elseif ($options['max_width'] !== null)
-                                        @sprintf('unidev.field.single.image.max.width', $options['max_width'])
-                                    @elseif ($options['max_height'] !== null)
-                                        @sprintf('unidev.field.single.image.max.height', $options['max_height'])
-                                    @endif
-                                </div>
-                            @endif
+        @if (!$field->get('readonly') && !$field->get('disabled'))
+            <div class="sid-right-col">
+                <div class="sid-area filedrag">
+                    <p class="sid-upload-actions">
+                        <button class="btn btn-success btn-sm btn-xs sid-file-select-button" type="button">
+                            <span class="fa fa-picture-o"></span>
+                            @translate('unidev.field.single.image.button.select')
+                        </button>
+                    </p>
+                    <div class="sid-upload-desc">
+                        @translate('unidev.field.single.image.drop.desc')
+                    </div>
+                    @if ($field->get('show_size_notice', false))
+                        @if ($options['crop'])
+                            <div class="sid-size-info">
+                                @sprintf('unidev.field.single.image.crop.size.desc', $options['width'], $options['height'])
+                            </div>
+                        @elseif ($options['max_width'] || $options['max_height'] || $options['min_width'] || $options['min_height'])
+                            <div class="sid-size-info">
+                                @if ($options['max_width'] || $options['max_height'])
+                                    <div class="max-size">
+                                        @if ($options['max_width'] !== null && $options['max_height'] !== null)
+                                            @sprintf('unidev.field.single.image.max.width.height', $options['max_width'],
+                                            $options['max_height'])
+                                        @elseif ($options['max_width'] !== null)
+                                            @sprintf('unidev.field.single.image.max.width', $options['max_width'])
+                                        @elseif ($options['max_height'] !== null)
+                                            @sprintf('unidev.field.single.image.max.height', $options['max_height'])
+                                        @endif
+                                    </div>
+                                @endif
 
-                            @if ($options['min_width'] || $options['min_height'])
-                                <div class="min-size">
-                                    @if ($options['min_width'] !== null && $options['min_height'] !== null)
-                                        @sprintf('unidev.field.single.image.min.width.height', $options['min_width'],
-                                        $options['min_height'])
-                                    @elseif ($options['min_width'] !== null)
-                                        @sprintf('unidev.field.single.image.min.width', $options['min_width'])
-                                    @elseif ($options['min_height'] !== null)
-                                        @sprintf('unidev.field.single.image.min.height', $options['min_height'])
-                                    @endif
-                                </div>
-                            @endif
-                        </div>
+                                @if ($options['min_width'] || $options['min_height'])
+                                    <div class="min-size">
+                                        @if ($options['min_width'] !== null && $options['min_height'] !== null)
+                                            @sprintf('unidev.field.single.image.min.width.height', $options['min_width'],
+                                            $options['min_height'])
+                                        @elseif ($options['min_width'] !== null)
+                                            @sprintf('unidev.field.single.image.min.width', $options['min_width'])
+                                        @elseif ($options['min_height'] !== null)
+                                            @sprintf('unidev.field.single.image.min.height', $options['min_height'])
+                                        @endif
+                                    </div>
+                                @endif
+                            </div>
+                        @endif
                     @endif
-                @endif
-                <img src="{{ $asset->path . '/' . $packageName }}/images/ajax-loader.gif"
-                     id="{{ $attrs['id'] . '-loader' }}" class="sid-loader" alt="Lading" style="display: none;">
-            </div>
-
-            @if (!$field->get('required'))
-                <div class="checkbox checkbox-primary mt-2" style="">
-                    <input type="checkbox" id="{{ $attrs['id'] }}-delete-image" name="{{ $attrs['id'] }}-delete-image"
-                           class="sid-delete-image"/>
-                    <label for="{{ $attrs['id'] }}-delete-image">
-                        @translate('unidev.field.single.image.delete')
-                    </label>
+                    <img src="{{ $asset->path . '/' . $packageName }}/images/ajax-loader.gif"
+                         id="{{ $attrs['id'] . '-loader' }}" class="sid-loader" alt="Lading" style="display: none;">
                 </div>
-            @endif
-        </div>
+
+                @if (!$field->get('required'))
+                    <div class="checkbox checkbox-primary mt-2" style="">
+                        <input type="checkbox" id="{{ $attrs['id'] }}-delete-image" name="{{ $attrs['id'] }}-delete-image"
+                               class="sid-delete-image"/>
+                        <label for="{{ $attrs['id'] }}-delete-image">
+                            @translate('unidev.field.single.image.delete')
+                        </label>
+                    </div>
+                @endif
+            </div>
+        @endif
     </div>
 
     @if ($version === 1)
