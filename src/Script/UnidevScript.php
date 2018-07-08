@@ -194,7 +194,7 @@ JS
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.4
      */
     public static function webComponent(array $components, array $options = [], array $attribs = [])
     {

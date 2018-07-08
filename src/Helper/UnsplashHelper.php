@@ -63,7 +63,7 @@ class UnsplashHelper
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.4
      */
     public static function getImages($count, $width = 800, $height = 600, $id = null)
     {
@@ -90,7 +90,7 @@ class UnsplashHelper
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.4
      */
     public static function getImagesJson($count, $width = 800, $height = 600, $id = null)
     {

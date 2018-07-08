@@ -16,7 +16,7 @@ use Windwalker\Http\Stream\Stream;
 /**
  * The S3Service class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.4
  */
 class S3Service
 {
@@ -64,7 +64,7 @@ class S3Service
      *
      * @return  \Aws\Result
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.4
      */
     public function putObject(array $args)
     {
@@ -84,7 +84,7 @@ class S3Service
      *
      * @return  \Aws\Result
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.4
      */
     public function uploadFile($file, $path, array $args = [])
     {
@@ -108,7 +108,7 @@ class S3Service
      *
      * @return  \Aws\Result
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.4
      */
     public function uploadFileData($data, $path, array $args = [])
     {
@@ -126,7 +126,7 @@ class S3Service
      *
      * @return  \Aws\Result
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.4
      */
     public function deleteObject($path, array $args = [])
     {
@@ -142,7 +142,7 @@ class S3Service
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.4
      */
     public function getKey()
     {
@@ -170,7 +170,7 @@ class S3Service
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.4
      */
     public function getSubfolder()
     {
@@ -198,7 +198,7 @@ class S3Service
      *
      * @return  S3Client
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.4
      */
     public function getClient()
     {
@@ -212,7 +212,7 @@ class S3Service
      *
      * @return  static  Return self to support chaining.
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.4
      */
     public function setClient($client)
     {

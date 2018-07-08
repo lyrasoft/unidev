@@ -21,7 +21,7 @@ use Windwalker\Utilities\Reflection\ReflectionHelper;
 /**
  * The AbstractAjaxController class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.4
  */
 class AbstractAjaxController extends AbstractController
 {
@@ -40,7 +40,7 @@ class AbstractAjaxController extends AbstractController
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.4
      */
     protected function prepareExecute()
     {
