@@ -6,9 +6,9 @@
     "minimum-stability": "beta",
     "require": {
         "windwalker/phoenix": "~1.1",
-        "tpyo/amazon-s3-php-class": "*",
         "j0k3r/php-imgur-api-client": "~1.1",
-        "gregwar/image": "2.*"
+        "gregwar/image": "2.*",
+        "aws/aws-sdk-php": "^3.62"
     },
     "require-dev": {
     },
