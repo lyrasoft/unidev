@@ -65,7 +65,9 @@ class ImageUploaderFactory implements ContainerAwareInterface
                 $client = $this->container->get($key);
             }
 
-            $storage = new $class($client, $config->extract('unidev.' . $storage));
+            $storage = $this->container->createSharedObject($class, [
+                'config' => $config->extract('unidev.' . $storage)
+            ]);
         }
 
         return new ImageUploaderManager($storage);

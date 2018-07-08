@@ -8,7 +8,11 @@
 
 namespace Lyrasoft\Unidev\Provider;
 
+use Aws\Credentials\Credentials;
+use Aws\S3\S3Client;
+use Composer\CaBundle\CaBundle;
 use Lyrasoft\Unidev\Image\ImageUploaderFactory;
+use Lyrasoft\Unidev\S3\S3Service;
 use Windwalker\Core\Application\WindwalkerApplicationInterface;
 use Windwalker\Core\Renderer\RendererManager;
 use Windwalker\DI\Container;
@@ -50,14 +54,33 @@ class UnidevProvider implements ServiceProviderInterface
     {
         $container = $container->getParent();
 
-        // S3
+        // Old S3
         $container->share(\S3::class, function (Container $container) {
             $config = $container->get('config');
 
             $endpoint = $config->get('unidev.amazon.endpoint', 's3.amazonaws.com');
 
             return new \S3($config->get('unidev.amazon.key'), $config->get('unidev.amazon.secret'), false, $endpoint);
+        })->alias('unidev.storage.s3-legacy', \S3::class);
+
+        // AWS S3 SDK
+        $container->share(S3Client::class, function (Container $container) {
+            $config = $container->get('config');
+
+            $credentials = new Credentials($config->get('unidev.amazon.key'), $config->get('unidev.amazon.secret'));
+
+            return new S3Client([
+                'credentials' => $credentials,
+                'version' => 'latest',
+                'region' => $config->get('unidev.amazon.region', 'ap-northeast-1'),
+                'endpoint' => $config->get('unidev.amazon.endpoint', 'https://s3.amazonaws.com'),
+                'http' => [
+                    'verify' => CaBundle::getBundledCaBundlePath()
+                ]
+            ]);
         })->alias('unidev.storage.s3', \S3::class);
+
+        $container->prepareSharedObject(S3Service::class);
 
         // Imgur
         $container->prepareSharedObject(\Imgur\Client::class, function (\Imgur\Client $client, Container $container) {

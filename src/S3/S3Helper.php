@@ -26,22 +26,17 @@ use Windwalker\Core\Facade\AbstractProxyFacade;
  * @method  static void         setSigningKey($keyPairId, $signingKey, $isFile = true)
  * @method  static boolean      freeSigningKey()
  * @method  static array|false  listBuckets($detailed = false)
- * @method  static array|false  getBucket($bucket, $prefix = null, $marker = null, $maxKeys = null, $delimiter = null,
- *          $returnCommonPrefixes = false)
+ * @method  static array|false  getBucket($bucket, $prefix = null, $marker = null, $maxKeys = null, $delimiter = null, $returnCommonPrefixes = false)
  * @method  static boolean      putBucket($bucket, $acl = \S3::ACL_PRIVATE, $location = false)
  * @method  static boolean      deleteBucket($bucket)
  * @method  static array|false  inputFile($file, $md5sum = true)
  * @method  static array|false  inputResource(&$resource, $bufferSize = false, $md5sum = '')
- * @method  static boolean      putObject($input, $bucket, $uri, $acl = \S3::ACL_PRIVATE, $metaHeaders = [],
- *          $requestHeaders = [], $storageClass = \S3::STORAGE_CLASS_STANDARD, $serverSideEncryption = \S3::SSE_NONE)
- * @method  static boolean      putObjectFile($file, $bucket, $uri, $acl = \S3::ACL_PRIVATE, $metaHeaders = [],
- *          $contentType = null)
- * @method  static boolean      putObjectString($string, $bucket, $uri, $acl = \S3::ACL_PRIVATE, $metaHeaders = [],
- *          $contentType = 'text/plain')
+ * @method  static boolean      putObject($input, $bucket, $uri, $acl = \S3::ACL_PRIVATE, $metaHeaders = [], $requestHeaders = [], $storageClass = \S3::STORAGE_CLASS_STANDARD, $serverSideEncryption = \S3::SSE_NONE)
+ * @method  static boolean      putObjectFile($file, $bucket, $uri, $acl = \S3::ACL_PRIVATE, $metaHeaders = [], $contentType = null)
+ * @method  static boolean      putObjectString($string, $bucket, $uri, $acl = \S3::ACL_PRIVATE, $metaHeaders = [], $contentType = 'text/plain')
  * @method  static mixed        getObject($bucket, $uri, $saveTo = false)
  * @method  static mixed|false  getObjectInfo($bucket, $uri, $returnInfo = true)
- * @method  static mixed|false  copyObject($srcBucket, $srcUri, $bucket, $uri, $acl = \S3::ACL_PRIVATE, $metaHeaders =
- *          [], $requestHeaders = [], $storageClass = \S3::STORAGE_CLASS_STANDARD)
+ * @method  static mixed|false  copyObject($srcBucket, $srcUri, $bucket, $uri, $acl = \S3::ACL_PRIVATE, $metaHeaders = [], $requestHeaders = [], $storageClass = \S3::STORAGE_CLASS_STANDARD)
  * @method  static boolean      setBucketRedirect($bucket = null, $location = null)
  * @method  static boolean      setBucketLogging($bucket, $targetBucket, $targetPrefix = null)
  * @method  static array|false  getBucketLogging($bucket)
@@ -53,11 +48,8 @@ use Windwalker\Core\Facade\AbstractProxyFacade;
  * @method  static string       getAuthenticatedURL($bucket, $uri, $lifetime, $hostBucket = false, $https = false)
  * @method  static string       getSignedPolicyURL($policy)
  * @method  static string       getSignedCannedURL($url, $lifetime)
- * @method  static \stdClass    getHttpUploadPostParams($bucket, $uriPrefix = '', $acl = \S3::ACL_PRIVATE, $lifetime =
- *          3600, $maxFileSize = 5242880, $successRedirect = "201", $amzHeaders = [], $headers = [], $flashVars =
- *          false)
- * @method  static array|false  createDistribution($bucket, $enabled = true, $cnames = [], $comment = null,
- *          $defaultRootObject = null, $originAccessIdentity = null, $trustedSigners = [])
+ * @method  static \stdClass    getHttpUploadPostParams($bucket, $uriPrefix = '', $acl = \S3::ACL_PRIVATE, $lifetime = 3600, $maxFileSize = 5242880, $successRedirect = "201", $amzHeaders = [], $headers = [], $flashVars = false)
+ * @method  static array|false  createDistribution($bucket, $enabled = true, $cnames = [], $comment = null, $defaultRootObject = null, $originAccessIdentity = null, $trustedSigners = [])
  * @method  static array|false  getDistribution($distributionId)
  * @method  static array|false  updateDistribution($dist)
  * @method  static boolean      deleteDistribution($dist)
@@ -67,6 +59,8 @@ use Windwalker\Core\Facade\AbstractProxyFacade;
  * @method  static array        getDistributionInvalidationList($distributionId)
  * @method  static integer      __getTime()
  * @method  static string       __getSignature($string)
+ *
+ * @deprecated  Use S3Service instead.
  *
  * @since  1.0
  */
@@ -88,7 +82,7 @@ class S3Helper extends AbstractProxyFacade
      *
      * @var  string
      */
-    protected static $_key = 'unidev.storage.s3';
+    protected static $_key = 'unidev.storage.s3-legacy';
 
     /**
      * Put an object from a file.

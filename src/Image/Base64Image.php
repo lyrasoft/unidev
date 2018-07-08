@@ -158,8 +158,8 @@ class Base64Image
             throw new \RuntimeException('The base64 image ha no type information.');
         }
 
-        $temp = WINDWALKER_TEMP . '/unidev/images/temp/' . gmdate('Ymd') . '/' . md5(uniqid(mt_rand(1,
-                999))) . '.' . $ext;
+        $temp = WINDWALKER_TEMP . '/unidev/images/temp/' . gmdate('Ymd') . '/'
+            . md5(uniqid(mt_rand(1, 999), true)) . '.' . $ext;
 
         if (!is_dir(dirname($temp))) {
             Folder::create(dirname($temp));

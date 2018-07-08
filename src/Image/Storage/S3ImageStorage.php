@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Unidev\Image\Storage;
 
-use Lyrasoft\Unidev\S3\S3Helper;
+use Lyrasoft\Unidev\S3\S3Service;
 use Windwalker\Filesystem\File;
 use Windwalker\Utilities\Arr;
 
@@ -20,6 +20,24 @@ use Windwalker\Utilities\Arr;
 class S3ImageStorage implements ImageStorageInterface
 {
     /**
+     * Property s3.
+     *
+     * @var  S3Service
+     */
+    protected $s3;
+
+    /**
+     * S3ImageStorage constructor.
+     *
+     * @param S3Service $s3
+     */
+    public function __construct(S3Service $s3)
+    {
+        $this->s3 = $s3;
+    }
+
+
+    /**
      * uploadRaw
      *
      * @param   string $image
@@ -30,7 +48,7 @@ class S3ImageStorage implements ImageStorageInterface
      */
     public function uploadRaw($image, $path, $type = null)
     {
-        $path = ltrim(S3Helper::getSubfolder() . '/' . $path, '/');
+        $path = ltrim($this->s3->getSubfolder() . '/' . $path, '/');
 
         if (!$type) {
             $types = [
@@ -43,15 +61,11 @@ class S3ImageStorage implements ImageStorageInterface
             $type = Arr::get($types, strtolower(File::getExtension($path)));
         }
 
-        $file = [
-            'data' => $image,
-            'size' => strlen($image),
-            'type' => $type,
-        ];
-
-        S3Helper::putObject($file, S3Helper::getBucketName(), $path, \S3::ACL_PUBLIC_READ);
-
-        return $this->getRemoteUrl($path);
+        return $this->s3->uploadFileData($image, $path, [
+            'ACL' => S3Service::ACL_PUBLIC_READ,
+            'ContentType' => $type,
+            'ContentLength' => strlen($image)
+        ])->get('ObjectURL');
     }
 
     /**
@@ -64,9 +78,9 @@ class S3ImageStorage implements ImageStorageInterface
      */
     public function upload($file, $path)
     {
-        S3Helper::upload($file, $path);
-
-        return $this->getRemoteUrl($path);
+        return $this->s3->uploadFile($file, $path, [
+            'ACL' => S3Service::ACL_PUBLIC_READ
+        ])->get('ObjectURL');
     }
 
     /**
@@ -78,7 +92,9 @@ class S3ImageStorage implements ImageStorageInterface
      */
     public function delete($path)
     {
-        return S3Helper::delete($path);
+        $this->s3->deleteObject($path);
+
+        return true;
     }
 
     /**
@@ -88,7 +104,7 @@ class S3ImageStorage implements ImageStorageInterface
      */
     public function getHost()
     {
-        return S3Helper::getHost();
+        return $this->s3->getHost();
     }
 
     /**

@@ -36,10 +36,9 @@ class LocalImageStorage implements ImageStorageInterface
     /**
      * ImgurImageStorage constructor.
      *
-     * @param null      $nope
      * @param Structure $config
      */
-    public function __construct($nope, Structure $config)
+    public function __construct(Structure $config)
     {
         $this->config = $config;
         $this->path   = $config->get('path');
