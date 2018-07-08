@@ -15,6 +15,7 @@ use Lyrasoft\Unidev\Image\ImageUploaderFactory;
 use Lyrasoft\Unidev\S3\S3Service;
 use Windwalker\Core\Application\WindwalkerApplicationInterface;
 use Windwalker\Core\Renderer\RendererManager;
+use Windwalker\Core\Router\MainRouter;
 use Windwalker\DI\Container;
 use Windwalker\DI\ServiceProviderInterface;
 use Windwalker\Utilities\Queue\PriorityQueue;
@@ -110,6 +111,14 @@ class UnidevProvider implements ServiceProviderInterface
             $manager->addGlobalPath(UNIDEV_ROOT . '/Resources/templates', PriorityQueue::LOW - 30);
 
             return $manager;
+        });
+
+        // Add AJAX methods to router
+        $container->extend(MainRouter::class, function (MainRouter $router) {
+            $router->setHttpMethodSuffix('AJAX_GET', 'AjaxGetController');
+            $router->setHttpMethodSuffix('AJAX_POST', 'AjaxSaveController');
+
+            return $router;
         });
     }
 }

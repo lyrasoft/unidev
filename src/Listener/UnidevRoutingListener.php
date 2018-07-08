@@ -40,6 +40,11 @@ class UnidevRoutingListener
         $this->unidev = $unidev ?: UnidevHelper::getPackage();
     }
 
+    public function onBeforeRouting(Event $event)
+    {
+        $router = $event['router'];
+    }
+
     /**
      * onRouterBeforeRouteMatch
      *
