@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Unidev\S3;
 
+use Aws\CommandInterface;
 use Aws\S3\S3Client;
 use Windwalker\Core\Config\Config;
 use Windwalker\Filesystem\Path;
@@ -15,6 +16,10 @@ use Windwalker\Http\Stream\Stream;
 
 /**
  * The S3Service class.
+ *
+ * @see https://aws.amazon.com/tw/documentation/sdk-for-php/
+ * @see https://docs.aws.amazon.com/aws-sdk-php/v3/api/api-s3-2006-03-01.html
+ * @see https://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.S3.S3Client.html
  *
  * @since  1.4
  */
@@ -58,6 +63,58 @@ class S3Service
     }
 
     /**
+     * getObject
+     *
+     * @param array $args
+     *
+     * @return  \Aws\Result
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getObject(array $args)
+    {
+        return $this->runCommand('GetObject', $args);
+    }
+
+    /**
+     * getFile
+     *
+     * @param string $path
+     * @param array  $args
+     *
+     * @return  \Aws\Result
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getFileInfo($path, array $args = [])
+    {
+        $args['Key'] = $path;
+
+        return $this->getObject($args);
+    }
+
+    /**
+     * getPreSignedUrl
+     *
+     * @param string $path     The file path.
+     * @param string $expires  Use DateTime syntax, example: `+300seconds`
+     * @param array  $args     Arguments.
+     *
+     * @return  \Psr\Http\Message\UriInterface
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getPreSignedUrl($path, $expires, array $args = [])
+    {
+        $args['Key'] = $path;
+
+        $cmd = $this->getCommand('GetObject', $args);
+
+        return $this->client->createPresignedRequest($cmd, $expires)
+            ->getUri();
+    }
+
+    /**
      * putObject
      *
      * @param array $args
@@ -68,11 +125,7 @@ class S3Service
      */
     public function putObject(array $args)
     {
-        $args['Bucket'] = $this->getBucketName();
-
-        $args['Key'] = Path::clean($this->getSubfolder() . '/' . $args['Key'], '/');
-
-        return $this->client->putObject($args);
+        return $this->runCommand('PutObject', $args);
     }
 
     /**
@@ -121,6 +174,20 @@ class S3Service
     /**
      * deleteObject
      *
+     * @param array $args
+     *
+     * @return  \Aws\Result
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function deleteObject(array $args)
+    {
+        return $this->runCommand('DeleteObject', $args);
+    }
+
+    /**
+     * deleteObject
+     *
      * @param string $path
      * @param array  $args
      *
@@ -128,13 +195,51 @@ class S3Service
      *
      * @since  1.4
      */
-    public function deleteObject($path, array $args = [])
+    public function deleteFile($path, array $args = [])
     {
-        $args['Bucket'] = $this->getBucketName();
+        $args['Key'] = $path;
 
-        $args['Key'] = Path::clean($this->getSubfolder() . '/' . $path, '/');
+        return $this->deleteObject($args);
+    }
 
-        return $this->client->deleteObject($args);
+    /**
+     * command
+     *
+     * @param string $name
+     * @param array  $args
+     *
+     * @return  \Aws\Result
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function runCommand($name, array $args = [])
+    {
+        $cmd = $this->getCommand($name, $args);
+
+        return $this->client->execute($cmd);
+    }
+
+    /**
+     * getCommand
+     *
+     * @param string $name
+     * @param array  $args
+     *
+     * @return  CommandInterface
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getCommand($name, array $args = [])
+    {
+        if (!isset($args['Bucket'])) {
+            $args['Bucket'] = $this->getBucketName();
+        }
+
+        if (isset($args['Key'])) {
+            $args['Key'] = Path::clean($this->getSubfolder() . '/' . $args['Key'], '/');
+        }
+
+        return $this->client->getCommand($name, $args);
     }
 
     /**

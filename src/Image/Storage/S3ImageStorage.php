@@ -92,7 +92,7 @@ class S3ImageStorage implements ImageStorageInterface
      */
     public function delete($path)
     {
-        $this->s3->deleteObject($path);
+        $this->s3->deleteFile($path);
 
         return true;
     }
