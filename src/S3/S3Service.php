@@ -236,7 +236,7 @@ class S3Service
         }
 
         if (isset($args['Key'])) {
-            $args['Key'] = Path::clean($this->getSubfolder() . '/' . $args['Key'], '/');
+            $args['Key'] = ltrim(Path::clean($this->getSubfolder() . '/' . $args['Key'], '/'), '/');
         }
 
         return $this->client->getCommand($name, $args);
