@@ -10,6 +10,7 @@ namespace Lyrasoft\Unidev\Controller;
 
 use Windwalker\Core\Controller\AbstractController;
 use Windwalker\Core\Controller\Middleware\JsonApiMiddleware;
+use Windwalker\Core\Controller\Middleware\JsonResponseMiddleware;
 use Windwalker\Core\Controller\Traits\CorsTrait;
 use Windwalker\Core\Controller\Traits\CsrfProtectionTrait;
 use Windwalker\Http\Response\HtmlResponse;
@@ -61,6 +62,7 @@ class AbstractAjaxController extends AbstractController
 
             case 'json':
             default:
+                $this->addMiddleware(JsonResponseMiddleware::class);
                 $this->addMiddleware(JsonApiMiddleware::class);
                 break;
         }
