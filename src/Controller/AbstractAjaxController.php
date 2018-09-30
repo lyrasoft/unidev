@@ -83,7 +83,7 @@ class AbstractAjaxController extends AbstractController
         $task = explode('.', $taskName, 2);
 
         if (isset($task[1])) {
-            list($subModule, $task) = $task;
+            list($subModule, $t) = $task;
             
             $ns = ReflectionHelper::getNamespaceName(static::class) . '\\' .
                 StringNormalise::toCamelCase($subModule) . '\\';
@@ -97,7 +97,7 @@ class AbstractAjaxController extends AbstractController
             }
 
             $input = $this->input->toArray();
-            $input[$this->taskKey] = $task;
+            $input[$this->taskKey] = $t;
             $input['format'] = 'raw';
 
             return $this->hmvc(
