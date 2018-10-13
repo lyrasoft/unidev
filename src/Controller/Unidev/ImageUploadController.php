@@ -10,6 +10,7 @@ namespace Lyrasoft\Unidev\Controller\Unidev;
 
 use Gregwar\Image\Image;
 use Lyrasoft\Unidev\Controller\AbstractAjaxController;
+use Lyrasoft\Unidev\Image\Base64Image;
 use Lyrasoft\Unidev\Image\ImageUploader;
 use Lyrasoft\Unidev\Image\ImageUploadHelper;
 use Phoenix\Controller\AbstractPhoenixController;
@@ -40,7 +41,7 @@ class ImageUploadController extends AbstractPhoenixController
      *
      * @var  array
      */
-    protected $resizeConfig;
+    protected $resizeConfig = [];
 
     /**
      * doAjax
@@ -54,30 +55,68 @@ class ImageUploadController extends AbstractPhoenixController
             throw new \LogicException('No image storage set in config.');
         }
 
-        $file   = $this->input->files->get($this->fieldName);
+        $format = $this->input->get('format', 'file');
+
         $folder = $this->input->getPath('folder');
+        $resize = $this->input->getString('resize', true);
         $folder = ltrim($folder . '/', '/');
 
-        if (!$file || $file->getError()) {
-            $msg = 'Upload fail';
+        switch ($format) {
+            case 'base64':
+                $file = $this->input->post->getString($this->fieldName);
 
-            if (WINDWALKER_DEBUG) {
-                $msg .= ': ' . UploadedFileHelper::getUploadMessage($file->getError());
-            }
+                $id   = $this->getImageName(uniqid('Luna:image', true));
+                $temp = $this->getImageTemp($id, Base64Image::getTypeFromBase64($file));
 
-            throw new \RuntimeException($msg, 500);
+                if (!is_dir(dirname($temp))) {
+                    Folder::create(dirname($temp));
+                }
+
+                Base64Image::toFile($file, $temp);
+                break;
+
+            case 'file':
+            default:
+                $file = $this->input->files->get($this->fieldName);
+
+                if (!$file || $file->getError()) {
+                    $msg = 'Upload fail';
+
+                    if (WINDWALKER_DEBUG) {
+                        $msg .= ': ' . UploadedFileHelper::getUploadMessage($file->getError());
+                    }
+
+                    throw new \RuntimeException($msg, 500);
+                }
+
+                $id   = $this->getImageName($file->getClientFilename());
+                $temp = $this->getImageTemp($id, File::getExtension($id));
+
+                if (!is_dir(dirname($temp))) {
+                    Folder::create(dirname($temp));
+                }
+
+                $file->moveTo($temp);
+                break;
         }
 
-        $id   = $this->getImageName($file->getClientFilename());
-        $temp = $this->getImageTemp($id, File::getExtension($file->getClientFilename()));
+        if ($resize) {
+            $size    = $this->input->get('size', '1200x1200');
+            $crop    = $this->input->get('crop', 0);
+            $quality = $this->input->getInt('quality', 85);
 
-        if (!is_dir(dirname($temp))) {
-            Folder::create(dirname($temp));
+            list($width, $height) = array_pad(explode('x', strtolower($size)), 2, null);
+            $height = $height ?: $width;
+
+            $this->resizeConfig = [
+                'width'   => $width,
+                'height'  => $height,
+                'crop'    => $crop,
+                'quality' => $quality,
+            ];
+
+            $temp = $this->resize($temp);
         }
-
-        $file->moveTo($temp);
-
-        $temp = $this->resize($temp);
 
         if (!is_file($temp)) {
             throw new \RuntimeException('Temp file not exists');
@@ -163,16 +202,23 @@ class ImageUploadController extends AbstractPhoenixController
             return $file;
         }
 
+        $size    = $this->input->getString('resize');
+        $crop    = $this->input->get('crop', 0);
+        $quality = $this->input->getInt('quality', 85);
+
+        list($width, $height) = array_pad(explode('x', strtolower($size)), 2, null);
+        $height = $height ?: $width;
+
         $app = $this->app;
 
         $resize = $app->config->extract('unidev.image.resize');
 
         $resize->load($this->resizeConfig);
 
-        $width   = $resize->get('width', 1200);
-        $height  = $resize->get('height', 1200);
-        $quality = $resize->get('quality', 85);
-        $crop    = $resize->get('crop', false);
+        $width   = $width ?: $resize->get('width', 1200);
+        $height  = $height ?: $resize->get('height', 1200);
+        $quality = $quality ?: $resize->get('quality', 85);
+        $crop    = $crop ?: $resize->get('crop', false);
 
         try {
             $image = Image::open($file);
@@ -187,8 +233,11 @@ class ImageUploadController extends AbstractPhoenixController
                 $image->cropResize($width, $height);
             }
         } catch (\UnexpectedValueException $e) {
-            throw new \UnexpectedValueException(__('unidev.image.upload.message.load.fail'),
-                $e->getCode(), $e);
+            throw new \UnexpectedValueException(
+                __('unidev.image.upload.message.load.fail'),
+                $e->getCode(),
+                $e
+            );
         }
 
         $image->save($file, 'guess', $quality);

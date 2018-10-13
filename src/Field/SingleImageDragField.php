@@ -33,6 +33,7 @@ use Windwalker\Test\TestHelper;
  * @method  mixed|$this  defaultImage(string $value = null)
  * @method  mixed|$this  version(int $value = null)
  * @method  mixed|$this  layout(string $value = null)
+ * @method  mixed|$this  ajax(string|bool $value = null)
  *
  * @since  1.0
  */
@@ -77,6 +78,7 @@ class SingleImageDragField extends TextField
         $options['max_height'] = $this->get('max_height');
         $options['min_height'] = $this->get('min_height');
         $options['version']    = (int) $this->get('version', 1);
+        $options['ajax_url']   = $this->ajax();
 
         $this->prepareScript($attrs, $options);
 
@@ -123,16 +125,20 @@ class SingleImageDragField extends TextField
     public static function uploadFromController(AbstractSaveController $controller, $field, DataInterface $data, $uri)
     {
         // formControl is protected, we get it by TestHelper
-        $base64 = $controller->input->post->getRaw('input-' . TestHelper::getValue($controller,
-                'formControl') . '-' . $field . '-data');
-        $delete = $controller->input->post->get('input-' . TestHelper::getValue($controller,
-                'formControl') . '-' . $field . '-delete-image');
+        $base64 = $controller->input->post->getRaw(
+            'input-' . TestHelper::getValue($controller, 'formControl') . '-' . $field . '-data'
+        );
+        $delete = $controller->input->post->get(
+            'input-' . TestHelper::getValue($controller, 'formControl') . '-' . $field . '-delete-image'
+        );
 
         if ($base64 && $url = Base64Image::quickUpload($base64, $uri)) {
             $data->$field = $url;
 
             return $url;
-        } elseif ($delete) {
+        }
+
+        if ($delete) {
             $data->$field = '';
 
             return true;
@@ -212,7 +218,8 @@ class SingleImageDragField extends TextField
             'originSize',
             'version',
             'width',
-            'layout'
+            'layout',
+            'ajax'
         ]);
     }
 }

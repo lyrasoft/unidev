@@ -116,7 +116,7 @@ class Base64Image
     {
         preg_match('/data:image\/(\w+);/', $base64, $matches);
 
-        if ($matches[1]) {
+        if (isset($matches[1])) {
             $type = $matches[1];
 
             return static::getFileType($type);

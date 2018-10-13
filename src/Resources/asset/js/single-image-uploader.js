@@ -35,7 +35,7 @@
   var SingleImageDragUploader = function(element, options) {
     this.element = element;
     this.options = $.extend(true, {}, defaultOptions, options);
-
+    console.log(this.options);
     // Input
     this.fileData = this.element.find('.sid-data');
     this.filedrag = this.element.find('.sid-area');
@@ -247,6 +247,7 @@
      * Save image to input.
      */
     saveImage: function(image, type) {
+      var self = this;
       type = type || 'image/jpeg';
 
       image = image || this.cropper.cropit('export', {
@@ -255,6 +256,29 @@
         originalSize: this.options.origin_size || false
       });
 
+      if (this.options.ajax_url) {
+        this.uploadImage(image)
+          .done(function (res) {
+            self.storeValue(res.data.url);
+          });
+
+        return;
+      }
+
+      self.storeValue(image);
+    },
+
+    uploadImage: function (image) {
+      var data = {
+        file: image,
+        format: 'base64',
+        resize: 0
+      };
+
+      return $.post(this.options.ajax_url, data);
+    },
+
+    storeValue: function (image) {
       this.fileData.val(image);
       this.filePreview.attr('src', image);
       this.filePreview.css('display', 'block');
