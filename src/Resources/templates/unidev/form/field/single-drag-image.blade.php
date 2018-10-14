@@ -27,13 +27,13 @@ $image .= $suffix . uniqid();
 <div id="{{ $attrs['id'] }}-wrap">
 
     <div class="sid-row d-flex">
-        <div class="sid-left-col d-flex align-items-center">
+        <div class="sid-left-col d-flex align-items-start">
             <img class="sid-preview img-responsive img-fluid"
                  {{-- TextField has escaped value, so we don't need to escape again --}}
                  src="{!! $image !!}"
                  alt="Preview">
             <img src="{{ $asset->path . '/' . $packageName }}/images/ajax-loader.gif"
-                id="{{ $attrs['id'] . '-loader' }}" class="sid-img-loader mx-auto" alt="Lading" style="display: none;">
+                id="{{ $attrs['id'] . '-loader' }}" class="sid-img-loader mx-auto align-self-center" alt="Lading" style="display: none;">
         </div>
         @if (!$field->get('readonly') && !$field->get('disabled'))
             <div class="sid-right-col flex-grow-1">
