@@ -291,11 +291,18 @@ class S3Service
      */
     public function getHost($subfolder = true)
     {
-        $host = $this->client->getEndpoint();
+        $uri = $this->client->getEndpoint();
+
+        $host = $uri->getHost();
+
+        if (strpos($host, 's3.amazonaws.com') === 0) {
+            $host = $this->getBucketName() . '.' . $host;
+            $uri = $uri->withHost($host);
+        }
 
         $subfolder = $subfolder ? '/' . $this->getSubfolder() : null;
 
-        return rtrim($host . $subfolder, '/');
+        return rtrim($uri . $subfolder, '/');
     }
 
     /**
