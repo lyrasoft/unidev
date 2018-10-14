@@ -31,6 +31,19 @@ class ImageUploadHelper extends AbstractStorageHelper
     }
 
     /**
+     * Get file temp path.
+     *
+     * @param mixed   $identify The identify of this file or item.
+     * @param string  $ext
+     *
+     * @return  string  Identify path.
+     */
+    public static function getTempFile($identify, $ext = 'jpg')
+    {
+        return static::getTempPath() . '/' . static::getPath($identify, $ext);
+    }
+
+    /**
      * Get base folder name.
      *
      * @return  string

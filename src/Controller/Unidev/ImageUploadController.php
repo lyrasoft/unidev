@@ -90,7 +90,7 @@ class ImageUploadController extends AbstractPhoenixController
                 }
 
                 $id   = $this->getImageName($file->getClientFilename());
-                $temp = $this->getImageTemp($id, File::getExtension($id));
+                $temp = $this->getImageTemp($id, File::getExtension($file->getClientFilename()));
 
                 if (!is_dir(dirname($temp))) {
                     Folder::create(dirname($temp));
@@ -146,7 +146,8 @@ class ImageUploadController extends AbstractPhoenixController
     /**
      * getImageTemp
      *
-     * @param   string $file
+     * @param string $file
+     * @param string $ext
      *
      * @return  string
      */

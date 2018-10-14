@@ -35,7 +35,7 @@
   var SingleImageDragUploader = function(element, options) {
     this.element = element;
     this.options = $.extend(true, {}, defaultOptions, options);
-    console.log(this.options);
+
     // Input
     this.fileData = this.element.find('.sid-data');
     this.filedrag = this.element.find('.sid-area');
