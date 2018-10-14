@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Unidev\Field;
 
+use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Unidev\Image\Base64Image;
 use Lyrasoft\Unidev\Script\UnidevScript;
 use Phoenix\Controller\AbstractSaveController;
@@ -64,6 +65,7 @@ class SingleImageDragField extends TextField
      * @param array $attrs
      *
      * @return  mixed
+     * @throws \Psr\Cache\InvalidArgumentException
      */
     public function buildInput($attrs)
     {
@@ -78,7 +80,21 @@ class SingleImageDragField extends TextField
         $options['max_height'] = $this->get('max_height');
         $options['min_height'] = $this->get('min_height');
         $options['version']    = (int) $this->get('version', 1);
-        $options['ajax_url']   = $this->ajax();
+
+        if ($ajax = $this->ajax()) {
+            if (is_bool($this->ajax())) {
+                if (!class_exists(LunaHelper::class)) {
+                    throw new \LogicException('Auto ajax URL must install Luna first, use custom AJAX URL instead.');
+                }
+
+                $options['ajax_url'] = LunaHelper::getPackage()
+                    ->getCurrentPackage()
+                    ->router
+                    ->route('_luna_img_upload', ['resize' => 0]);
+            } else {
+                $options['ajax_url'] = $this->ajax();
+            }
+        }
 
         $this->prepareScript($attrs, $options);
 

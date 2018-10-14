@@ -281,8 +281,7 @@
     uploadImage: function (image) {
       var data = {
         file: image,
-        format: 'base64',
-        resize: 0
+        format: 'base64'
       };
 
       return $.post(this.options.ajax_url, data);
