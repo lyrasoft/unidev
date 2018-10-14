@@ -41,6 +41,7 @@
     this.filedrag = this.element.find('.sid-area');
     this.fileSelector = this.element.find('.sid-file-select-button');
     this.filePreview = this.element.find('.sid-preview');
+    this.fileLoader = this.element.find('.sid-img-loader');
     this.deleteBox = this.element.find('.sid-delete-image');
     this.loader = this.element.find('.sid-loader');
 
@@ -256,10 +257,19 @@
         originalSize: this.options.origin_size || false
       });
 
+      this.modal.modal('hide');
+
       if (this.options.ajax_url) {
+        this.filePreview.attr('src', '');
+        this.filePreview.hide();
+        this.fileLoader.show();
+
         this.uploadImage(image)
           .done(function (res) {
             self.storeValue(res.data.url);
+          })
+          .always(function () {
+            self.fileLoader.hide();
           });
 
         return;
@@ -281,9 +291,7 @@
     storeValue: function (image) {
       this.fileData.val(image);
       this.filePreview.attr('src', image);
-      this.filePreview.css('display', 'block');
-
-      this.modal.modal('hide');
+      this.filePreview.show();
 
       // Make delete box unchecked
       this.deleteBox.prop('checked', false);
