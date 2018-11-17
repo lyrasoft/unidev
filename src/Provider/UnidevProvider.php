@@ -11,6 +11,7 @@ namespace Lyrasoft\Unidev\Provider;
 use Aws\Credentials\Credentials;
 use Aws\S3\S3Client;
 use Composer\CaBundle\CaBundle;
+use Lyrasoft\Unidev\Captcha\CaptchaService;
 use Lyrasoft\Unidev\Image\ImageUploaderFactory;
 use Lyrasoft\Unidev\S3\S3Service;
 use Windwalker\Core\Application\WindwalkerApplicationInterface;
@@ -120,5 +121,8 @@ class UnidevProvider implements ServiceProviderInterface
 
             return $router;
         });
+
+        // Captcha
+        $container->prepareSharedObject(CaptchaService::class);
     }
 }

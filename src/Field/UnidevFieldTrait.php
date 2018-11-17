@@ -12,6 +12,7 @@ namespace Lyrasoft\Unidev\Field;
  * UnidevFieldTrait
  *
  * @method  SingleImageDragField singleImageDrag($name = null, $label = null)
+ * @method  CaptchaField         captcha($name = null, $label = null)
  *
  * @since  {DEPLOY_VERSION}
  */
