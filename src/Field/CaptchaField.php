@@ -24,7 +24,7 @@ use Windwalker\Utilities\Arr;
  * @method  mixed|$this  autoValidate(bool $value = null)
  * @method  mixed|$this  jsVerify(bool $value = null)
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5.1
  */
 class CaptchaField extends AbstractField
 {
@@ -91,7 +91,7 @@ class CaptchaField extends AbstractField
      *
      * @throws \Psr\Cache\InvalidArgumentException
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.1
      */
     public function getDriver()
     {

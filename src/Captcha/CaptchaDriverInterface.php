@@ -11,7 +11,7 @@ namespace Lyrasoft\Unidev\Captcha;
 /**
  * Interface CaptchaDriverInterface
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5.1
  */
 interface CaptchaDriverInterface
 {
@@ -23,7 +23,7 @@ interface CaptchaDriverInterface
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.1
      */
     public function input(array $attrs = [], array $options = []);
 
@@ -35,7 +35,7 @@ interface CaptchaDriverInterface
      *
      * @return  bool
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.1
      */
     public function verify(array $request, array $options = []);
 }

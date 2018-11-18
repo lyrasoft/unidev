@@ -11,7 +11,7 @@ namespace Lyrasoft\Unidev\Captcha;
 /**
  * The NullCaptchaDriver class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5.1
  */
 class NullCaptchaDriver implements CaptchaDriverInterface
 {
@@ -23,7 +23,7 @@ class NullCaptchaDriver implements CaptchaDriverInterface
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.1
      */
     public function input(array $attrs = [], array $options = [])
     {
@@ -38,7 +38,7 @@ class NullCaptchaDriver implements CaptchaDriverInterface
      *
      * @return  bool
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.1
      */
     public function verify(array $request, array $options = [])
     {

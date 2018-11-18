@@ -7,7 +7,7 @@ use Faker\Provider\Base;
 /**
  * The Lorem class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5.1
  */
 class Lorem extends Base
 {
@@ -364,7 +364,7 @@ class Lorem extends Base
      *
      * @return  int
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.1
      */
     protected static function randomizeNbElements($nbElements): int
     {

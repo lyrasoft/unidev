@@ -16,7 +16,7 @@ use Windwalker\Http\HttpClient;
 /**
  * The WindwalkerRequestMethod class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5.1
  */
 class WindwalkerRequestMethod implements RequestMethod
 {

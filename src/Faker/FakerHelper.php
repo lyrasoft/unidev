@@ -11,7 +11,7 @@ namespace Faker;
 /**
  * The FakerHelper class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5.1
  */
 class FakerHelper
 {
@@ -49,7 +49,7 @@ class FakerHelper
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.1
      */
     public static function registerIChing($locale = 'zh_TW')
     {

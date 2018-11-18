@@ -69,7 +69,7 @@ class S3Service
      *
      * @return  \Aws\Result
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.1
      */
     public function getObject(array $args)
     {
@@ -84,7 +84,7 @@ class S3Service
      *
      * @return  \Aws\Result
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.1
      */
     public function getFileInfo($path, array $args = [])
     {
@@ -102,7 +102,7 @@ class S3Service
      *
      * @return  \Psr\Http\Message\UriInterface
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.1
      */
     public function getPreSignedUrl($path, $expires, array $args = [])
     {
@@ -178,7 +178,7 @@ class S3Service
      *
      * @return  \Aws\Result
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.1
      */
     public function deleteObject(array $args)
     {
@@ -210,7 +210,7 @@ class S3Service
      *
      * @return  \Aws\Result
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.1
      */
     public function runCommand($name, array $args = [])
     {
@@ -227,7 +227,7 @@ class S3Service
      *
      * @return  CommandInterface
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.1
      */
     public function getCommand($name, array $args = [])
     {

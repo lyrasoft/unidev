@@ -18,7 +18,7 @@ use Windwalker\Utilities\Arr;
 /**
  * The RecaptchaDriver class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5.1
  */
 class RecaptchaDriver implements CaptchaDriverInterface
 {
@@ -76,7 +76,7 @@ class RecaptchaDriver implements CaptchaDriverInterface
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.1
      */
     public function input(array $attrs = [], array $options = [])
     {
@@ -114,7 +114,7 @@ class RecaptchaDriver implements CaptchaDriverInterface
      *
      * @return bool
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.1
      */
     public function verify(array $request, array $options = [])
     {
@@ -138,7 +138,7 @@ class RecaptchaDriver implements CaptchaDriverInterface
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.1
      */
     protected function prepareScript($id, array $attrs)
     {
@@ -194,7 +194,7 @@ JS;
      *
      * @return  ReCaptcha
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.1
      */
     public function getRecaptchaInstance()
     {

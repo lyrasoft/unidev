@@ -15,7 +15,7 @@ use Windwalker\DI\Container;
 /**
  * The CaptchaService class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5.1
  */
 class CaptchaService
 {
@@ -55,7 +55,7 @@ class CaptchaService
      * @return  CaptchaDriverInterface
      *
      * @throws \Psr\Cache\InvalidArgumentException
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.1
      */
     public function getDriver($profile = null)
     {
@@ -76,7 +76,7 @@ class CaptchaService
      * @throws \ReflectionException
      * @throws \Windwalker\DI\Exception\DependencyResolutionException
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.1
      */
     public function createDriver($driver)
     {
