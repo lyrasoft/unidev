@@ -9,7 +9,7 @@
 namespace Lyrasoft\Unidev;
 
 use Lyrasoft\Unidev\Helper\UnidevHelper;
-use Phoenix\Language\TranslatorHelper;
+use Windwalker\Core\Language\Translator;
 use Windwalker\Core\Package\AbstractPackage;
 
 define('UNIDEV_ROOT', __DIR__);
@@ -40,6 +40,6 @@ class UnidevPackage extends AbstractPackage
     {
         parent::boot();
 
-        TranslatorHelper::loadAll($this);
+        Translator::loadAll($this);
     }
 }
