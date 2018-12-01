@@ -7,16 +7,29 @@
 
 const fusion = require('windwalker-fusion');
 
-// The task `main`
-fusion.task('main', function () {
+// The task `css`
+fusion.task('css', function () {
   // Watch start
   fusion.watch([
-    'src/Resources/asset/js/single-image-uploader.js'
+    'asset/scss/**/*.scss'
   ]);
   // Watch end
 
   // Compile Start
-  fusion.js('src/Resources/asset/js/single-image-uploader.js');
+  fusion.sass('asset/scss/**/*.scss', 'src/Resources/asset/css/');
+  // Compile end
+});
+
+// The task `js`
+fusion.task('js', function () {
+  // Watch start
+  fusion.watch([
+    'asset/src/**/*.js'
+  ]);
+  // Watch end
+
+  // Compile Start
+  fusion.babel('asset/src/**/*.js', 'src/Resources/asset/js/');
   // Compile end
 });
 
@@ -40,7 +53,7 @@ fusion.task('install', function () {
   fusion.copy(`${nodePath}/sweetalert/dist/sweetalert.min.js`, `${destPath}/sweetalert2.min.js`);
 });
 
-fusion.default(['main']);
+fusion.default(['css', 'js']);
 
 /*
  * APIs

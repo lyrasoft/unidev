@@ -30,12 +30,12 @@ interface CaptchaDriverInterface
     /**
      * verify
      *
-     * @param array $request
-     * @param array $options
+     * @param string $value
+     * @param array  $options
      *
      * @return  bool
      *
      * @since  1.5.1
      */
-    public function verify(array $request, array $options = []);
+    public function verify($value, array $options = []);
 }

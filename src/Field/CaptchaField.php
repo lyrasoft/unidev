@@ -15,14 +15,14 @@ use Windwalker\Core\Repository\Exception\ValidateFailException;
 use Windwalker\Form\Field\AbstractField;
 use Windwalker\Form\Validate\ValidateResult;
 use Windwalker\Ioc;
-use Windwalker\Utilities\Arr;
 
 /**
  * The CaptchaField class.
  *
- * @method  mixed|$this  driver(string $value = null)
+ * @method  mixed|$this  profile(string $value = null)
  * @method  mixed|$this  autoValidate(bool $value = null)
  * @method  mixed|$this  jsVerify(bool $value = null)
+ * @method  mixed|$this  captchaOptions(array $value = null)
  *
  * @since  1.5.1
  */
@@ -62,9 +62,7 @@ class CaptchaField extends AbstractField
     {
         $this->prepare($attrs);
 
-        return $this->getDriver()->input($attrs, [
-            'js_verify' => $this->jsVerify()
-        ]);
+        return $this->getDriver()->input($attrs, $this->getCaptchaOptions());
     }
 
     /**
@@ -76,12 +74,28 @@ class CaptchaField extends AbstractField
     public function validate()
     {
         if ($this->autoValidate() && !$this->getDriver() instanceof NullCaptchaDriver) {
-            if (!$this->getDriver()->verify($_POST)) {
+            if (!$this->getDriver()->verify($this->getValue(), $this->getCaptchaOptions())) {
                 throw new ValidateFailException(__('unidev.field.captcha.message.varify.fail'));
             }
         }
-        
+
         return parent::validate();
+    }
+
+    /**
+     * getCaptchaOptions
+     *
+     * @return  array
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function getCaptchaOptions()
+    {
+        $options = $this->captchaOptions();
+        $options['js_verify'] = $this->jsVerify();
+        $options['profile'] = $this->profile();
+
+        return $options;
     }
 
     /**
@@ -96,7 +110,7 @@ class CaptchaField extends AbstractField
     public function getDriver()
     {
         if (!$this->driver) {
-            $this->driver = Ioc::getContainer()->get(CaptchaService::class)->getDriver($this->driver());
+            $this->driver = Ioc::getContainer()->get(CaptchaService::class)->getDriver($this->profile());
         }
 
         return $this->driver;
@@ -112,9 +126,10 @@ class CaptchaField extends AbstractField
         return array_merge(
             parent::getAccessors(),
             [
-                'driver' => 'driver',
+                'profile' => 'profile',
                 'autoValidate' => 'auto_validate',
                 'jsVerify' => 'js_verify',
+                'captchaOptions' => 'captcha_options',
             ]
         );
     }

@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Part of unidev project.
  *
@@ -7,7 +5,7 @@
  * @license    GNU General Public License version 2 or later.
  */
 
-(function ($) {
+(function($) {
   "use strict";
 
   var plugin = 'singleImageDragUploader';
@@ -34,7 +32,7 @@
    *
    * @constructor
    */
-  var SingleImageDragUploader = function SingleImageDragUploader(element, options) {
+  var SingleImageDragUploader = function(element, options) {
     this.element = element;
     this.options = $.extend(true, {}, defaultOptions, options);
 
@@ -59,17 +57,17 @@
     /**
      * Bind events.
      */
-    bindEvents: function bindEvents() {
+    bindEvents: function() {
       var self = this;
       var value;
 
-      this.filedrag.on('dragover', function (event) {
+      this.filedrag.on('dragover', function(event) {
         event.stopPropagation();
         event.preventDefault();
         $(this).addClass('hover');
       });
 
-      this.filedrag.on('dragleave', function (event) {
+      this.filedrag.on('dragleave', function(event) {
         event.stopPropagation();
         event.preventDefault();
         $(this).removeClass('hover');
@@ -79,26 +77,30 @@
         // imageState: {src: event.target.result},
         imageBackground: true,
         exportZoom: this.options.export_zoom,
-        onImageError: function onImageError(error) {
-          swal(Phoenix.Translator.translate('unidev.field.single.image.message.invalid.size.title'), Phoenix.Translator.sprintf('unidev.field.single.image.message.invalid.size.desc', self.options.width, self.options.height), 'warning');
+        onImageError: function(error) {
+          swal(
+            Phoenix.Translator.translate('unidev.field.single.image.message.invalid.size.title'),
+            Phoenix.Translator.sprintf('unidev.field.single.image.message.invalid.size.desc', self.options.width, self.options.height),
+            'warning'
+          );
           self.loader.hide();
         },
-        onImageLoaded: function onImageLoaded() {
+        onImageLoaded: function() {
           self.modal.modal('show');
           self.loader.hide();
         },
-        onImageLoading: function onImageLoading() {
+        onImageLoading: function() {
           self.loader.show();
         }
       });
 
       // Reset file input if modal closed
-      self.modal.on('hide.bs.modal', function () {
+      self.modal.on('hide.bs.modal', function() {
         //$(self.fileSelector).val(null);
       });
 
       // File drop
-      this.filedrag.on("drop", function (event) {
+      this.filedrag.on("drop", function(event) {
         event.stopPropagation();
         event.preventDefault();
 
@@ -110,26 +112,26 @@
       });
 
       // Selector
-      this.fileSelector.on('click', function () {
+      this.fileSelector.on('click', function() {
         var $input = $('<input type="file">');
 
-        $input.on('change', function (event) {
+        $input.on('change', function(event) {
           var files = event.originalEvent.target.files || event.originalEvent.dataTransfer.files;
 
-          self.handleFileSelect(files[0]);
+          self.handleFileSelect(files[0])
         });
 
         $input.click();
       });
 
       // Save button
-      this.saveButton.on('click', function () {
+      this.saveButton.on('click', function() {
         self.saveImage();
       });
 
       // Delete box
       if (this.options.version !== 1) {
-        this.deleteBox.on('change', function () {
+        this.deleteBox.on('change', function() {
           var $this = $(this);
 
           if ($this.is(':checked')) {
@@ -148,21 +150,21 @@
      *
      * @param {File} file
      */
-    handleFileSelect: function handleFileSelect(file) {
+    handleFileSelect: function(file) {
       if (!this.checkFile(file)) {
         return;
       }
 
       var self = this;
-      var reader = new FileReader();
+      var reader = new FileReader;
 
-      reader.onload = function (event) {
+      reader.onload = function(event) {
         if (self.options.crop) {
           self.cropper.cropit('imageSrc', event.target.result);
         } else {
-          var image = new Image();
+          var image = new Image;
 
-          image.onload = function () {
+          image.onload = function() {
             if (!self.checkSize(image)) {
               return;
             }
@@ -184,13 +186,20 @@
      *
      * @returns {boolean}
      */
-    checkFile: function checkFile(file) {
-      var types = ['image/jpeg', 'image/png'];
+    checkFile: function(file) {
+      var types = [
+        'image/jpeg',
+        'image/png'
+      ];
 
       types = this.options.allow_types || types;
 
       if (types.indexOf(file.type, types) < 0) {
-        swal(Phoenix.Translator.translate('unidev.field.single.image.message.invalid.image.title'), Phoenix.Translator.translate('unidev.field.single.image.message.invalid.image.desc'), 'error');
+        swal(
+          Phoenix.Translator.translate('unidev.field.single.image.message.invalid.image.title'),
+          Phoenix.Translator.translate('unidev.field.single.image.message.invalid.image.desc'),
+          'error'
+        );
 
         return false;
       }
@@ -205,7 +214,7 @@
      *
      * @returns {boolean}
      */
-    checkSize: function checkSize(image) {
+    checkSize: function(image) {
       try {
         if (this.options.max_width !== null && this.options.max_width < image.width) {
           throw new Error(Phoenix.Translator.sprintf('unidev.field.single.image.message.invalid.size.max.width', this.options.max_width));
@@ -223,7 +232,11 @@
           throw new Error(Phoenix.Translator.sprintf('unidev.field.single.image.message.invalid.size.min.height', this.options.min_height));
         }
       } catch (e) {
-        swal(Phoenix.Translator.translate('unidev.field.single.image.message.invalid.size.title'), e.message, 'error');
+        swal(
+          Phoenix.Translator.translate('unidev.field.single.image.message.invalid.size.title'),
+          e.message,
+          'error'
+        );
 
         return false;
       }
@@ -234,7 +247,7 @@
     /**
      * Save image to input.
      */
-    saveImage: function saveImage(image, type) {
+    saveImage: function(image, type) {
       var self = this;
       type = type || 'image/jpeg';
 
@@ -251,11 +264,13 @@
         this.filePreview.hide();
         this.fileLoader.show();
 
-        this.uploadImage(image).done(function (res) {
-          self.storeValue(res.data.url);
-        }).always(function () {
-          self.fileLoader.hide();
-        });
+        this.uploadImage(image)
+          .done(function (res) {
+            self.storeValue(res.data.url);
+          })
+          .always(function () {
+            self.fileLoader.hide();
+          });
 
         return;
       }
@@ -263,7 +278,7 @@
       self.storeValue(image);
     },
 
-    uploadImage: function uploadImage(image) {
+    uploadImage: function (image) {
       var data = {
         file: image,
         format: 'base64'
@@ -272,7 +287,7 @@
       return $.post(this.options.ajax_url, data);
     },
 
-    storeValue: function storeValue(image) {
+    storeValue: function (image) {
       this.fileData.val(image);
       this.filePreview.attr('src', image);
       this.filePreview.show();
@@ -293,12 +308,12 @@
    *
    * @returns {*}
    */
-  $.fn[plugin] = function (options) {
+  $.fn[plugin] = function(options) {
     if (!$.data(this, "unidev." + plugin)) {
       $.data(this, "unidev." + plugin, new SingleImageDragUploader(this, options));
     }
 
     return $.data(this, "unidev." + plugin);
   };
+
 })(jQuery);
-//# sourceMappingURL=single-image-uploader.js.map

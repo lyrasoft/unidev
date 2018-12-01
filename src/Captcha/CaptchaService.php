@@ -11,6 +11,7 @@ namespace Lyrasoft\Unidev\Captcha;
 use Windwalker\Core\Cache\RuntimeCacheTrait;
 use Windwalker\Core\Config\Config;
 use Windwalker\DI\Container;
+use Windwalker\Structure\Structure;
 
 /**
  * The CaptchaService class.
@@ -48,6 +49,18 @@ class CaptchaService
     }
 
     /**
+     * getDefaultProfile
+     *
+     * @return  string
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getDefaultProfile()
+    {
+        return $this->config->get('unidev.captcha.default', 'none');
+    }
+
+    /**
      * getDriver
      *
      * @param string $profile
@@ -59,7 +72,7 @@ class CaptchaService
      */
     public function getDriver($profile = null)
     {
-        $profile = $profile ?: $this->config->get('unidev.captcha.default', 'none');
+        $profile = $profile ?: $this->getDefaultProfile();
 
         return $this->fetch('driver.' . $profile, function () use ($profile) {
             return $this->createDriver($profile);
@@ -69,7 +82,7 @@ class CaptchaService
     /**
      * createDriver
      *
-     * @param string $driver
+     * @param string $profileName
      *
      * @return  CaptchaDriverInterface
      *
@@ -78,14 +91,29 @@ class CaptchaService
      *
      * @since  1.5.1
      */
-    public function createDriver($driver)
+    public function createDriver($profileName)
     {
+        $profile = $this->config->get('unidev.captcha.' . $profileName);
+
+        if (!$profile) {
+            throw new \InvalidArgumentException('Captcha: ' . $profileName . ' is empty.');
+        }
+
+        $profile = new Structure($profile);
+
+        $driver = $profile->get('driver');
+
         switch ($driver) {
             case 'recaptcha':
                 return $this->container->newInstance(RecaptchaDriver::class, [
-                    'key' => $this->config->get('unidev.captcha.' . $driver . '.key'),
-                    'secret' => $this->config->get('unidev.captcha.' . $driver . '.secret'),
-                    'type' => $this->config->get('unidev.captcha.' . $driver . '.type'),
+                    'key' => $profile->get('key'),
+                    'secret' => $profile->get('secret'),
+                    'type' => $profile->get('type'),
+                ]);
+
+            case 'gregwar':
+                return $this->container->newInstance(GregwarDriver::class, [
+                    'options' => $profile->toArray()
                 ]);
 
             case 'none':
