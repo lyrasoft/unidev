@@ -104,7 +104,9 @@ $image .= $suffix . uniqid();
             <input type="text" id="{{ $attrs['id'] }}-data" class="sid-data" name="{{ $attrs['id'] }}-data" value=""/>
         </div>
     @else
-        {!! new \Windwalker\Dom\HtmlElement('input', null, $attrs) !!}
+        @php($attribs = $attrs)
+        @unset($attribs['value'])
+        {!! new \Windwalker\Dom\HtmlElement('textarea', $attrs['value'], $attribs) !!}
     @endif
 
     {{-- Push this modal to page bottom --}}

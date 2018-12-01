@@ -15,6 +15,7 @@ use Phoenix\Controller\AbstractSaveController;
 use Windwalker\Core\Widget\WidgetHelper;
 use Windwalker\Data\DataInterface;
 use Windwalker\Dom\HtmlElement;
+use Windwalker\Form\Field\TextareaField;
 use Windwalker\Form\Field\TextField;
 use Windwalker\Test\TestHelper;
 
@@ -38,7 +39,7 @@ use Windwalker\Test\TestHelper;
  *
  * @since  1.0
  */
-class SingleImageDragField extends TextField
+class SingleImageDragField extends TextareaField
 {
     /**
      * prepareRenderInput
@@ -53,6 +54,7 @@ class SingleImageDragField extends TextField
 
         parent::prepare($attrs);
 
+        $attrs['value']  = $this->getValue();
         $attrs['width']  = $this->get('width', 300);
         $attrs['height'] = $this->get('height', 300);
         $attrs['type']   = 'text';
