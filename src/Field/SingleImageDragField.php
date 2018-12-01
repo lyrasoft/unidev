@@ -49,7 +49,7 @@ class SingleImageDragField extends TextField
      */
     public function prepare(&$attrs)
     {
-        $this->appendAttribute('class', 'sid-data');
+        $this->appendAttribute('class', ' sid-data');
 
         parent::prepare($attrs);
 
