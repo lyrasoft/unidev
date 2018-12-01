@@ -11,6 +11,7 @@ namespace Lyrasoft\Unidev\S3;
 use Aws\CommandInterface;
 use Aws\S3\S3Client;
 use Windwalker\Core\Config\Config;
+use Windwalker\Filesystem\File;
 use Windwalker\Filesystem\Path;
 use Windwalker\Http\Stream\Stream;
 
@@ -107,6 +108,32 @@ class S3Service
     public function getPreSignedUrl($path, $expires, array $args = [])
     {
         $args['Key'] = $path;
+
+        $cmd = $this->getCommand('GetObject', $args);
+
+        return $this->client->createPresignedRequest($cmd, $expires)
+            ->getUri();
+    }
+
+    /**
+     * getPreSignedUrlWithFilename
+     *
+     * @param string $path     The file path.
+     * @param string $expires  Use DateTime syntax, example: `+300seconds`
+     * @param string $filename File name to save to local.
+     * @param array  $args     Arguments.
+     *
+     * @return  \Psr\Http\Message\UriInterface
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getPreSignedUrlWithFilename($path, $expires, $filename, array $args = [])
+    {
+        $args['Key'] = $path;
+        $args['ResponseContentDisposition'] = sprintf(
+            "attachment; filename*=UTF-8''%s",
+            rawurlencode(File::makeUtf8Safe($filename))
+        );
 
         $cmd = $this->getCommand('GetObject', $args);
 
