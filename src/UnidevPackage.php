@@ -39,7 +39,9 @@ class UnidevPackage extends AbstractPackage
     public function boot()
     {
         parent::boot();
-
-        Translator::loadAll($this);
+        
+        $this->getDispatcher()->listen('onPackageBeforeExecute', function () {
+            Translator::loadAll($this);
+        });
     }
 }

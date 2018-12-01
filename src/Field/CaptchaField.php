@@ -13,6 +13,7 @@ use Lyrasoft\Unidev\Captcha\CaptchaService;
 use Lyrasoft\Unidev\Captcha\NullCaptchaDriver;
 use Windwalker\Core\Repository\Exception\ValidateFailException;
 use Windwalker\Form\Field\AbstractField;
+use Windwalker\Form\Field\TextField;
 use Windwalker\Form\Validate\ValidateResult;
 use Windwalker\Ioc;
 
@@ -26,7 +27,7 @@ use Windwalker\Ioc;
  *
  * @since  1.5.1
  */
-class CaptchaField extends AbstractField
+class CaptchaField extends TextField
 {
     /**
      * Property driver.
@@ -39,15 +40,10 @@ class CaptchaField extends AbstractField
      * prepareRenderInput
      *
      * @param array $attrs
-     *
-     * @return  array
      */
     public function prepare(&$attrs)
     {
-        $attrs['name'] = $this->getFieldName();
-        $attrs['id'] = $this->getAttribute('id', $this->getId());
-
-        return $attrs;
+        parent::prepare($attrs);
     }
 
     /**
@@ -60,8 +56,6 @@ class CaptchaField extends AbstractField
      */
     public function buildInput($attrs)
     {
-        $this->prepare($attrs);
-
         return $this->getDriver()->input($attrs, $this->getCaptchaOptions());
     }
 
@@ -78,6 +72,9 @@ class CaptchaField extends AbstractField
                 throw new ValidateFailException(__('unidev.field.captcha.message.varify.fail'));
             }
         }
+
+        // Do not need required validate
+        $this->required(false);
 
         return parent::validate();
     }

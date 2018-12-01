@@ -83,7 +83,7 @@ class GregwarDriver implements CaptchaDriverInterface, CaptchaImageInterface
         $this->asset->addJS(PackageHelper::getAlias(UnidevPackage::class) . '/js/captcha/gregwar.min.js');
         PhoenixScript::domready("$('#{$attrs['id']}-wrapper').gregwar()");
 
-        $attrs = Arr::def($attrs, 'placeholder', __('unidev.captcha.gregwar.input.placeholder'));
+        $attrs['placeholder'] = Arr::get($attrs, 'placeholder') ?: __('unidev.captcha.gregwar.input.placeholder');
 
         return WidgetHelper::render(
             'unidev.captcha.gregwar',
