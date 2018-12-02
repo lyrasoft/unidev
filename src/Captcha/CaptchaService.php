@@ -53,7 +53,7 @@ class CaptchaService
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public function getDefaultProfile()
     {

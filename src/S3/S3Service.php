@@ -125,7 +125,7 @@ class S3Service
      *
      * @return  \Psr\Http\Message\UriInterface
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public function getPreSignedUrlWithFilename($path, $expires, $filename, array $args = [])
     {

@@ -22,7 +22,7 @@ use Windwalker\Utilities\Classes\OptionAccessTrait;
 /**
  * The GregwarDriver class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5.2
  */
 class GregwarDriver implements CaptchaDriverInterface, CaptchaImageInterface
 {
@@ -139,7 +139,7 @@ class GregwarDriver implements CaptchaDriverInterface, CaptchaImageInterface
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public function image()
     {
@@ -149,7 +149,7 @@ class GregwarDriver implements CaptchaDriverInterface, CaptchaImageInterface
     /**
      * output
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public function output()
     {
@@ -165,7 +165,7 @@ class GregwarDriver implements CaptchaDriverInterface, CaptchaImageInterface
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public function base64()
     {
@@ -177,7 +177,7 @@ class GregwarDriver implements CaptchaDriverInterface, CaptchaImageInterface
      *
      * @return CaptchaBuilder
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     protected function build()
     {
@@ -199,7 +199,7 @@ class GregwarDriver implements CaptchaDriverInterface, CaptchaImageInterface
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public function contentType()
     {
@@ -211,7 +211,7 @@ class GregwarDriver implements CaptchaDriverInterface, CaptchaImageInterface
      *
      * @return  CaptchaBuilder
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public function getBuilder()
     {
@@ -225,7 +225,7 @@ class GregwarDriver implements CaptchaDriverInterface, CaptchaImageInterface
      *
      * @return  static  Return self to support chaining.
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public function setBuilder(CaptchaBuilder $builder)
     {

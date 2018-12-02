@@ -11,7 +11,7 @@ namespace Lyrasoft\Unidev\Captcha;
 /**
  * Interface CaptchaImageInterface
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5.2
  */
 interface CaptchaImageInterface
 {
@@ -20,14 +20,14 @@ interface CaptchaImageInterface
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public function image();
 
     /**
      * output
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public function output();
 
@@ -36,7 +36,7 @@ interface CaptchaImageInterface
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public function base64();
 
@@ -45,7 +45,7 @@ interface CaptchaImageInterface
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.2
      */
     public function contentType();
 }
