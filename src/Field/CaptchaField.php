@@ -24,6 +24,7 @@ use Windwalker\Ioc;
  * @method  mixed|$this  autoValidate(bool $value = null)
  * @method  mixed|$this  jsVerify(bool $value = null)
  * @method  mixed|$this  captchaOptions(array $value = null)
+ * @method  mixed|$this  imageRoute(string|callable $value = null)
  *
  * @since  1.5.1
  */
@@ -92,6 +93,14 @@ class CaptchaField extends TextField
         $options['js_verify'] = $this->jsVerify();
         $options['profile'] = $this->profile();
 
+        $route = $this->imageRoute();
+
+        if (is_callable($route)) {
+            $route = $route($this, $options);
+        }
+
+        $options['route'] = $route;
+
         return $options;
     }
 
@@ -127,6 +136,7 @@ class CaptchaField extends TextField
                 'autoValidate' => 'auto_validate',
                 'jsVerify' => 'js_verify',
                 'captchaOptions' => 'captcha_options',
+                'imageRoute' => 'image_route',
             ]
         );
     }

@@ -95,10 +95,6 @@ class CaptchaService
     {
         $profile = $this->config->get('unidev.captcha.' . $profileName);
 
-        if (!$profile) {
-            throw new \InvalidArgumentException('Captcha: ' . $profileName . ' is empty.');
-        }
-
         $profile = new Structure($profile);
 
         $driver = $profile->get('driver');
