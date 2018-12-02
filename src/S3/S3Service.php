@@ -14,6 +14,7 @@ use Windwalker\Core\Config\Config;
 use Windwalker\Filesystem\File;
 use Windwalker\Filesystem\Path;
 use Windwalker\Http\Stream\Stream;
+use Windwalker\Uri\Uri;
 
 /**
  * The S3Service class.
@@ -227,6 +228,36 @@ class S3Service
         $args['Key'] = $path;
 
         return $this->deleteObject($args);
+    }
+
+    /**
+     * Delete file by URL or full path with subfolder.
+     *
+     * @param string $path
+     * @param array  $args
+     *
+     * @return  \Aws\Result
+     *
+     * @since  1.5.2
+     */
+    public function deleteByFullPath($path, array $args = [])
+    {
+        $uri = new Uri($path);
+        $filePath = ltrim($uri->getPath(), '/');
+
+        $filePath = explode('/', $filePath);
+
+        if (strpos($path, 'https://s3.amazonaws.com') === 0) {
+            array_shift($filePath);
+        }
+
+        $args['Key'] = implode('/', $filePath);
+
+        if (!isset($args['Bucket'])) {
+            $args['Bucket'] = $this->getBucketName();
+        }
+
+        return $this->getClient()->deleteObject($args);
     }
 
     /**
