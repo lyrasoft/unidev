@@ -70,7 +70,7 @@ class CaptchaField extends TextField
     {
         if ($this->autoValidate() && !$this->getDriver() instanceof NullCaptchaDriver) {
             if (!$this->getDriver()->verify($this->getValue(), $this->getCaptchaOptions())) {
-                throw new ValidateFailException(__('unidev.field.captcha.message.varify.fail'));
+                throw new ValidateFailException(__('unidev.field.captcha.message.verify.fail'));
             }
         }
 
