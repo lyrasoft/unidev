@@ -21,7 +21,9 @@ $(function () {
       this.$element = $element;
       this.options = options;
       this.$image = this.$element.find('[data-captcha-image]');
+      this.$input = this.$element.find('[data-captcha-input]');
       this.$refreshButton = this.$element.find('[data-captcha-refresh]');
+      this.$buttonIcon = this.$element.find('[data-refresh-icon]');
 
       this.bindEvents();
     }
@@ -32,7 +34,9 @@ $(function () {
         var _this = this;
 
         this.$refreshButton.on('click', function () {
-          var src = _this.$image.attr('data-src');
+          _this.$buttonIcon.addClass('fa-spin');
+
+          var src = _this.$image.attr('data-image');
           var t = new Date().getTime().toString() + '.' + Math.random() * 10000;
 
           if (src.indexOf('?') !== -1) {
@@ -41,6 +45,10 @@ $(function () {
             src += '?t=' + t;
           }
 
+          _this.$image.one('load', function () {
+            _this.$buttonIcon.removeClass('fa-spin');
+            _this.$input.val('');
+          });
           _this.$image.attr('src', src);
         });
       }
