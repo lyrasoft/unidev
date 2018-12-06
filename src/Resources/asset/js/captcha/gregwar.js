@@ -34,23 +34,36 @@ $(function () {
         var _this = this;
 
         this.$refreshButton.on('click', function () {
-          _this.$buttonIcon.addClass('fa-spin');
-
-          var src = _this.$image.attr('data-image');
-          var t = new Date().getTime().toString() + '.' + Math.random() * 10000;
-
-          if (src.indexOf('?') !== -1) {
-            src += '&t=' + t;
-          } else {
-            src += '?t=' + t;
-          }
-
-          _this.$image.one('load', function () {
-            _this.$buttonIcon.removeClass('fa-spin');
-            _this.$input.val('');
-          });
-          _this.$image.attr('src', src);
+          _this.refresh();
         });
+      }
+    }, {
+      key: 'refresh',
+      value: function refresh() {
+        var _this2 = this;
+
+        this.$buttonIcon.addClass('fa-spin');
+
+        var src = this.$image.attr('data-image');
+        var t = new Date().getTime().toString() + '.' + Math.random() * 10000;
+
+        if (src.indexOf('?') !== -1) {
+          src += '&t=' + t;
+        } else {
+          src += '?t=' + t;
+        }
+
+        this.$image.one('load', function () {
+          _this2.$buttonIcon.removeClass('fa-spin');
+          _this2.$input.val('');
+        });
+
+        this.$image.attr('src', src);
+      }
+    }, {
+      key: 'clear',
+      value: function clear() {
+        this.$input.val('');
       }
     }]);
 
