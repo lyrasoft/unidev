@@ -10,9 +10,6 @@
         "@babel/polyfill": "^7.0.0",
         "@babel/standalone": "^7.2.2",
         "@webcomponents/webcomponentsjs": "^1.1.0",
-        "babel": "^6.23.0",
-        "core-js": "^3.0.0-beta.5",
-        "core-js-bundle": "^3.0.0-beta.5",
         "nodelist-foreach-polyfill": "^1.2.0",
         "sweetalert": "^2.1.0",
         "url-polyfill": "^1.1.3"
