@@ -10,6 +10,7 @@ namespace Lyrasoft\Unidev\S3;
 
 use Aws\CommandInterface;
 use Aws\S3\S3Client;
+use Psr\Http\Message\UriInterface;
 use Windwalker\Core\Config\Config;
 use Windwalker\Filesystem\File;
 use Windwalker\Filesystem\Path;
@@ -344,23 +345,33 @@ class S3Service
      * getHost
      *
      * @param bool $subfolder
+     * @param bool $pathStyle
      *
-     * @return string
+     * @return UriInterface
      */
-    public function getHost($subfolder = true)
+    public function getHost($subfolder = true, $pathStyle = false)
     {
         $uri = $this->client->getEndpoint();
 
-        $host = $uri->getHost();
+        $bucket = $this->getBucketName();
 
-        if (strpos($host, 's3.amazonaws.com') === 0) {
-            $host = $this->getBucketName() . '.' . $host;
-            $uri = $uri->withHost($host);
+        if ($pathStyle || ($uri->getScheme() === 'https' && strpos($bucket, '.') !== false)) {
+            // Use path-style URLs
+            $uri = $uri->withPath('/' . $bucket);
+        } else {
+            // Use virtual-style URLs if haven't been set up already
+            if (strpos($uri->getHost(), $bucket . '.') !== 0) {
+                $uri = $uri->withHost($bucket . '.' . $uri->getHost());
+            }
         }
 
-        $subfolder = $subfolder ? '/' . $this->getSubfolder() : null;
+        if ($subfolder && (string) $this->getSubfolder() !== '') {
+            $uri = $uri->withPath(
+                Path::clean($uri->getPath() . '/' . $this->getSubfolder(), '/')
+            );
+        }
 
-        return rtrim($uri . $subfolder, '/');
+        return $uri;
     }
 
     /**
