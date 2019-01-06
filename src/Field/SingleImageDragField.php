@@ -36,6 +36,7 @@ use Windwalker\Test\TestHelper;
  * @method  mixed|$this  version(int $value = null)
  * @method  mixed|$this  layout(string $value = null)
  * @method  mixed|$this  ajax(string|bool $value = null)
+ * @method  mixed|$this  previewHandler(callable $value = null)
  *
  * @since  1.0
  */
@@ -233,6 +234,7 @@ class SingleImageDragField extends TextareaField
             'minHeight' => 'min_height',
             'minWidth' => 'min_width',
             'showSizeNotice' => 'show_size_notice',
+            'previewHandler' => 'preview_handler',
             'originSize',
             'version',
             'width',

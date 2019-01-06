@@ -11,13 +11,20 @@
 $packageName = $app->packageResolver->getAlias(\Lyrasoft\Unidev\UnidevPackage::class);
 $defaultImage = isset($defaultImage) ? $defaultImage : $asset->path . '/' . $packageName . '/images/default-img.png';
 $image = $attrs['value'] ? $attrs['value'] : e($defaultImage);
-$suffix = $field->get('version_suffix', '?');
 
-if ($suffix === '?' && strpos($image, '?') !== false) {
-    $suffix = '&';
+if (is_callable($field->previewHandler())) {
+    $handler = $field->previewHandler();
+
+    $image = $handler($image, $field);
+} else {
+    $suffix = $field->get('version_suffix', '?');
+
+    if ($suffix === '?' && strpos($image, '?') !== false) {
+        $suffix = '&';
+    }
+
+    $image .= $suffix . uniqid();
 }
-
-$image .= $suffix . uniqid();
 ?>
 @if (WINDWALKER_DEBUG && $version === 1 && !$field->get('force_v1', false))
     <div class="alert alert-warning">
