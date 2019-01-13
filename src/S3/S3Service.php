@@ -9,6 +9,7 @@
 namespace Lyrasoft\Unidev\S3;
 
 use Aws\CommandInterface;
+use Aws\Result;
 use Aws\S3\S3Client;
 use Psr\Http\Message\UriInterface;
 use Windwalker\Core\Config\Config;
@@ -28,16 +29,16 @@ use Windwalker\Uri\Uri;
  */
 class S3Service
 {
-    const ACL_PRIVATE = 'private';
-    const ACL_PUBLIC_READ = 'public-read';
-    const ACL_PUBLIC_READ_WRITE = 'public-read-write';
-    const ACL_AUTHENTICATED_READ = 'authenticated-read';
+    public const ACL_PRIVATE = 'private';
+    public const ACL_PUBLIC_READ = 'public-read';
+    public const ACL_PUBLIC_READ_WRITE = 'public-read-write';
+    public const ACL_AUTHENTICATED_READ = 'authenticated-read';
 
-    const STORAGE_CLASS_STANDARD = 'STANDARD';
-    const STORAGE_CLASS_RRS = 'REDUCED_REDUNDANCY';
+    public const STORAGE_CLASS_STANDARD = 'STANDARD';
+    public const STORAGE_CLASS_RRS = 'REDUCED_REDUNDANCY';
 
-    const SSE_NONE = '';
-    const SSE_AES256 = 'AES256';
+    public const SSE_NONE = '';
+    public const SSE_AES256 = 'AES256';
 
     /**
      * Property s3.
@@ -70,11 +71,11 @@ class S3Service
      *
      * @param array $args
      *
-     * @return  \Aws\Result
+     * @return  Result
      *
      * @since  1.5.1
      */
-    public function getObject(array $args)
+    public function getObject(array $args): Result
     {
         return $this->runCommand('GetObject', $args);
     }
@@ -85,11 +86,11 @@ class S3Service
      * @param string $path
      * @param array  $args
      *
-     * @return  \Aws\Result
+     * @return  Result
      *
      * @since  1.5.1
      */
-    public function getFileInfo($path, array $args = [])
+    public function getFileInfo(string $path, array $args = []): Result
     {
         $args['Key'] = $path;
 
@@ -107,9 +108,9 @@ class S3Service
      *
      * @since  1.5.1
      */
-    public function getPreSignedUrl($path, $expires, array $args = [])
+    public function getPreSignedUrl(string $path, string $expires, array $args = []): UriInterface
     {
-        $args['Key'] = $path;
+        $args['Key'] = $this->getPathFromFullUrl($path);
 
         $cmd = $this->getCommand('GetObject', $args);
 
@@ -129,9 +130,13 @@ class S3Service
      *
      * @since  1.5.2
      */
-    public function getPreSignedUrlWithFilename($path, $expires, $filename, array $args = [])
-    {
-        $args['Key'] = $path;
+    public function getPreSignedUrlWithFilename(
+        string $path,
+        string $expires,
+        string $filename,
+        array $args = []
+    ): UriInterface {
+        $args['Key'] = $this->getPathFromFullUrl($path);
         $args['ResponseContentDisposition'] = sprintf(
             "attachment; filename*=UTF-8''%s",
             rawurlencode(File::makeUtf8Safe($filename))
@@ -148,11 +153,11 @@ class S3Service
      *
      * @param array $args
      *
-     * @return  \Aws\Result
+     * @return  Result
      *
      * @since  1.4
      */
-    public function putObject(array $args)
+    public function putObject(array $args): Result
     {
         return $this->runCommand('PutObject', $args);
     }
@@ -164,11 +169,11 @@ class S3Service
      * @param string $path
      * @param array  $args
      *
-     * @return  \Aws\Result
+     * @return  Result
      *
      * @since  1.4
      */
-    public function uploadFile($file, $path, array $args = [])
+    public function uploadFile(string $file, string $path, array $args = []): Result
     {
         $args['Key'] = $path;
         $args['Body'] = $stream = new Stream($file, Stream::MODE_READ_ONLY_FROM_BEGIN);
@@ -188,11 +193,11 @@ class S3Service
      * @param string        $path
      * @param array         $args
      *
-     * @return  \Aws\Result
+     * @return  Result
      *
      * @since  1.4
      */
-    public function uploadFileData($data, $path, array $args = [])
+    public function uploadFileData($data, string $path, array $args = []): Result
     {
         $args['Key'] = $path;
         $args['Body'] = $data;
@@ -205,11 +210,11 @@ class S3Service
      *
      * @param array $args
      *
-     * @return  \Aws\Result
+     * @return  Result
      *
      * @since  1.5.1
      */
-    public function deleteObject(array $args)
+    public function deleteObject(array $args): Result
     {
         return $this->runCommand('DeleteObject', $args);
     }
@@ -220,13 +225,13 @@ class S3Service
      * @param string $path
      * @param array  $args
      *
-     * @return  \Aws\Result
+     * @return  Result
      *
      * @since  1.4
      */
-    public function deleteFile($path, array $args = [])
+    public function deleteFile(string $path, array $args = []): Result
     {
-        $args['Key'] = $path;
+        $args['Key'] = $this->getPathFromFullUrl($path);
 
         return $this->deleteObject($args);
     }
@@ -237,11 +242,13 @@ class S3Service
      * @param string $path
      * @param array  $args
      *
-     * @return  \Aws\Result
+     * @return  Result
      *
      * @since  1.5.2
+     *
+     * @deprecated Use deleteFile() directly.
      */
-    public function deleteByFullPath($path, array $args = [])
+    public function deleteByFullPath(string $path, array $args = []): Result
     {
         $uri = new Uri($path);
         $filePath = ltrim($uri->getPath(), '/');
@@ -262,16 +269,46 @@ class S3Service
     }
 
     /**
+     * getPathFromFullUrl
+     *
+     * @param string $url
+     *
+     * @return  string
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getPathFromFullUrl(string $url): string
+    {
+        if (strpos($url, 'http') !== 0) {
+            return $url;
+        }
+
+        $host = $this->getHost(true, false)->__toString();
+        
+        if (strpos($url, $host) === 0) {
+            return ltrim(substr($url, strlen($host)), '/');
+        }
+
+        $host = $this->getHost(true, true)->__toString();
+
+        if (strpos($url, $host) === 0) {
+            return ltrim(substr($url, strlen($host)), '/');
+        }
+        
+        return $url;
+    }
+
+    /**
      * command
      *
      * @param string $name
      * @param array  $args
      *
-     * @return  \Aws\Result
+     * @return  Result
      *
      * @since  1.5.1
      */
-    public function runCommand($name, array $args = [])
+    public function runCommand(string $name, array $args = []): Result
     {
         $cmd = $this->getCommand($name, $args);
 
@@ -288,7 +325,7 @@ class S3Service
      *
      * @since  1.5.1
      */
-    public function getCommand($name, array $args = [])
+    public function getCommand(string $name, array $args = []): CommandInterface
     {
         if (!isset($args['Bucket'])) {
             $args['Bucket'] = $this->getBucketName();
@@ -308,7 +345,7 @@ class S3Service
      *
      * @since  1.4
      */
-    public function getKey()
+    public function getKey(): string
     {
         return $this->config->get('unidev.amazon.key');
     }
@@ -318,7 +355,7 @@ class S3Service
      *
      * @return  string
      */
-    public function getBucketName()
+    public function getBucketName(): string
     {
         $bucket = $this->config->get('unidev.amazon.bucket');
 
@@ -336,7 +373,7 @@ class S3Service
      *
      * @since  1.4
      */
-    public function getSubfolder()
+    public function getSubfolder(): string
     {
         return $this->config->get('unidev.amazon.subfolder');
     }
@@ -349,7 +386,7 @@ class S3Service
      *
      * @return UriInterface
      */
-    public function getHost($subfolder = true, $pathStyle = false)
+    public function getHost(bool $subfolder = true, bool $pathStyle = false): UriInterface
     {
         $uri = $this->client->getEndpoint();
 
@@ -381,7 +418,7 @@ class S3Service
      *
      * @since  1.4
      */
-    public function getClient()
+    public function getClient(): S3Client
     {
         return $this->client;
     }
@@ -395,7 +432,7 @@ class S3Service
      *
      * @since  1.4
      */
-    public function setClient($client)
+    public function setClient($client): self
     {
         $this->client = $client;
 
