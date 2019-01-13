@@ -275,7 +275,7 @@ class S3Service
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.5
      */
     public function getPathFromFullUrl(string $url): string
     {
