@@ -81,7 +81,7 @@
 			<data directive="@endauth" />
 			<data directive="@enddebug" />
 			<data directive="@endTemplate" />
-			<data directive="@formToken" injection="true" prefix="&lt;?php echo $package-&gt;csrf-&gt;input" suffix="); ?&gt;" />
+			<data directive="@formToken" injection="true" prefix="&lt;?php echo $package-&gt;csrf-&gt;input(" suffix="); ?&gt;" />
 			<data directive="@js" injection="true" prefix="&lt;?php $asset-&gt;addJS(" suffix="); ?&gt;" />
 			<data directive="@messages" />
 			<data directive="@plural" injection="true" prefix="&lt;?php echo $translator-&gt;plural(" suffix="); ?&gt;" />
