@@ -74,8 +74,8 @@ class UnidevProvider implements ServiceProviderInterface
             return new S3Client([
                 'credentials' => $credentials,
                 'version' => 'latest',
-                'region' => $config->get('unidev.amazon.region', 'ap-northeast-1'),
-                'endpoint' => $config->get('unidev.amazon.endpoint', 'https://s3.amazonaws.com'),
+                'region' => $config->get('unidev.amazon.region') ?: 'ap-northeast-1',
+                'endpoint' => $config->get('unidev.amazon.endpoint') ?: 'https://s3.amazonaws.com',
                 'http' => [
                     'verify' => CaBundle::getBundledCaBundlePath()
                 ]
