@@ -74,7 +74,7 @@ class CaptchaService
     {
         $profile = $profile ?: $this->getDefaultProfile();
 
-        return $this->fetch('driver.' . $profile, function () use ($profile) {
+        return $this->once('driver.' . $profile, function () use ($profile) {
             return $this->createDriver($profile);
         });
     }
