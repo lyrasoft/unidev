@@ -6,7 +6,10 @@
  * @license    __LICENSE__
  */
 
-namespace Faker;
+namespace Lyrasoft\Unidev\Faker;
+
+use Faker\Factory;
+use Faker\Generator;
 
 /**
  * The FakerHelper class.
@@ -28,8 +31,10 @@ class FakerHelper
      * @param string $locale
      *
      * @return  Generator
+     *
+     * @deprecated  Use FakerService instead.
      */
-    public static function getFaker($locale = Factory::DEFAULT_LOCALE)
+    public static function getFaker($locale = Factory::DEFAULT_LOCALE): Generator
     {
         $locale = str_replace('-', '_', $locale);
 
@@ -50,10 +55,26 @@ class FakerHelper
      * @return  void
      *
      * @since  1.5.1
+     *
+     * @deprecated  Use registerChineseLorem().
      */
-    public static function registerIChing($locale = 'zh_TW')
+    public static function registerIChing($locale = 'zh_TW'): void
     {
-        class_alias(\Unidev\Faker\zh_TW\Lorem::class, 'Faker\Provider\\' . $locale . '\Lorem');
+        static::registerChineseLorem($locale);
+    }
+
+    /**
+     * register
+     *
+     * @param string $locale
+     *
+     * @return  void
+     *
+     * @since  1.5.1
+     */
+    public static function registerChineseLorem($locale = 'zh_TW'): void
+    {
+        class_alias(\Lyrasoft\Unidev\Faker\zh_TW\Lorem::class, 'Faker\Provider\\' . $locale . '\Lorem');
     }
 
     /**
@@ -63,7 +84,7 @@ class FakerHelper
      *
      * @return  array
      */
-    public static function getBuddhistSizes()
+    public static function getBuddhistSizes(): array
     {
         return [
             '倶胝',

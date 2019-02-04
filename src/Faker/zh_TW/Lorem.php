@@ -1,6 +1,6 @@
 <?php
 
-namespace Unidev\Faker\zh_TW;
+namespace Lyrasoft\Unidev\Faker\zh_TW;
 
 use Faker\Provider\Base;
 
@@ -205,6 +205,7 @@ class Lorem extends Base
      *                                  otherwise $nbWords may vary by +/-40% with a minimum of 1
      *
      * @return string
+     * @throws \Exception
      */
     public static function sentence($nbWords = 6, $variableNbWords = true): string
     {
@@ -230,6 +231,7 @@ class Lorem extends Base
      * @param  bool    $asText if true the sentences are returned as one string
      *
      * @return array|string
+     * @throws \Exception
      */
     public static function sentences($nb = 3, $asText = false)
     {
@@ -252,6 +254,7 @@ class Lorem extends Base
      *                                      otherwise $nbSentences may vary by +/-40% with a minimum of 1
      *
      * @return string
+     * @throws \Exception
      */
     public static function paragraph($nbSentences = 3, $variableNbSentences = true): string
     {
@@ -275,6 +278,7 @@ class Lorem extends Base
      * @param  bool    $asText if true the paragraphs are returned as one string, separated by two newlines
      *
      * @return array|string
+     * @throws \Exception
      */
     public static function paragraphs($nb = 3, $asText = false)
     {
@@ -365,9 +369,30 @@ class Lorem extends Base
      * @return  int
      *
      * @since  1.5.1
+     * @throws \Exception
      */
     protected static function randomizeNbElements($nbElements): int
     {
         return (int) ($nbElements * random_int(80, 120) / 100) + 1;
+    }
+
+    /**
+     * setWordList
+     *
+     * @param string|array $wordList
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function setWordList($wordList): void
+    {
+        if (is_string($wordList)) {
+            $wordList = explode("\n", $wordList);
+        }
+
+        $wordList = array_filter(array_map('trim', $wordList), 'strlen');
+
+        static::$wordList = $wordList;
     }
 }
