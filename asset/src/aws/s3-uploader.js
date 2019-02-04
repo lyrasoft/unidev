@@ -7,16 +7,19 @@
 
 class S3Uploader extends PhoenixEventMixin(class {}) {
   static defaultOptions = {
-    accessKey: '',
-    bucket: '',
-    acl: '',
     endpoint: '',
-    region: '',
     subfolder: '',
-    signature: '',
-    policy: '',
-    version: 2,
-    starts_with: []
+    starts_with: [],
+    formInputs: {
+      acl: '',
+      bucket: '',
+      key: '',
+      Policy: '',
+      'X-Amz-Algorithm': '',
+      'X-Amz-Credential': '',
+      'X-Amz-Date': '',
+      'X-Amz-Signature': '',
+    }
   };
 
   static instances = {};
@@ -53,6 +56,7 @@ class S3Uploader extends PhoenixEventMixin(class {}) {
    */
   upload(file, path, options = {}) {
     const fileData = new FormData();
+    const inputs = $.extend({}, this.options.formInputs);
 
     if (typeof file === 'string') {
       file = new Blob([file], {type: options['Content-Type'] || 'text/plain'});
@@ -68,18 +72,21 @@ class S3Uploader extends PhoenixEventMixin(class {}) {
 
     options['key'] = this.constructor.trimSlashes(this.options.subfolder) + '/'
       + this.constructor.trimSlashes(path);
-    options['Content-Type'] = options['Content-Type'] || 'text/plain';
-    options['Content-Disposition'] = options['Content-Disposition'] || '';
+    options['Content-Type'] = options['Content-Type'] || null;
+    options['Content-Disposition'] = options['Content-Disposition'] || null;
 
-    // Prepare default
-    for (let key of Object.keys(this.options.starts_with)) {
-      fileData.append(key, options[key] || '');
+    // Prepare pre-signed data
+    for (let key in inputs) {
+      fileData.set(key, inputs[key]);
     }
 
-    fileData.append('acl', this.options.acl);
-    fileData.append('AWSAccessKeyId', this.options.accessKey);
-    fileData.append('policy', this.options.policy);
-    fileData.append('signature', this.options.signature);
+    // Prepare custom data
+    for (let key of Object.keys(this.options.starts_with)) {
+      if (options[key]) {
+        fileData.set(key, options[key]);
+      }
+    }
+
     fileData.append('file', file);
 
     this.trigger('start', fileData);

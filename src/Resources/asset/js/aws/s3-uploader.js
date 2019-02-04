@@ -87,6 +87,7 @@ function (_PhoenixEventMixin) {
 
       var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
       var fileData = new FormData();
+      var inputs = $.extend({}, this.options.formInputs);
 
       if (typeof file === 'string') {
         file = new Blob([file], {
@@ -103,20 +104,24 @@ function (_PhoenixEventMixin) {
       }
 
       options['key'] = this.constructor.trimSlashes(this.options.subfolder) + '/' + this.constructor.trimSlashes(path);
-      options['Content-Type'] = options['Content-Type'] || 'text/plain';
-      options['Content-Disposition'] = options['Content-Disposition'] || ''; // Prepare default
+      options['Content-Type'] = options['Content-Type'] || null;
+      options['Content-Disposition'] = options['Content-Disposition'] || null; // Prepare pre-signed data
+
+      for (var key in inputs) {
+        fileData.set(key, inputs[key]);
+      } // Prepare custom data
+
 
       var _arr = Object.keys(this.options.starts_with);
 
       for (var _i = 0; _i < _arr.length; _i++) {
-        var key = _arr[_i];
-        fileData.append(key, options[key] || '');
+        var _key2 = _arr[_i];
+
+        if (options[_key2]) {
+          fileData.set(_key2, options[_key2]);
+        }
       }
 
-      fileData.append('acl', this.options.acl);
-      fileData.append('AWSAccessKeyId', this.options.accessKey);
-      fileData.append('policy', this.options.policy);
-      fileData.append('signature', this.options.signature);
       fileData.append('file', file);
       this.trigger('start', fileData);
       return $.post({
@@ -171,16 +176,19 @@ function () {
 }()));
 
 _defineProperty(S3Uploader, "defaultOptions", {
-  accessKey: '',
-  bucket: '',
-  acl: '',
   endpoint: '',
-  region: '',
   subfolder: '',
-  signature: '',
-  policy: '',
-  version: 2,
-  starts_with: []
+  starts_with: [],
+  formInputs: {
+    acl: '',
+    bucket: '',
+    key: '',
+    Policy: '',
+    'X-Amz-Algorithm': '',
+    'X-Amz-Credential': '',
+    'X-Amz-Date': '',
+    'X-Amz-Signature': ''
+  }
 });
 
 _defineProperty(S3Uploader, "instances", {});

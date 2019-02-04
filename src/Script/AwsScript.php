@@ -9,10 +9,9 @@
 namespace Lyrasoft\Unidev\Script;
 
 use Aws\Credentials\Credentials;
+use Aws\S3\PostObjectV4;
 use Lyrasoft\Unidev\S3\S3Service;
 use Lyrasoft\Unidev\UnidevPackage;
-use Phoenix\Script\CoreScript;
-use Phoenix\Script\PhoenixScript;
 use Windwalker\Core\Asset\AbstractScript;
 use Windwalker\Ioc;
 
@@ -30,15 +29,28 @@ class AwsScript extends AbstractScript
      */
     protected static $packageClass = UnidevPackage::class;
 
-    public static function s3BrowserUploader(string $name, array $options = [])
-    {
+    /**
+     * s3BrowserUploader
+     *
+     * @param string $name
+     * @param string $acl
+     * @param array  $options
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function s3BrowserUploader(
+        string $name,
+        string $acl = S3Service::ACL_PUBLIC_READ,
+        array $options = []
+    ) {
         if (!static::inited(__METHOD__)) {
             static::addJS(static::packageName() . '/js/aws/s3-uploader.min.js');
         }
 
         if (!static::inited(__METHOD__, get_defined_vars())) {
             $options = static::mergeOptions([
-                'acl' => S3Service::ACL_PUBLIC_READ,
                 'starts_with' => [
                     'key' => '',
                     'Content-Type' => '',
@@ -46,43 +58,43 @@ class AwsScript extends AbstractScript
                 ]
             ], $options);
 
-
             $s3 = Ioc::make(S3Service::class);
-            /** @var Credentials $credentials */
-            $credentials = $s3->getClient()->getCredentials()->wait();
 
-            $accessKey = $credentials->getAccessKeyId();
             $bucket    = $s3->getBucketName();
             $subfolder = $s3->getSubfolder();
             $endpoint  = $s3->getHost(false)->__toString();
-            $region    = $s3->getClient()->getRegion();
-            $acl       = $options['acl'];
 
-            $policy = [
-                'expiration' => '2030-12-01T12:00:00.000Z',
-                'conditions' => [
-                    ['bucket' => $s3->getBucketName()],
-                    ['acl' => $acl],
-                ]
+            $conditions = [
+                ['bucket' => $s3->getBucketName()],
+                ['acl' => $acl],
+            ];
+
+            $defaultInputs = [
+                'bucket' => $s3->getBucketName(),
+                'acl' => $acl
             ];
 
             foreach ($options['starts_with'] as $key => $value) {
-                $policy['conditions'][] = ['starts-with', '$' . $key, $value];
+                $conditions[] = ['starts-with', '$' . $key, $value];
+                $defaultInputs[$key] = '';
             }
 
-            $policy    = base64_encode(json_encode($policy));
-            $signature = base64_encode(hash_hmac('sha1', $policy, $credentials->getSecretKey(), true));
+            $postObject = new PostObjectV4(
+                $s3->getClient(),
+                $bucket,
+                $defaultInputs,
+                $conditions,
+                '+2hours'
+            );
+
+            $formInputs = $postObject->getFormInputs();
 
             $optionString = static::getJSObject(
                 $options,
                 compact(
-                    'policy',
-                    'signature',
-                    'bucket',
                     'endpoint',
                     'subfolder',
-                    'region',
-                    'accessKey'
+                    'formInputs'
                 )
             );
 
