@@ -7,7 +7,10 @@
         "prod": "cross-env NODE_ENV=production node_modules/gulp/bin/gulp.js --gulpfile=fusionfile.js"
     },
     "dependencies": {
+        "@babel/core": "^7.2.2",
+        "@babel/plugin-proposal-class-properties": "^7.3.0",
         "@babel/polyfill": "^7.0.0",
+        "@babel/preset-env": "^7.3.1",
         "@babel/standalone": "^7.2.2",
         "@webcomponents/webcomponentsjs": "^1.1.0",
         "nodelist-foreach-polyfill": "^1.2.0",
