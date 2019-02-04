@@ -21,6 +21,10 @@ use Lyrasoft\Unidev\Helper\UnsplashHelper;
  *
  * @method string avatar(int $size = 300, ?string $u = null)
  * @property string avatar
+ *
+ * @see Base
+ *
+ * @method mixed passthrough($value)
  */
 class Generator
 {
