@@ -2,6 +2,7 @@
 
 namespace Faker;
 
+use Faker\Provider\Base;
 use Lyrasoft\Unidev\Faker\UnidevFakerProvider;
 use Lyrasoft\Unidev\Helper\PravatarHelper;
 use Lyrasoft\Unidev\Helper\UnsplashHelper;
