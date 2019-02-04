@@ -59,11 +59,12 @@ class PravatarHelper
      * @param string $u
      *
      * @return  string
+     * @throws \Exception
      */
     public static function unique($size = 300, $u = null)
     {
         if ((string) $u === '') {
-            $u = uniqid(mt_rand(1, 1000));
+            $u = uniqid(random_int(1, 1000), true);
         }
 
         return static::url($size, null, $u);

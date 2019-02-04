@@ -11,14 +11,18 @@ namespace Lyrasoft\Unidev\Provider;
 use Aws\Credentials\Credentials;
 use Aws\S3\S3Client;
 use Composer\CaBundle\CaBundle;
+use Faker\Generator;
 use Lyrasoft\Unidev\Captcha\CaptchaService;
+use Lyrasoft\Unidev\Faker\UnidevFakerProvider;
 use Lyrasoft\Unidev\Image\ImageUploaderFactory;
 use Lyrasoft\Unidev\S3\S3Service;
 use Windwalker\Core\Application\WindwalkerApplicationInterface;
 use Windwalker\Core\Renderer\RendererManager;
 use Windwalker\Core\Router\MainRouter;
+use Windwalker\Core\Seeder\FakerService;
 use Windwalker\DI\Container;
 use Windwalker\DI\ServiceProviderInterface;
+use Windwalker\Event\Event;
 use Windwalker\Utilities\Queue\PriorityQueue;
 
 /**
@@ -101,6 +105,15 @@ class UnidevProvider implements ServiceProviderInterface
         // Uploader
         $container->share('unidev.image.uploader', function (Container $container) {
             return $container->get('unidev.image.uploader.factory')->create();
+        });
+
+        // Faker
+        $container->extend(FakerService::class, function (FakerService $fakerService) {
+            return $fakerService->listen('afterFakerCreated', function (Event $event) {
+                /** @var Generator $faker */
+                $faker = $event['faker'];
+                $faker->addProvider(new UnidevFakerProvider($faker));
+            });
         });
 
         if ($this->app->isConsole()) {

@@ -10,7 +10,6 @@ namespace Lyrasoft\Unidev\Helper;
 
 use Windwalker\Filesystem\File;
 use Windwalker\Http\HttpClient;
-use Windwalker\Utilities\ArrayHelper;
 
 /**
  * The UnsplashHelper class.
@@ -42,7 +41,7 @@ class UnsplashHelper
      *
      * @return  string
      */
-    public static function getImageUrl($width = 800, $height = 600, $id = null)
+    public static function getImageUrl($width = 800, $height = 600, $id = null): string
     {
         static::init();
 
@@ -56,23 +55,24 @@ class UnsplashHelper
     /**
      * getImages
      *
-     * @param int       $count   Images number.
-     * @param int|array $width   Can be int or array as random [start, end].
-     * @param int|array $height  Can be int or array as random [start, end].
-     * @param int       $id      Image id or let fetch random id.
+     * @param int       $count  Images number.
+     * @param int|array $width  Can be int or array as random [start, end].
+     * @param int|array $height Can be int or array as random [start, end].
+     * @param int       $id     Image id or let fetch random id.
      *
      * @return  array
      *
      * @since  1.4
+     * @throws \Exception
      */
-    public static function getImages($count, $width = 800, $height = 600, $id = null)
+    public static function getImages($count, $width = 800, $height = 600, $id = null): array
     {
         $images = [];
 
         foreach (range(1, $count) as $i) {
             $images[] = static::getImageUrl(
-                is_array($width) ? mt_rand(...$width) : $width,
-                is_array($height) ? mt_rand(...$height) : $height,
+                is_array($width) ? random_int(...$width) : $width,
+                is_array($height) ? random_int(...$height) : $height,
                 $id
             );
         }
@@ -91,8 +91,9 @@ class UnsplashHelper
      * @return  string
      *
      * @since  1.4
+     * @throws \Exception
      */
-    public static function getImagesJson($count, $width = 800, $height = 600, $id = null)
+    public static function getImagesJson($count, $width = 800, $height = 600, $id = null): string
     {
         return json_encode(static::getImages($count, $width, $height, $id));
     }
@@ -102,7 +103,7 @@ class UnsplashHelper
      *
      * @return  array
      */
-    protected static function init()
+    protected static function init(): array
     {
         if (static::$ids === null) {
             $file = static::getTempPath();
@@ -124,7 +125,7 @@ class UnsplashHelper
      *
      * @return  string
      */
-    protected static function getTempPath()
+    protected static function getTempPath(): string
     {
         return WINDWALKER_TEMP . '/unidev/images/picsum-list.data';
     }
@@ -134,10 +135,10 @@ class UnsplashHelper
      *
      * @return  array
      */
-    public static function getList()
+    public static function getList(): array
     {
         if (!static::$images) {
-            $http     = new HttpClient;
+            $http     = new HttpClient();
             $response = $http->get('https://picsum.photos/list');
 
             $images = json_decode($response->getBody()->__toString());
@@ -155,11 +156,11 @@ class UnsplashHelper
      *
      * @return  void
      */
-    public static function dump()
+    public static function dump(): void
     {
         $list = static::getList();
 
-        $ids = ArrayHelper::getColumn($list, 'id');
+        $ids = array_column($list, 'id');
 
         $content = implode(',', $ids);
 
