@@ -109,11 +109,13 @@ class UnidevProvider implements ServiceProviderInterface
 
         // Faker
         $container->extend(FakerService::class, function (FakerService $fakerService) {
-            return $fakerService->getDispatcher()->listen('afterFakerCreated', function (Event $event) {
+            $fakerService->getDispatcher()->listen('afterFakerCreated', function (Event $event) {
                 /** @var Generator $faker */
                 $faker = $event['faker'];
                 $faker->addProvider(new UnidevFakerProvider($faker));
             });
+
+            return $fakerService;
         });
 
         if ($this->app->isConsole()) {
