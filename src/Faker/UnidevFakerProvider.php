@@ -81,7 +81,7 @@ class UnidevFakerProvider extends BaseProvider
      *
      * @throws \Exception
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.6
      */
     public function avatar(int $size = 300, ?string $u = null): string
     {

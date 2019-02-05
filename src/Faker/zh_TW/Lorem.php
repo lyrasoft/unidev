@@ -383,7 +383,7 @@ class Lorem extends Base
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.6
      */
     public static function setWordList($wordList): void
     {

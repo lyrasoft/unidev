@@ -18,7 +18,7 @@ use Windwalker\Ioc;
 /**
  * The AwsScript class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5.6
  */
 class AwsScript extends AbstractScript
 {
@@ -38,7 +38,7 @@ class AwsScript extends AbstractScript
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.6
      */
     public static function s3BrowserUploader(
         string $name,
