@@ -17,6 +17,7 @@ use Windwalker\Http\Response\HtmlResponse;
 use Windwalker\Http\Response\XmlResponse;
 use Windwalker\Router\Exception\RouteNotFoundException;
 use Windwalker\String\StringNormalise;
+use Windwalker\Utilities\Queue\PriorityQueue;
 use Windwalker\Utilities\Reflection\ReflectionHelper;
 
 /**
@@ -62,8 +63,8 @@ class AbstractAjaxController extends AbstractController
 
             case 'json':
             default:
-                $this->addMiddleware(JsonResponseMiddleware::class);
-                $this->addMiddleware(JsonApiMiddleware::class);
+                $this->addMiddleware(JsonResponseMiddleware::class, PriorityQueue::HIGH);
+                $this->addMiddleware(JsonApiMiddleware::class, PriorityQueue::HIGH);
                 break;
         }
     }
@@ -79,12 +80,12 @@ class AbstractAjaxController extends AbstractController
     protected function doExecute()
     {
         $taskName = $this->input->get($this->taskKey);
-        
+
         $task = explode('.', $taskName, 2);
 
         if (isset($task[1])) {
             list($subModule, $t) = $task;
-            
+
             $ns = ReflectionHelper::getNamespaceName(static::class) . '\\' .
                 StringNormalise::toCamelCase($subModule) . '\\';
             $controller = $ns . $this->router->getRouter()->fetchControllerSuffix($this->input->getMethod());
