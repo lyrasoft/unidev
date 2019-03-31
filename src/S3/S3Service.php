@@ -375,7 +375,7 @@ class S3Service
      */
     public function getSubfolder(): string
     {
-        return $this->config->get('unidev.amazon.subfolder');
+        return (string) $this->config->get('unidev.amazon.subfolder');
     }
 
     /**
