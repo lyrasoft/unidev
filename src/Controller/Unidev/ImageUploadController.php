@@ -58,7 +58,7 @@ class ImageUploadController extends AbstractPhoenixController
         $format = $this->input->get('format', 'file');
 
         $folder = $this->input->getPath('folder');
-        $resize = $this->input->getString('resize', true);
+        $resize = $this->input->getString('resize', $this->app->get('unidev.image.resize.enabled', true));
         $folder = ltrim($folder . '/', '/');
 
         switch ($format) {
@@ -101,21 +101,25 @@ class ImageUploadController extends AbstractPhoenixController
         }
 
         if ($resize) {
-            $size    = $this->input->get('size', '1200x1200');
-            $crop    = $this->input->get('crop', 0);
-            $quality = $this->input->getInt('quality', 85);
+            $resizeConfig = [];
 
-            list($width, $height) = array_pad(explode('x', strtolower($size)), 2, null);
-            $height = $height ?: $width;
+            if ($size = $this->input->get('size', '1200x1200')) {
+                [$width, $height] = array_pad(explode('x', strtolower($size)), 2, null);
+                $height = $height ?: $width;
 
-            $this->resizeConfig = [
-                'width'   => $width,
-                'height'  => $height,
-                'crop'    => $crop,
-                'quality' => $quality,
-            ];
+                $resizeConfig['width'] = $width;
+                $resizeConfig['height'] = $height;
+            }
 
-            $temp = $this->resize($temp);
+            if ($crop = $this->input->get('crop', 0)) {
+                $resizeConfig['crop'] = $crop;
+            }
+
+            if ($quality = $this->input->getInt('quality', 85)) {
+                $resizeConfig['quality'] = $quality;
+            }
+
+            $temp = $this->resize($temp, $resizeConfig);
         }
 
         if (!is_file($temp)) {
@@ -192,34 +196,24 @@ class ImageUploadController extends AbstractPhoenixController
      *
      * @link  https://github.com/Gregwar/Image
      *
-     * @param   string $file
+     * @param string $file
+     * @param array  $config
      *
      * @return  string
      * @throws \Exception
      */
-    protected function resize($file)
+    protected function resize($file, array $config = [])
     {
-        if (!$this->app->get('unidev.image.resize.enabled', true)) {
-            return $file;
-        }
-
-        $size    = $this->input->getString('resize');
-        $crop    = $this->input->get('crop', 0);
-        $quality = $this->input->getInt('quality', 85);
-
-        list($width, $height) = array_pad(explode('x', strtolower($size)), 2, null);
-        $height = $height ?: $width;
-
         $app = $this->app;
 
         $resize = $app->config->extract('unidev.image.resize');
 
-        $resize->load($this->resizeConfig);
+        $resize->load($config);
 
-        $width   = $width ?: $resize->get('width', 1200);
-        $height  = $height ?: $resize->get('height', 1200);
-        $quality = $quality ?: $resize->get('quality', 85);
-        $crop    = $crop ?: $resize->get('crop', false);
+        $width   = $resize->get('width', 1200);
+        $height  = $resize->get('height', 1200);
+        $quality = $resize->get('quality', 85);
+        $crop    = $resize->get('crop', false);
 
         try {
             $image = Image::open($file);
