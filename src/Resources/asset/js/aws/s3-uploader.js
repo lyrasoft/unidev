@@ -104,6 +104,7 @@ function (_PhoenixEventMixin) {
       }
 
       options['key'] = this.constructor.trimSlashes(this.options.subfolder) + '/' + this.constructor.trimSlashes(path);
+      options['key'] = this.constructor.trimSlashes(options['key']);
       options['Content-Type'] = options['Content-Type'] || null;
       options['Content-Disposition'] = options['Content-Disposition'] || null; // Prepare pre-signed data
 
@@ -150,9 +151,7 @@ function (_PhoenixEventMixin) {
 
         _this2.trigger('success', url, xhr);
       }).fail(function (xhr) {
-        console.error(xhr);
-
-        _this2.trigger('fail');
+        _this2.trigger('fail', xhr);
       }).always(function () {
         _this2.trigger('end');
       });

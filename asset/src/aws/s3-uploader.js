@@ -72,6 +72,7 @@ class S3Uploader extends PhoenixEventMixin(class {}) {
 
     options['key'] = this.constructor.trimSlashes(this.options.subfolder) + '/'
       + this.constructor.trimSlashes(path);
+    options['key'] = this.constructor.trimSlashes(options['key']);
     options['Content-Type'] = options['Content-Type'] || null;
     options['Content-Disposition'] = options['Content-Disposition'] || null;
 
@@ -121,8 +122,7 @@ class S3Uploader extends PhoenixEventMixin(class {}) {
         this.trigger('success', url, xhr);
       })
       .fail((xhr) => {
-        console.error(xhr);
-        this.trigger('fail');
+        this.trigger('fail', xhr);
       })
       .always(() => {
         this.trigger('end');
