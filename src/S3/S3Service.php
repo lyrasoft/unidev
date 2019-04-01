@@ -77,7 +77,7 @@ class S3Service
      */
     public function getObject(array $args): Result
     {
-        return $this->runCommand('GetObject', $args);
+        return $this->client->getObject($args);
     }
 
     /**
@@ -112,7 +112,7 @@ class S3Service
     {
         $args['Key'] = $this->getPathFromFullUrl($path);
 
-        $cmd = $this->getCommand('GetObject', $args);
+        $cmd = $this->client->getCommand('GetObject', $args);
 
         return $this->client->createPresignedRequest($cmd, $expires)
             ->getUri();
@@ -142,7 +142,7 @@ class S3Service
             rawurlencode(File::makeUtf8Safe($filename))
         );
 
-        $cmd = $this->getCommand('GetObject', $args);
+        $cmd = $this->client->getCommand('GetObject', $args);
 
         return $this->client->createPresignedRequest($cmd, $expires)
             ->getUri();
@@ -159,7 +159,7 @@ class S3Service
      */
     public function putObject(array $args): Result
     {
-        return $this->runCommand('PutObject', $args);
+        return $this->client->putObject($args);
     }
 
     /**
@@ -216,7 +216,7 @@ class S3Service
      */
     public function deleteObject(array $args): Result
     {
-        return $this->runCommand('DeleteObject', $args);
+        return $this->client->deleteObject($args);
     }
 
     /**
@@ -310,32 +310,9 @@ class S3Service
      */
     public function runCommand(string $name, array $args = []): Result
     {
-        $cmd = $this->getCommand($name, $args);
+        $cmd = $this->client->getCommand($name, $args);
 
         return $this->client->execute($cmd);
-    }
-
-    /**
-     * getCommand
-     *
-     * @param string $name
-     * @param array  $args
-     *
-     * @return  CommandInterface
-     *
-     * @since  1.5.1
-     */
-    public function getCommand(string $name, array $args = []): CommandInterface
-    {
-        if (!isset($args['Bucket'])) {
-            $args['Bucket'] = $this->getBucketName();
-        }
-
-        if (isset($args['Key'])) {
-            $args['Key'] = ltrim(Path::clean($this->getSubfolder() . '/' . $args['Key'], '/'), '/');
-        }
-
-        return $this->client->getCommand($name, $args);
     }
 
     /**
@@ -348,6 +325,18 @@ class S3Service
     public function getKey(): string
     {
         return $this->config->get('unidev.amazon.key');
+    }
+
+    /**
+     * getKey
+     *
+     * @return  string
+     *
+     * @since  1.4
+     */
+    public function getSecret(): string
+    {
+        return $this->config->get('unidev.amazon.secret');
     }
 
     /**
