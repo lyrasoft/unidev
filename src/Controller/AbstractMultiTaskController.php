@@ -14,7 +14,7 @@ use Windwalker\String\StringNormalise;
 /**
  * The AbstractMultiTaskController class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5.8
  */
 class AbstractMultiTaskController extends AbstractController
 {
