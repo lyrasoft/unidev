@@ -103,23 +103,33 @@ class ImageUploadController extends AbstractPhoenixController
         if ($resize) {
             $resizeConfig = [];
 
-            if ($size = $this->input->get('size', '1200x1200')) {
-                [$width, $height] = array_pad(explode('x', strtolower($size)), 2, null);
-                $height = $height ?: $width;
+            $size = $this->input->get('size');
+            $width = $this->input->get('width');
+            $height = $this->input->get('height');
 
+            if ($size || $width || $height) {
                 $resizeConfig['width'] = $width;
                 $resizeConfig['height'] = $height;
-            }
 
-            if ($crop = $this->input->get('crop', 0)) {
-                $resizeConfig['crop'] = $crop;
-            }
+                if ($size) {
+                    [$width, $height] = array_pad(explode('x', strtolower($size)), 2, null);
+                    $height = $height ?: $width;
 
-            if ($quality = $this->input->getInt('quality', 85)) {
-                $resizeConfig['quality'] = $quality;
-            }
+                    // Override width x height
+                    $resizeConfig['width'] = $width;
+                    $resizeConfig['height'] = $height;
+                }
 
-            $temp = $this->resize($temp, $resizeConfig);
+                if ($crop = $this->input->get('crop', 0)) {
+                    $resizeConfig['crop'] = $crop;
+                }
+
+                if ($quality = $this->input->getInt('quality', 85)) {
+                    $resizeConfig['quality'] = $quality;
+                }
+
+                $temp = $this->resize($temp, $resizeConfig);
+            }
         }
 
         if (!is_file($temp)) {
@@ -210,8 +220,8 @@ class ImageUploadController extends AbstractPhoenixController
 
         $resize->load($config);
 
-        $width   = $resize->get('width', 1200);
-        $height  = $resize->get('height', 1200);
+        $width   = $resize->get('width');
+        $height  = $resize->get('height');
         $quality = $resize->get('quality', 85);
         $crop    = $resize->get('crop', false);
 
@@ -224,7 +234,7 @@ class ImageUploadController extends AbstractPhoenixController
 
             if ($crop) {
                 $image->zoomCrop($width, $height);
-            } else {
+            } elseif ($width || $height) {
                 $image->cropResize($width, $height);
             }
         } catch (\UnexpectedValueException $e) {

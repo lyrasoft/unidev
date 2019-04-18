@@ -95,7 +95,7 @@ class SingleImageDragField extends TextareaField
                     ->router
                     ->route('_luna_img_upload', ['resize' => 0]);
             } else {
-                $options['ajax_url'] = $this->ajax();
+                $options['ajax_url'] = (string) $this->ajax();
             }
         }
 
