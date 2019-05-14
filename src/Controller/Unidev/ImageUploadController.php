@@ -225,10 +225,13 @@ class ImageUploadController extends AbstractPhoenixController
         $quality = $resize->get('quality', 85);
         $crop    = $resize->get('crop', false);
 
+        $width = $width ?: null;
+        $height = $width ?: null;
+
         try {
             $image = Image::open($file);
 
-            if ($image->width() < $width && $image->height() < $height) {
+            if (($width && $image->width() < $width) && ($height && $image->height() < $height)) {
                 return $file;
             }
 
