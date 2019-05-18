@@ -22,7 +22,7 @@ class PravatarHelper
      *
      * @var  string
      */
-    protected static $host = 'http://i.pravatar.cc';
+    protected static $host = 'https://i.pravatar.cc';
 
     /**
      * url
