@@ -21,14 +21,16 @@ class SlugHelper
     /**
      * Make slug safe.
      *
-     * @param string $title
-     * @param bool   $utf8
+     * @param string   $title
+     * @param bool     $utf8
+     * @param int|null $limit
      *
      * @return  string
+     * @throws \Exception
      */
-    public static function safe($title, $utf8 = false)
+    public static function safe($title, $utf8 = false, ?int $limit = 8)
     {
-        $slug = static::slugify($title, $utf8);
+        $slug = static::slugify($title, $utf8, $limit);
 
         if (trim($slug) === '') {
             $slug = OutputFilter::stringURLSafe(Chronos::current('Y-m-d-H-i-s'));
@@ -40,13 +42,18 @@ class SlugHelper
     /**
      * slugify
      *
-     * @param string $title
-     * @param bool   $utf8
+     * @param string   $title
+     * @param bool     $utf8
+     * @param int|null $limit
      *
      * @return  string
      */
-    public static function slugify($title, $utf8 = false)
+    public static function slugify($title, $utf8 = false, ?int $limit = 8)
     {
+        if ($limit) {
+            $title = str($title)->truncate($limit)->__toString();
+        }
+        
         if ($utf8) {
             return OutputFilter::stringURLUnicodeSlug($title);
         }
