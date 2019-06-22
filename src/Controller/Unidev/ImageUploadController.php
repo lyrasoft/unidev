@@ -226,7 +226,7 @@ class ImageUploadController extends AbstractPhoenixController
         $crop    = $resize->get('crop', false);
 
         $width = $width ?: null;
-        $height = $width ?: null;
+        $height = $height ?: null;
 
         try {
             $image = Image::open($file);
