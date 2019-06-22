@@ -176,15 +176,15 @@ class SingleImageDragField extends TextareaField
      *     ->version(2)
      * ```
      *
-     * @param string        $base64
-     * @param string        $uri
-     * @param callable|null $handler
-     * @param string|null   $suffix
+     * @param string           $base64
+     * @param string           $uri
+     * @param callable|null    $handler
+     * @param string|bool|null $suffix
      *
      * @return string
      * @since   1.3
      */
-    public static function uploadBase64($base64, $uri, callable $handler = null, ?string $suffix = null): string
+    public static function uploadBase64($base64, $uri, callable $handler = null, $suffix = null): string
     {
         if (strpos($base64, 'data:image') !== 0) {
             return $base64;
@@ -195,7 +195,11 @@ class SingleImageDragField extends TextareaField
         }
 
         if ($url = Base64Image::quickUpload($base64, $uri)) {
-            if ($suffix !== null) {
+            if ($suffix) {
+                if ($suffix === true) {
+                    $suffix = bin2hex(time());
+                }
+
                 if (strpos($url, '?') !== false) {
                     $url .= '&' . $suffix;
                 } else {
