@@ -14,7 +14,7 @@ use Windwalker\Http\Exception\HttpRequestException;
 /**
  * The RequestAssert class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5.11
  */
 class RequestAssert extends Assert
 {
@@ -30,7 +30,7 @@ class RequestAssert extends Assert
      *
      * @return  callable
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.11
      */
     public static function getExceptionHandler(): callable
     {
@@ -46,7 +46,7 @@ class RequestAssert extends Assert
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.11
      */
     public static function setExceptionHandler(callable $exceptionHandler): void
     {
@@ -60,7 +60,7 @@ class RequestAssert extends Assert
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.11
      */
     protected static function reportInvalidArgument($message)
     {
