@@ -26,6 +26,13 @@ class AbstractMultiTaskController extends AbstractController
     protected $taskKey = 'task';
 
     /**
+     * Property defaultTask.
+     *
+     * @var  string
+     */
+    protected $defaultTask = 'handle';
+
+    /**
      * The main execution process.
      *
      * @return  mixed
@@ -36,7 +43,7 @@ class AbstractMultiTaskController extends AbstractController
     protected function doExecute()
     {
         return $this->delegate(
-            StringNormalise::toCamelCase($this->input->get($this->taskKey))
+            StringNormalise::toCamelCase($this->input->get($this->taskKey, $this->defaultTask))
         );
     }
 }
