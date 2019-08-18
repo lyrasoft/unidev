@@ -192,7 +192,7 @@ JS
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.13
      */
     public static function disableTransitionBeforeLoad(string $className = 'no-transition'): void
     {

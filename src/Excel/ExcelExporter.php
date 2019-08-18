@@ -47,7 +47,7 @@ use Windwalker\Utilities\Classes\OptionAccessTrait;
  * $exporter->download(); // Or render(): string
  * ```
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5.13
  */
 class ExcelExporter
 {
@@ -109,7 +109,7 @@ class ExcelExporter
      *
      * @return  static
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.13
      */
     public function addColumn(string $id, string $title = '', array $options = []): self
     {
@@ -127,7 +127,7 @@ class ExcelExporter
      *
      * @return  static
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.13
      */
     public function deleteColumn(string $id): self
     {
@@ -141,7 +141,7 @@ class ExcelExporter
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.13
      */
     public function getColumns(): array
     {
@@ -155,7 +155,7 @@ class ExcelExporter
      *
      * @return  static  Return self to support chaining.
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.13
      */
     public function setColumns(array $columns): self
     {
@@ -183,7 +183,7 @@ class ExcelExporter
      *
      * @return  static
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.13
      */
     public function addRow(?callable $handler = null): self
     {
@@ -205,7 +205,7 @@ class ExcelExporter
      *
      * @return  array|null
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.13
      */
     public function getRow(int $rowId): ?array
     {
@@ -219,7 +219,7 @@ class ExcelExporter
      *
      * @return  ExcelExporter
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.13
      */
     public function deleteRow(int $rowId): self
     {
@@ -237,7 +237,7 @@ class ExcelExporter
      *
      * @return  int
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.13
      */
     public function getCurrentRow(): int
     {
@@ -251,7 +251,7 @@ class ExcelExporter
      *
      * @return  static  Return self to support chaining.
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.13
      */
     public function setCurrentRow(int $currentRow): self
     {
@@ -268,7 +268,7 @@ class ExcelExporter
      *
      * @return  ExcelExporter
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.13
      */
     public function setRowData(array $data, ?int $rowId = null): self
     {
@@ -288,7 +288,7 @@ class ExcelExporter
      *
      * @return  ExcelExporter
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.13
      */
     public function setRowCell(string $name, $value, ?int $rowId = null): self
     {
@@ -305,7 +305,7 @@ class ExcelExporter
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.13
      */
     public function getData(): array
     {
@@ -319,7 +319,7 @@ class ExcelExporter
      *
      * @return  static  Return self to support chaining.
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.13
      */
     public function setData(array $data): self
     {
@@ -339,7 +339,7 @@ class ExcelExporter
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.13
      */
     public function render(array $options = [], string $format = 'xlsx'): string
     {
@@ -366,7 +366,7 @@ class ExcelExporter
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.13
      */
     public function save(string $file, array $options = [], string $format = 'xlsx'): void
     {
@@ -389,7 +389,7 @@ class ExcelExporter
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      * @throws \Exception
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.13
      */
     public function download(?string $filename = null, array $options = [], string $format = 'xlsx'): void
     {
@@ -421,7 +421,7 @@ class ExcelExporter
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.13
      */
     protected function prepareExcelWriter(array $options = [], string $format = 'xlsx'): IWriter
     {
@@ -497,7 +497,7 @@ class ExcelExporter
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.13
      */
     public static function num2alpha(int $n): string
     {
@@ -517,7 +517,7 @@ class ExcelExporter
      *
      * @return  string
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.13
      */
     public static function alpha2num(int $a): string
     {

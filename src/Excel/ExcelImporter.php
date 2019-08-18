@@ -43,7 +43,7 @@ use Windwalker\Filesystem\File;
  * }
  * ```
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5.13
  */
 class ExcelImporter implements \IteratorAggregate
 {
@@ -95,7 +95,7 @@ class ExcelImporter implements \IteratorAggregate
      *
      * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.13
      */
     public function loadFile(string $file, ?string $format = null): self
     {
@@ -117,7 +117,7 @@ class ExcelImporter implements \IteratorAggregate
      * @return  \Generator
      *
      * @throws \PhpOffice\PhpSpreadsheet\Exception
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.13
      */
     public function getRowIterator(bool $asValue = false, $sheet = null): \Generator
     {
@@ -139,7 +139,7 @@ class ExcelImporter implements \IteratorAggregate
      *
      * @return  \Generator
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.13
      */
     public function getSheetsIterator(bool $asValue = false): ?\Generator
     {
@@ -163,7 +163,7 @@ class ExcelImporter implements \IteratorAggregate
      *
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.13
      */
     public function getSheetData($sheet = null): array
     {
@@ -175,7 +175,7 @@ class ExcelImporter implements \IteratorAggregate
      *
      * @return  array
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.13
      */
     public function getAllData(): array
     {
@@ -194,7 +194,7 @@ class ExcelImporter implements \IteratorAggregate
      * @return  \Generator|null
      *
      * @throws \PhpOffice\PhpSpreadsheet\Exception
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.13
      */
     protected function iterateSheet(Worksheet $sheet, bool $asValue = false): ?\Generator
     {
@@ -252,7 +252,7 @@ class ExcelImporter implements \IteratorAggregate
      *
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.13
      */
     public function eachSheet(callable $handler, bool $asValue = false, $sheet = null): void
     {
@@ -269,7 +269,7 @@ class ExcelImporter implements \IteratorAggregate
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.13
      */
     public function eachAll(callable $handler, bool $asValue = false): void
     {
@@ -291,7 +291,7 @@ class ExcelImporter implements \IteratorAggregate
      *
      * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.13
      */
     public function load(string $data, string $format = 'Xlsx'): self
     {
@@ -315,7 +315,7 @@ class ExcelImporter implements \IteratorAggregate
      *
      * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.13
      */
     public function createReader(string $format = null): IReader
     {
@@ -334,7 +334,7 @@ class ExcelImporter implements \IteratorAggregate
      *
      * @return  static  Return self to support chaining.
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.13
      */
     public function ignoreHeader(bool $ignoreHeader)
     {
@@ -350,7 +350,7 @@ class ExcelImporter implements \IteratorAggregate
      *
      * @return  static  Return self to support chaining.
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.13
      */
     public function headerAsField(bool $headerAsField)
     {
