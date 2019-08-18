@@ -186,6 +186,33 @@ JS
     }
 
     /**
+     * disableTransitionBeforeLoad
+     *
+     * @param string $className
+     *
+     * @return  void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function disableTransitionBeforeLoad(string $className = 'no-transition'): void
+    {
+        if (!static::inited(__METHOD__)) {
+            $css = <<<CSS
+.$className * {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -ms-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
+}
+CSS;
+
+            static::internalCSS($css);
+            static::internalJS("$(function () { $('body').removeClass('$className'); })");
+        }
+    }
+
+    /**
      * webComponent
      *
      * @param array  $components
@@ -294,8 +321,7 @@ JS
                                     $tagPresets = array_map('trim', explode(',', $attrs['data-presets']));
                                 }
 
-                                if (
-                                    array_intersect($tagPresets, ['stage-0', 'stage-1']) === []
+                                if (array_intersect($tagPresets, ['stage-0', 'stage-1']) === []
                                     && $browser->getBrowser() !== $browser::IE
                                 ) {
                                     unset($attrs['type']);
