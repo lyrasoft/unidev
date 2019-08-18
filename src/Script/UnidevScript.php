@@ -260,6 +260,21 @@ CSS;
     }
 
     /**
+     * coreJS
+     *
+     * @return  void
+     *
+     * @since  1.5.13
+     */
+    public static function coreJS(): void
+    {
+        if (!static::inited(__METHOD__)) {
+            // All polyfill from babel-polyfill.js
+            static::addJS(static::packageName() . '/js/polyfill/core.min.js');
+        }
+    }
+
+    /**
      * babel
      *
      * @param array    $presets
