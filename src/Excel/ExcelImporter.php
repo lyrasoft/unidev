@@ -8,6 +8,7 @@
 
 namespace Lyrasoft\Unidev\Excel;
 
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Reader\IReader;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -55,11 +56,11 @@ class ExcelImporter implements \IteratorAggregate
     protected $spreadsheet;
 
     /**
-     * Property ignoreHeader.
+     * Property startFromRow.
      *
-     * @var  bool
+     * @var  int
      */
-    protected $ignoreHeader = true;
+    protected $startFrom = 1;
 
     /**
      * Property headerAsField.
@@ -129,7 +130,32 @@ class ExcelImporter implements \IteratorAggregate
             $worksheet = $this->spreadsheet->getActiveSheet();
         }
 
-        return $this->iterateSheet($worksheet, $asValue);
+        return $this->iterateSheetRows($worksheet, $asValue);
+    }
+
+    /**
+     * getColumnIterator
+     *
+     * @param bool            $asValue
+     * @param int|string|null $sheet
+     *
+     * @return  \Generator
+     *
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getColumnIterator(bool $asValue = false, $sheet = null): \Generator
+    {
+        if (is_int($sheet)) {
+            $worksheet = $this->spreadsheet->getSheet($sheet);
+        } elseif (is_string($sheet)) {
+            $worksheet = $this->spreadsheet->getSheetByName($sheet);
+        } else {
+            $worksheet = $this->spreadsheet->getActiveSheet();
+        }
+
+        return $this->iterateSheetColumns($worksheet, $asValue);
     }
 
     /**
@@ -147,7 +173,7 @@ class ExcelImporter implements \IteratorAggregate
             $sheets = $this->spreadsheet->getAllSheets();
 
             foreach ($sheets as $sheet) {
-                yield $sheet->getTitle() => $this->iterateSheet($sheet, $asValue);
+                yield $sheet->getTitle() => $this->iterateSheetRows($sheet, $asValue);
             }
         };
 
@@ -196,13 +222,17 @@ class ExcelImporter implements \IteratorAggregate
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @since  1.5.13
      */
-    protected function iterateSheet(Worksheet $sheet, bool $asValue = false): ?\Generator
+    protected function iterateSheetRows(Worksheet $sheet, bool $asValue = false): ?\Generator
     {
         $fields = [];
 
         foreach ($sheet->getRowIterator() as $i => $row) {
+            if ($i < $this->startFrom) {
+                continue;
+            }
+
             // First row
-            if ($i === 1) {
+            if ($i === $this->startFrom && $this->headerAsField) {
                 // Prepare fields title
                 $cellIterator = $row->getCellIterator();
                 $cellIterator->setIterateOnlyExistingCells(false);
@@ -213,11 +243,6 @@ class ExcelImporter implements \IteratorAggregate
                     if ($col === '') {
                         $fields[$cell->getColumn()] = $cell->getColumn();
                     }
-                }
-
-                // Ignore first row
-                if ($this->ignoreHeader) {
-                    continue;
                 }
             }
 
@@ -238,6 +263,64 @@ class ExcelImporter implements \IteratorAggregate
             }
 
             yield $i => $item;
+        }
+    }
+
+    /**
+     * iterateSheetColumns
+     *
+     * @param Worksheet $sheet
+     * @param bool      $asValue
+     *
+     * @return  \Generator|null
+     *
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function iterateSheetColumns(Worksheet $sheet, bool $asValue = false): ?\Generator
+    {
+        $fields = [];
+
+        foreach ($sheet->getColumnIterator() as $f => $row) {
+            $i = Coordinate::columnIndexFromString($f);
+
+            if ($i < $this->startFrom) {
+                continue;
+            }
+
+            // First row
+            if ($i === $this->startFrom && $this->headerAsField) {
+                // Prepare fields title
+                $cellIterator = $row->getCellIterator();
+                $cellIterator->setIterateOnlyExistingCells(false);
+
+                foreach ($cellIterator as $cell) {
+                    $fields[$cell->getRow()] = $col = $cell->getFormattedValue();
+
+                    if ($col === '') {
+                        $fields[$cell->getRow()] = $cell->getRow();
+                    }
+                }
+            }
+
+            $item         = [];
+            $cellIterator = $row->getCellIterator();
+            $cellIterator->setIterateOnlyExistingCells(false);
+
+            foreach ($cellIterator as $cell) {
+                $column = $this->headerAsField
+                    ? $fields[$cell->getRow()]
+                    : $cell->getRow();
+
+                if ($asValue) {
+                    $item[$column] = $cell->getFormattedValue();
+                } else {
+                    $item[$column] = $cell;
+                }
+            }
+
+            yield $f => $item;
         }
     }
 
@@ -330,15 +413,33 @@ class ExcelImporter implements \IteratorAggregate
     /**
      * Method to set property ignoreHeader
      *
-     * @param bool $ignoreHeader
+     * @param int $ignoreHeader
      *
      * @return  static  Return self to support chaining.
      *
      * @since  1.5.13
+     *
+     * @deprecated
      */
-    public function ignoreHeader(bool $ignoreHeader)
+    public function ignoreHeader(bool $ignoreHeader): self
     {
-        $this->ignoreHeader = $ignoreHeader;
+        $this->startFrom = (int) $ignoreHeader;
+
+        return $this;
+    }
+
+    /**
+     * startFromRow
+     *
+     * @param int $start
+     *
+     * @return  static
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function startFrom(int $start): self
+    {
+        $this->startFrom = $start;
 
         return $this;
     }
@@ -370,5 +471,33 @@ class ExcelImporter implements \IteratorAggregate
     public function getIterator(): Traversable
     {
         return $this->getRowIterator(true);
+    }
+
+    /**
+     * Method to get property Spreadsheet
+     *
+     * @return  Spreadsheet
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getSpreadsheet(): Spreadsheet
+    {
+        return $this->spreadsheet;
+    }
+
+    /**
+     * Method to set property spreadsheet
+     *
+     * @param Spreadsheet $spreadsheet
+     *
+     * @return  static  Return self to support chaining.
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function setSpreadsheet(Spreadsheet $spreadsheet): self
+    {
+        $this->spreadsheet = $spreadsheet;
+
+        return $this;
     }
 }
