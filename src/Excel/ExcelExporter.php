@@ -3,7 +3,7 @@
  * Part of ke project.
  *
  * @copyright  Copyright (C) 2019 .
- * @license    __LICENSE__
+ * @license    LGPL-2.0-or-later
  */
 
 namespace Lyrasoft\Unidev\Excel;

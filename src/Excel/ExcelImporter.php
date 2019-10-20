@@ -3,7 +3,7 @@
  * Part of earth project.
  *
  * @copyright  Copyright (C) 2019 .
- * @license    __LICENSE__
+ * @license    LGPL-2.0-or-later
  */
 
 namespace Lyrasoft\Unidev\Excel;
@@ -143,7 +143,7 @@ class ExcelImporter implements \IteratorAggregate
      *
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.14
      */
     public function getColumnIterator(bool $asValue = false, $sheet = null): \Generator
     {
@@ -276,7 +276,7 @@ class ExcelImporter implements \IteratorAggregate
      *
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.14
      */
     protected function iterateSheetColumns(Worksheet $sheet, bool $asValue = false): ?\Generator
     {
@@ -435,7 +435,7 @@ class ExcelImporter implements \IteratorAggregate
      *
      * @return  static
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.14
      */
     public function startFrom(int $start): self
     {
@@ -478,7 +478,7 @@ class ExcelImporter implements \IteratorAggregate
      *
      * @return  Spreadsheet
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.14
      */
     public function getSpreadsheet(): Spreadsheet
     {
@@ -492,7 +492,7 @@ class ExcelImporter implements \IteratorAggregate
      *
      * @return  static  Return self to support chaining.
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.14
      */
     public function setSpreadsheet(Spreadsheet $spreadsheet): self
     {
