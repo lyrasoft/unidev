@@ -244,6 +244,8 @@ class ExcelImporter implements \IteratorAggregate
                         $fields[$cell->getColumn()] = $cell->getColumn();
                     }
                 }
+
+                continue;
             }
 
             $item         = [];
