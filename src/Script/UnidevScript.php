@@ -196,7 +196,7 @@ JS
      *
      * @since  1.4
      */
-    public static function webComponent(array $components, array $options = [], array $attribs = [])
+    public static function webComponent(array $components = [], array $options = [], array $attribs = [])
     {
         if (!static::inited(__METHOD__)) {
             static::addJS(static::packageName() . '/js/webcomponent/webcomponents-lite.min.js');
