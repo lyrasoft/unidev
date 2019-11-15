@@ -2,7 +2,7 @@
 /**
  * Part of virtualset project.
  *
- * @copyright  Copyright (C) 2015 {ORGANIZATION}. All rights reserved.
+ * @copyright  Copyright (C) 2015 LYRASOFT. All rights reserved.
  * @license    GNU General Public License version 2 or later.
  */
 
@@ -186,6 +186,33 @@ JS
     }
 
     /**
+     * disableTransitionBeforeLoad
+     *
+     * @param string $className
+     *
+     * @return  void
+     *
+     * @since  1.5.13
+     */
+    public static function disableTransitionBeforeLoad(string $className = 'no-transition'): void
+    {
+        if (!static::inited(__METHOD__)) {
+            $css = <<<CSS
+.$className * {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -ms-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
+}
+CSS;
+
+            static::internalCSS($css);
+            static::internalJS("$(function () { $('body').removeClass('$className'); })");
+        }
+    }
+
+    /**
      * webComponent
      *
      * @param array  $components
@@ -229,6 +256,21 @@ JS
 
             // All polyfill from babel-polyfill.js
             static::addJS(static::packageName() . '/js/polyfill/polyfill.min.js');
+        }
+    }
+
+    /**
+     * coreJS
+     *
+     * @return  void
+     *
+     * @since  1.5.13
+     */
+    public static function coreJS(): void
+    {
+        if (!static::inited(__METHOD__)) {
+            // All polyfill from babel-polyfill.js
+            static::addJS(static::packageName() . '/js/polyfill/core.min.js');
         }
     }
 
@@ -294,8 +336,7 @@ JS
                                     $tagPresets = array_map('trim', explode(',', $attrs['data-presets']));
                                 }
 
-                                if (
-                                    array_intersect($tagPresets, ['stage-0', 'stage-1']) === []
+                                if (array_intersect($tagPresets, ['stage-0', 'stage-1']) === []
                                     && $browser->getBrowser() !== $browser::IE
                                 ) {
                                     unset($attrs['type']);
