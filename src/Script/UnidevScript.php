@@ -222,11 +222,13 @@ CSS;
      * @return  void
      *
      * @since  1.4
+     *
+     * @deprecated Use webComponentV2()
      */
     public static function webComponent(array $components = [], array $options = [], array $attribs = [])
     {
         if (!static::inited(__METHOD__)) {
-            static::addJS(static::packageName() . '/js/webcomponent/webcomponents-lite.min.js');
+            static::addJS(static::packageName() . '/js/webcomponent/v1/webcomponents-lite.min.js');
         }
 
         foreach ($components as $uri) {
@@ -265,13 +267,12 @@ CSS;
      * @return  void
      *
      * @since  1.5.13
+     *
+     * @deprecated
      */
     public static function coreJS(): void
     {
-        if (!static::inited(__METHOD__)) {
-            // All polyfill from babel-polyfill.js
-            static::addJS(static::packageName() . '/js/polyfill/core.min.js');
-        }
+        ModernJsScript::coreJS();
     }
 
     /**
@@ -296,7 +297,7 @@ CSS;
             };
 
             if ($condition(Ioc::getEnvironment()->getBrowser())) {
-                static::polyfill();
+                ModernJsScript::coreJS(true);
 
                 static::addJS(static::packageName() . '/js/polyfill/babel.min.js');
             }

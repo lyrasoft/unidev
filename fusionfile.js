@@ -6,6 +6,7 @@
  */
 
 const fusion = require('windwalker-fusion');
+const BebelHelper = require('windwalker-fusion/src/helpers/BebelHelper');
 
 // The task `css`
 fusion.task('css', function () {
@@ -33,6 +34,47 @@ fusion.task('js', function () {
   // Compile end
 });
 
+fusion.task('ws', function () {
+  // Watch start
+  fusion.watch([
+    'asset/ws/**/*.js'
+  ]);
+  // Watch end
+
+  // Compile Start
+  fusion.webpack('asset/ws/**/*.js', 'src/Resources/asset/js/webcomponent/', {
+    webpack: {
+      // devtool: 'eval-source-map',
+      mode: process.env.NODE_ENV || 'development',
+      output: {
+        filename: '[name].js',
+        sourceMapFilename: '[name].js.map'
+      },
+      stats: {
+        all: false,
+        errors: true,
+        warnings: true,
+        version: false,
+      },
+      module: {
+        rules: [
+          {
+            test: /\.m?js$/,
+            // Fis LitElement issue, @see https://github.com/Polymer/lit-element/issues/54#issuecomment-439824447
+            exclude: /node_modules\/(?!(lit-html|@polymer)\/).*/,
+            use: [{
+              loader: 'babel-loader',
+              options: BebelHelper.basicOptions()
+            }, 'webpack-comment-remover-loader']
+          }
+        ]
+      },
+      plugins: []
+    }
+  });
+  // Compile end
+});
+
 // The task `install`
 fusion.task('install', function () {
   const nodePath = 'node_modules';
@@ -44,8 +86,17 @@ fusion.task('install', function () {
     '!**/gulpfile.js'
   ], 'src/Resources/asset/js/webcomponent/');
 
+  fusion.copy([
+    'node_modules/regenerator-runtime/runtime.js'
+  ], 'src/Resources/asset/js/polyfill/');
+
+  fusion.js('src/Resources/asset/js/polyfill/runtime.js');
+
   fusion.copy(`${nodePath}/@babel/standalone/*.js`, `${destPath}/polyfill/`);
   fusion.copy(`${nodePath}/core-js-bundle/index.js`, `${destPath}/polyfill/core.js`);
+
+  fusion.js(`${destPath}/polyfill/core.js`);
+
   fusion.js([
     `${nodePath}/@babel/polyfill/dist/*.js`,
     `${nodePath}/url-polyfill/url-polyfill*.js`,
