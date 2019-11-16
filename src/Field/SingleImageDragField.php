@@ -16,7 +16,6 @@ use Windwalker\Core\Widget\WidgetHelper;
 use Windwalker\Data\DataInterface;
 use Windwalker\Dom\HtmlElement;
 use Windwalker\Form\Field\TextareaField;
-use Windwalker\Form\Field\TextField;
 use Windwalker\Test\TestHelper;
 
 /**
@@ -82,7 +81,7 @@ class SingleImageDragField extends TextareaField
         $options['min_width']  = $this->get('min_width');
         $options['max_height'] = $this->get('max_height');
         $options['min_height'] = $this->get('min_height');
-        $options['version']    = (int) $this->get('version', 1);
+        $options['version']    = (int) $this->get('version', 2);
 
         if ($ajax = $this->ajax()) {
             if (is_bool($this->ajax())) {
@@ -114,8 +113,8 @@ class SingleImageDragField extends TextareaField
     /**
      * prepareScript
      *
-     * @param   array $attrs
-     * @param array   $options
+     * @param array $attrs
+     * @param array $options
      *
      * @return void
      */
@@ -150,6 +149,14 @@ class SingleImageDragField extends TextareaField
         $delete = $controller->input->post->get(
             'input-' . TestHelper::getValue($controller, 'formControl') . '-' . $field . '-delete-image'
         );
+
+        if ($base64 === null && $delete === null
+            && $img = (TestHelper::getValue($controller, 'data')[$field] ?? null)
+        ) {
+            $data->image = static::uploadBase64($img, $uri, null, true);
+
+            return true;
+        }
 
         if ($base64 && $url = Base64Image::quickUpload($base64, $uri)) {
             $data->$field = $url;
