@@ -4,7 +4,7 @@
  * Part of earth project.
  *
  * @copyright  Copyright (C) 2019 __ORGANIZATION__.
- * @license    __LICENSE__
+ * @license    LGPL-2.0-or-later
  */
 
 namespace Lyrasoft\Unidev\Script;
@@ -15,7 +15,7 @@ use Windwalker\Core\Asset\AbstractScript;
 /**
  * The WebComponent class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5.16
  */
 class ModernJsScript extends AbstractScript
 {
@@ -31,7 +31,7 @@ class ModernJsScript extends AbstractScript
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.16
      */
     public static function webComponent(): void
     {
@@ -46,7 +46,7 @@ class ModernJsScript extends AbstractScript
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.16
      */
     public static function litElement(): void
     {
@@ -65,7 +65,7 @@ class ModernJsScript extends AbstractScript
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.16
      */
     public static function coreJS(bool $regenerator = false): void
     {
@@ -84,7 +84,7 @@ class ModernJsScript extends AbstractScript
      *
      * @return  void
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.16
      */
     public static function regeneratorRuntime(): void
     {
