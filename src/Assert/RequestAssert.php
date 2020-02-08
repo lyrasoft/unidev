@@ -15,6 +15,8 @@ use Windwalker\Http\Exception\HttpRequestException;
  * The RequestAssert class.
  *
  * @since  1.5.11
+ *
+ * @deprecated Use \Windwalker\Core\Assert\RequestAssert instead.
  */
 class RequestAssert extends Assert
 {
