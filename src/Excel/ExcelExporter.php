@@ -425,7 +425,25 @@ class ExcelExporter
      */
     protected function prepareExcelWriter(array $options = [], string $format = 'xlsx'): IWriter
     {
-        $spreadsheet = new Spreadsheet();
+        $spreadsheet = $this->prepareSpreadsheet($options);
+
+        return IOFactory::createWriter($spreadsheet, ucfirst($format));
+    }
+
+    /**
+     * prepareSpreadsheet
+     *
+     * @param Spreadsheet|null $spreadsheet
+     *
+     * @return  Spreadsheet
+     *
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getSpreadsheet(array $options = [], ?Spreadsheet $spreadsheet = null): Spreadsheet
+    {
+        $spreadsheet = $spreadsheet ?? new Spreadsheet();
 
         $creator = (string) $this->getOption('creator');
         $title   = (string) $this->getOption('title');
@@ -444,6 +462,12 @@ class ExcelExporter
 
         if ($desc !== '') {
             $properties->setDescription($desc);
+        }
+
+        $preprocess = $options['preprocess'] ?? null;
+
+        if ($preprocess) {
+            $preprocess($spreadsheet);
         }
 
         $sheet = $spreadsheet->getActiveSheet();
@@ -485,7 +509,13 @@ class ExcelExporter
 
         $sheet->fromArray($dataset);
 
-        return IOFactory::createWriter($spreadsheet, ucfirst($format));
+        $postprocess = $options['postprocess'] ?? null;
+
+        if ($postprocess) {
+            $postprocess($spreadsheet);
+        }
+
+        return $spreadsheet;
     }
 
     /**
