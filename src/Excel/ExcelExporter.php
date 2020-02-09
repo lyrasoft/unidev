@@ -439,7 +439,7 @@ class ExcelExporter
      *
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.18
      */
     public function getSpreadsheet(array $options = [], ?Spreadsheet $spreadsheet = null): Spreadsheet
     {
