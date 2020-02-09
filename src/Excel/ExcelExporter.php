@@ -13,6 +13,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Writer\IWriter;
 use Windwalker\Core\DateTime\Chronos;
+use Windwalker\Debugger\Helper\DebuggerHelper;
 use Windwalker\Filesystem\File;
 use Windwalker\Filesystem\Folder;
 use Windwalker\Http\Helper\HeaderHelper;
@@ -393,6 +394,8 @@ class ExcelExporter
      */
     public function download(?string $filename = null, array $options = [], string $format = 'xlsx'): void
     {
+        DebuggerHelper::disableConsole();
+
         if (!$filename && $this->getOption('title')) {
             $filename = $this->getOption('title') . '.' . $format;
         }
@@ -425,7 +428,7 @@ class ExcelExporter
      */
     protected function prepareExcelWriter(array $options = [], string $format = 'xlsx'): IWriter
     {
-        $spreadsheet = $this->prepareSpreadsheet($options);
+        $spreadsheet = $this->getSpreadsheet($options);
 
         return IOFactory::createWriter($spreadsheet, ucfirst($format));
     }
