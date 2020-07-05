@@ -4,7 +4,7 @@
  * Part of earth project.
  *
  * @copyright  Copyright (C) 2020 .
- * @license    __LICENSE__
+ * @license    LGPL-2.0-or-later
  */
 
 namespace Lyrasoft\Unidev\Helper;
@@ -17,7 +17,7 @@ use Windwalker\Http\Stream\Stream;
 /**
  * The TempHelper class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5.20
  */
 class TempFile
 {
@@ -29,7 +29,7 @@ class TempFile
      * @return  string
      *
      * @throws \Exception
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.20
      */
     public static function folder(?string $root = null): string
     {
@@ -54,7 +54,7 @@ class TempFile
      * @return  string
      *
      * @throws \Exception
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.20
      */
     public static function fileName(?string $name = null, ?string $root = null, bool $autoRemove = true): string
     {
@@ -87,7 +87,7 @@ class TempFile
      * @return  false|resource
      *
      * @throws \Exception
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.20
      */
     public static function fileResource(?string $name = null, ?string $root = null, bool $autoRemove = true)
     {
@@ -106,7 +106,7 @@ class TempFile
      * @return  StreamInterface
      *
      * @throws \Exception
-     * @since  __DEPLOY_VERSION__
+     * @since  1.5.20
      */
     public static function fileStream(
         ?string $name = null,
