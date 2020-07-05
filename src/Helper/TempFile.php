@@ -10,6 +10,7 @@
 namespace Lyrasoft\Unidev\Helper;
 
 use Psr\Http\Message\StreamInterface;
+use Windwalker\Filesystem\File;
 use Windwalker\Filesystem\Folder;
 use Windwalker\Http\Stream\Stream;
 
@@ -48,13 +49,14 @@ class TempFile
      *
      * @param string|null $name
      * @param string|null $root
+     * @param bool        $autoRemove
      *
      * @return  string
      *
      * @throws \Exception
      * @since  __DEPLOY_VERSION__
      */
-    public static function fileName(?string $name = null, ?string $root = null): string
+    public static function fileName(?string $name = null, ?string $root = null, bool $autoRemove = true): string
     {
         $file = static::folder($root);
 
@@ -64,6 +66,14 @@ class TempFile
 
         $file .= '/' . $name;
 
+        if ($autoRemove) {
+            register_shutdown_function(static function () use ($file) {
+                if (file_exists($file) && is_file($file)) {
+                    File::delete($file);
+                }
+            });
+        }
+
         return $file;
     }
 
@@ -72,18 +82,18 @@ class TempFile
      *
      * @param string|null $name
      * @param string|null $root
+     * @param bool        $autoRemove
      *
      * @return  false|resource
      *
      * @throws \Exception
-     *
      * @since  __DEPLOY_VERSION__
      */
-    public static function fileResource(?string $name = null, ?string $root = null)
+    public static function fileResource(?string $name = null, ?string $root = null, bool $autoRemove = true)
     {
-        $file = static::fileName($name, $root);
+        $file = static::fileName($name, $root, $autoRemove);
 
-        return fopen($file, 'rb+');
+        return fopen($file, 'wb+');
     }
 
     /**
@@ -91,15 +101,18 @@ class TempFile
      *
      * @param string|null $name
      * @param string|null $root
+     * @param bool        $autoRemove
      *
      * @return  StreamInterface
      *
      * @throws \Exception
-     *
      * @since  __DEPLOY_VERSION__
      */
-    public static function fileStream(?string $name = null, ?string $root = null): StreamInterface
-    {
-        return new Stream(static::fileName($name, $root), Stream::MODE_READ_WRITE_FROM_BEGIN);
+    public static function fileStream(
+        ?string $name = null,
+        ?string $root = null,
+        bool $autoRemove = true
+    ): StreamInterface {
+        return new Stream(static::fileName($name, $root, $autoRemove), Stream::MODE_READ_WRITE_RESET);
     }
 }
