@@ -153,9 +153,9 @@ class SingleImageDragField extends TextareaField
         if ($base64 === null && $delete === null
             && $img = (TestHelper::getValue($controller, 'data')[$field] ?? null)
         ) {
-            $data->image = static::uploadBase64($img, $uri, null, true);
+            $data->$field = static::uploadBase64($img, $uri, null, true);
 
-            return true;
+            return $data->$field;
         }
 
         if ($base64 && $url = Base64Image::quickUpload($base64, $uri)) {

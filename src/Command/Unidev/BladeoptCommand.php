@@ -10,6 +10,7 @@ namespace Lyrasoft\Unidev\Command\Unidev;
 
 use Windwalker\Core\Console\CoreCommand;
 use Windwalker\Filesystem\File;
+use Windwalker\Filesystem\Filesystem;
 use Windwalker\Filesystem\Folder;
 use Windwalker\Http\HttpClient;
 
@@ -37,9 +38,12 @@ class BladeoptCommand extends CoreCommand
     /**
      * Property file.
      *
-     * @var  string
+     * @var  string[]
      */
-    protected $file = 'https://raw.githubusercontent.com/lyrasoft/unidev/master/resources/ide/phpstorm/blade.xml';
+    protected $files = [
+        'https://raw.githubusercontent.com/lyrasoft/unidev/master/resources/ide/phpstorm/blade.xml',
+        'https://raw.githubusercontent.com/lyrasoft/unidev/master/resources/ide/phpstorm/laravel-plugin.xml',
+    ];
 
     /**
      * Initialise command.
@@ -63,28 +67,31 @@ class BladeoptCommand extends CoreCommand
      */
     protected function doExecute()
     {
-        $dest = WINDWALKER_ROOT . '/.idea/blade.xml';
+        $dest = WINDWALKER_ROOT . '/.idea';
 
-        if (!is_dir(dirname($dest))) {
-            Folder::create(dirname($dest));
+        if (!is_dir($dest)) {
+            Folder::create($dest);
         }
 
         $remote = $this->getOption('r');
-        $file   = $remote ? $this->file : realpath(__DIR__ . '/../../../resources/ide/phpstorm/blade.xml');
-
-        $filePath = $this->getArgument(0) ?: $file;
 
         if ($remote) {
             $this->out('Downloading...');
 
-            $http = new HttpClient;
-            $http->download($filePath, $dest);
+            $http = new HttpClient();
 
-            $this->out('Downloaded <info>' . $filePath . '</info> to <info>.idea</info> folder');
+            foreach ($this->files as $file) {
+                $http->download($file, $dest . '/' . File::basename($file));
+                $this->out('Downloaded <info>' . $file . '</info> to <info>.idea</info> folder');
+            }
         } else {
-            File::copy($filePath, $dest, true);
+            $folder = realpath(__DIR__ . '/../../../resources/ide/phpstorm');
 
-            $this->out('Copy <info>' . $filePath . '</info> to <info>.idea</info> folder');
+            /** @var \SplFileInfo $file */
+            foreach (Filesystem::files($folder) as $file) {
+                File::copy($folder . '/' . $file->getBasename(), $dest . '/' . $file->getBasename(), true);
+                $this->out('Copy <info>' . $folder . '/' . $file->getBasename() . '</info> to <info>.idea</info> folder');
+            }
         }
 
         return true;
