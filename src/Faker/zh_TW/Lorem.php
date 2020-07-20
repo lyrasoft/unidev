@@ -219,7 +219,7 @@ class Lorem extends Base
 
         $words = static::words($nbWords);
 
-        return implode($words, '，');
+        return implode('，', $words);
     }
 
     /**
