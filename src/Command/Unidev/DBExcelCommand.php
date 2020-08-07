@@ -4,7 +4,7 @@
  * Part of earth project.
  *
  * @copyright  Copyright (C) 2020 .
- * @license    __LICENSE__
+ * @license    LGPL-2.0-or-later
  */
 
 namespace Lyrasoft\Unidev\Command\Unidev;
@@ -18,7 +18,7 @@ use Windwalker\Filesystem\File;
 /**
  * The DBExcelCommand class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5.22
  */
 class DBExcelCommand extends CoreCommand
 {
