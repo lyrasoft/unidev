@@ -9,6 +9,7 @@
 namespace Lyrasoft\Unidev\Command;
 
 use Lyrasoft\Unidev\Command\Unidev\BladeoptCommand;
+use Lyrasoft\Unidev\Command\Unidev\DBExcelCommand;
 use Windwalker\Core\Console\CoreCommand;
 
 /**
@@ -25,5 +26,6 @@ class UnidevCommand extends CoreCommand
     protected function init()
     {
         $this->addCommand(BladeoptCommand::class);
+        $this->addCommand(DBExcelCommand::class);
     }
 }
