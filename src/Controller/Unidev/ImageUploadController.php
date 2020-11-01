@@ -19,6 +19,7 @@ use Windwalker\Core\Language\Translator;
 use Windwalker\Filesystem\File;
 use Windwalker\Filesystem\Folder;
 use Windwalker\Http\Helper\UploadedFileHelper;
+use Windwalker\Ioc;
 
 /**
  * The ImageUploadController class.
@@ -136,11 +137,20 @@ class ImageUploadController extends AbstractPhoenixController
             throw new \RuntimeException('Temp file not exists');
         }
 
-        $url = ImageUploader::upload($temp, $this->getImagePath($folder . $id, File::getExtension($temp)));
+        $url = ImageUploader::upload($temp, $path = $this->getImagePath($folder . $id, File::getExtension($temp)));
 
         File::delete($temp);
 
         $this->addMessage('Upload success.');
+
+        $this->app->triggerEvent(
+            'onImageUploaded',
+            [
+                'file' => $file,
+                'path' => $path,
+                'url' => &$url
+            ]
+        );
 
         return [
             'url' => $url,

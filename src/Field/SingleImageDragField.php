@@ -216,7 +216,7 @@ class SingleImageDragField extends TextareaField
             }
 
             Ioc::getApplication()->triggerEvent(
-                'onSingleDragImageUploaded',
+                'onImageUploaded',
                 [
                     'base64' => $base64,
                     'path' => $uri,
