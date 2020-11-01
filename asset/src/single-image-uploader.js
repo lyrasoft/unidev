@@ -189,7 +189,8 @@
     checkFile: function(file) {
       var types = [
         'image/jpeg',
-        'image/png'
+        'image/png',
+        'image/webp',
       ];
 
       types = this.options.allow_types || types;

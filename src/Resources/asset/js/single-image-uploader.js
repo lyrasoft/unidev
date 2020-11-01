@@ -165,7 +165,7 @@
      * @returns {boolean}
      */
     checkFile: function checkFile(file) {
-      var types = ['image/jpeg', 'image/png'];
+      var types = ['image/jpeg', 'image/png', 'image/webp'];
       types = this.options.allow_types || types;
 
       if (types.indexOf(file.type, types) < 0) {
