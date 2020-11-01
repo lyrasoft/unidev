@@ -16,6 +16,7 @@ use Windwalker\Core\Widget\WidgetHelper;
 use Windwalker\Data\DataInterface;
 use Windwalker\Dom\HtmlElement;
 use Windwalker\Form\Field\TextareaField;
+use Windwalker\Ioc;
 use Windwalker\Test\TestHelper;
 
 /**
@@ -213,6 +214,15 @@ class SingleImageDragField extends TextareaField
                     $url .= '?' . $suffix;
                 }
             }
+
+            Ioc::getApplication()->triggerEvent(
+                'onSingleDragImageUploaded',
+                [
+                    'base64' => $base64,
+                    'path' => $uri,
+                    'url' => &$url
+                ]
+            );
 
             return $url;
         }
