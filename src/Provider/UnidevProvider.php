@@ -106,7 +106,7 @@ class UnidevProvider implements ServiceProviderInterface
             );
 
             return $s3;
-        })->alias('unidev.storage.s3', \S3::class);
+        })->alias('unidev.storage.s3', S3Client::class);
 
         $container->prepareSharedObject(S3Service::class);
 

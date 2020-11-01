@@ -13,9 +13,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
  * @license    __LICENSE__
  */
 $(function () {
-  Phoenix.plugin('gregwar',
-  /*#__PURE__*/
-  function () {
+  Phoenix.plugin('gregwar', /*#__PURE__*/function () {
     function GregwarCaptcha($element) {
       var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
