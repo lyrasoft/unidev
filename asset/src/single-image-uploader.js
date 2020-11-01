@@ -40,6 +40,7 @@
     this.fileData = this.element.find('.sid-data');
     this.filedrag = this.element.find('.sid-area');
     this.fileSelector = this.element.find('.sid-file-select-button');
+    this.pasteButton = this.element.find('.sid-paste-button');
     this.filePreview = this.element.find('.sid-preview');
     this.fileLoader = this.element.find('.sid-img-loader');
     this.deleteBox = this.element.find('.sid-delete-image');
@@ -122,6 +123,15 @@
         });
 
         $input.click();
+      });
+      this.pasteButton.on('click', () => {
+        navigator.clipboard.read().then((items) => {
+          const type = items[0].types[1];
+
+          items[0].getType(type).then((blob) => {
+            this.handleFileSelect(blob);
+          });
+        });
       });
 
       // Save button

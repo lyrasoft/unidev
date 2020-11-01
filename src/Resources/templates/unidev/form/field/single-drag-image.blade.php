@@ -50,6 +50,11 @@ if (is_callable($field->previewHandler())) {
                             <span class="fa fa-picture-o"></span>
                             @translate('unidev.field.single.image.button.select')
                         </button>
+                        <button type="button"
+                            class="btn btn-outline-success btn-sm btn-xs sid-paste-button"
+                        >
+                            <span class="fa fa-paste"></span>
+                        </button>
                     </p>
                     <div class="sid-upload-desc">
                         @translate('unidev.field.single.image.drop.desc')

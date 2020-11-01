@@ -39,6 +39,7 @@
     this.fileData = this.element.find('.sid-data');
     this.filedrag = this.element.find('.sid-area');
     this.fileSelector = this.element.find('.sid-file-select-button');
+    this.pasteButton = this.element.find('.sid-paste-button');
     this.filePreview = this.element.find('.sid-preview');
     this.fileLoader = this.element.find('.sid-img-loader');
     this.deleteBox = this.element.find('.sid-delete-image');
@@ -55,6 +56,8 @@
      * Bind events.
      */
     bindEvents: function bindEvents() {
+      var _this = this;
+
       var self = this;
       var value;
       this.filedrag.on('dragover', function (event) {
@@ -102,6 +105,14 @@
           self.handleFileSelect(files[0]);
         });
         $input.click();
+      });
+      this.pasteButton.on('click', function () {
+        navigator.clipboard.read().then(function (items) {
+          var type = items[0].types[1];
+          items[0].getType(type).then(function (blob) {
+            _this.handleFileSelect(blob);
+          });
+        });
       }); // Save button
 
       this.saveButton.on('click', function () {
