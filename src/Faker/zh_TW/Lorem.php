@@ -266,7 +266,7 @@ class Lorem extends Base
             $nbSentences = self::randomizeNbElements($nbSentences);
         }
 
-        return implode(static::sentences($nbSentences), '');
+        return implode('', static::sentences($nbSentences));
     }
 
     /**
