@@ -114,7 +114,13 @@
 
       // Selector
       this.fileSelector.on('click', function() {
-        var $input = $('<input type="file">');
+        let $input = $('input#sid-file-selector');
+
+        if (!$input.length) {
+          $input = $('<input id="sid-file-selector" type="file">');
+          $input.css('display', 'none');
+          $('body').append($input);
+        }
 
         $input.on('change', function(event) {
           var files = event.originalEvent.target.files || event.originalEvent.dataTransfer.files;
@@ -124,10 +130,18 @@
 
         $input.click();
       });
-      this.pasteButton.on('click', () => {
+      this.pasteButton.on('click', (event) => {
         navigator.clipboard.read().then((items) => {
-          const type = items[0].types[1];
+          let types = items[0].types;
 
+          if (types.length === 0) {
+            swal('This browser unable to get clipboard data.');
+            return;
+          }
+
+          types = types.slice().sort();
+
+          const type = types[0];
           items[0].getType(type).then((blob) => {
             this.handleFileSelect(blob);
           });

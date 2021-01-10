@@ -99,16 +99,31 @@
       }); // Selector
 
       this.fileSelector.on('click', function () {
-        var $input = $('<input type="file">');
+        var $input = $('input#sid-file-selector');
+
+        if (!$input.length) {
+          $input = $('<input id="sid-file-selector" type="file">');
+          $input.css('display', 'none');
+          $('body').append($input);
+        }
+
         $input.on('change', function (event) {
           var files = event.originalEvent.target.files || event.originalEvent.dataTransfer.files;
           self.handleFileSelect(files[0]);
         });
         $input.click();
       });
-      this.pasteButton.on('click', function () {
+      this.pasteButton.on('click', function (event) {
         navigator.clipboard.read().then(function (items) {
-          var type = items[0].types[1];
+          var types = items[0].types;
+
+          if (types.length === 0) {
+            swal('This browser unable to get clipboard data.');
+            return;
+          }
+
+          types = types.slice().sort();
+          var type = types[0];
           items[0].getType(type).then(function (blob) {
             _this.handleFileSelect(blob);
           });
