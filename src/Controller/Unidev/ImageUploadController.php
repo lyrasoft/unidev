@@ -14,6 +14,8 @@ use Lyrasoft\Unidev\Image\Base64Image;
 use Lyrasoft\Unidev\Image\ImageUploader;
 use Lyrasoft\Unidev\Image\ImageUploadHelper;
 use Phoenix\Controller\AbstractPhoenixController;
+use Windwalker\Core\Asset\Asset;
+use Windwalker\Core\Asset\AssetManager;
 use Windwalker\Core\Controller\Traits\JsonApiTrait;
 use Windwalker\Core\Language\Translator;
 use Windwalker\Filesystem\File;
@@ -153,7 +155,7 @@ class ImageUploadController extends AbstractPhoenixController
         );
 
         return [
-            'url' => $url,
+            'url' => Asset::addUriBase($url),
         ];
     }
 
