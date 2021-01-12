@@ -358,7 +358,7 @@ class Lorem extends Base
             $text[\count($text) - 1] .= '。';
         }
 
-        return implode($text, '');
+        return implode('', $text);
     }
 
     /**
