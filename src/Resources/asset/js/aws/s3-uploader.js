@@ -20,7 +20,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -36,28 +36,6 @@ var S3Uploader = /*#__PURE__*/function (_PhoenixEventMixin) {
   _inherits(S3Uploader, _PhoenixEventMixin);
 
   var _super = _createSuper(S3Uploader);
-
-  _createClass(S3Uploader, null, [{
-    key: "getInstance",
-
-    /**
-     * @param {string} name
-     * @param {*}      args
-     *
-     * @returns {S3Uploader}
-     */
-    value: function getInstance(name) {
-      if (!this.instances[name]) {
-        for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-          args[_key - 1] = arguments[_key];
-        }
-
-        this.instances[name] = _construct(this, [name].concat(args));
-      }
-
-      return this.instances[name];
-    }
-  }]);
 
   function S3Uploader(name) {
     var _this;
@@ -116,10 +94,10 @@ var S3Uploader = /*#__PURE__*/function (_PhoenixEventMixin) {
 
 
       for (var _i = 0, _Object$keys = Object.keys(this.options.starts_with); _i < _Object$keys.length; _i++) {
-        var _key2 = _Object$keys[_i];
+        var _key = _Object$keys[_i];
 
-        if (options[_key2]) {
-          fileData.set(_key2, options[_key2]);
+        if (options[_key]) {
+          fileData.set(_key, options[_key]);
         }
       }
 
@@ -157,6 +135,26 @@ var S3Uploader = /*#__PURE__*/function (_PhoenixEventMixin) {
       });
     }
   }], [{
+    key: "getInstance",
+    value:
+    /**
+     * @param {string} name
+     * @param {*}      args
+     *
+     * @returns {S3Uploader}
+     */
+    function getInstance(name) {
+      if (!this.instances[name]) {
+        for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key2 = 1; _key2 < _len; _key2++) {
+          args[_key2 - 1] = arguments[_key2];
+        }
+
+        this.instances[name] = _construct(this, [name].concat(args));
+      }
+
+      return this.instances[name];
+    }
+  }, {
     key: "trimSlashes",
     value: function trimSlashes(str) {
       return str.replace(/^\/+|\/+$/g, '');

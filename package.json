@@ -22,5 +22,8 @@
     },
     "devDependencies": {
         "windwalker-fusion": "^0.1.9"
+    },
+    "resolutions": {
+        "graceful-fs": "^4.2.4"
     }
 }
