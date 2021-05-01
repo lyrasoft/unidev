@@ -85,9 +85,6 @@
         onImageLoading: function onImageLoading() {
           self.loader.show();
         }
-      }); // Reset file input if modal closed
-
-      self.modal.on('hide.bs.modal', function () {//$(self.fileSelector).val(null);
       }); // File drop
 
       this.filedrag.on("drop", function (event) {
@@ -99,17 +96,15 @@
       }); // Selector
 
       this.fileSelector.on('click', function () {
-        var $input = $('input#sid-file-selector');
-
-        if (!$input.length) {
-          $input = $('<input id="sid-file-selector" type="file">');
-          $input.css('display', 'none');
-          $('body').append($input);
-        }
-
+        var $input = $('<input id="sid-file-selector" type="file">');
+        $input.css('display', 'none');
+        $('body').append($input);
         $input.on('change', function (event) {
           var files = event.originalEvent.target.files || event.originalEvent.dataTransfer.files;
           self.handleFileSelect(files[0]);
+          setTimeout(function () {
+            $input.remove();
+          }, 0);
         });
         $input.click();
       });
