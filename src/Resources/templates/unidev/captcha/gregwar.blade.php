@@ -18,6 +18,6 @@ $attrs['data-captcha-input'] = true;
         @lang('unidev.captcha.gregwar.button.refresh')
     </button>
     <div class="mt-3 mt-md-0 w-100">
-        {!! new \Windwalker\Dom\HtmlElement('input', null, $attrs) !!}
+        {!! new \Windwalker\Legacy\Dom\HtmlElement('input', null, $attrs) !!}
     </div>
 </div>

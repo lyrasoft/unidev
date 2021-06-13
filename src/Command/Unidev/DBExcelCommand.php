@@ -11,9 +11,9 @@ namespace Lyrasoft\Unidev\Command\Unidev;
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use Windwalker\Console\Exception\WrongArgumentException;
-use Windwalker\Core\Console\CoreCommand;
-use Windwalker\Filesystem\File;
+use Windwalker\Legacy\Console\Exception\WrongArgumentException;
+use Windwalker\Legacy\Core\Console\CoreCommand;
+use Windwalker\Legacy\Filesystem\File;
 
 /**
  * The DBExcelCommand class.

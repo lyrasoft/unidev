@@ -13,14 +13,14 @@ use Lyrasoft\Unidev\UnidevPackage;
 use Phoenix\Script\JQueryScript;
 use Phoenix\Script\PhoenixScript;
 use Psr\Http\Message\ResponseInterface;
-use Windwalker\Core\Asset\AbstractScript;
-use Windwalker\Dom\Builder\HtmlBuilder;
-use Windwalker\Environment\Browser\Browser;
-use Windwalker\Event\Event;
-use Windwalker\Http\Stream\Stream;
-use Windwalker\Ioc;
-use Windwalker\String\Str;
-use Windwalker\Utilities\Arr;
+use Windwalker\Legacy\Core\Asset\AbstractScript;
+use Windwalker\Legacy\Dom\Builder\HtmlBuilder;
+use Windwalker\Legacy\Environment\Browser\Browser;
+use Windwalker\Legacy\Event\Event;
+use Windwalker\Legacy\Http\Stream\Stream;
+use Windwalker\Legacy\Ioc;
+use Windwalker\Legacy\String\Str;
+use Windwalker\Legacy\Utilities\Arr;
 
 /**
  * The EditorScript class.

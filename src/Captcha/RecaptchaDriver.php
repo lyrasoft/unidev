@@ -11,9 +11,9 @@ namespace Lyrasoft\Unidev\Captcha;
 use Lyrasoft\Unidev\Captcha\Recaptcha\WindwalkerRequestMethod;
 use Phoenix\Script\PhoenixScript;
 use ReCaptcha\ReCaptcha;
-use Windwalker\Core\Asset\Asset;
-use Windwalker\Dom\HtmlElement;
-use Windwalker\Utilities\Arr;
+use Windwalker\Legacy\Core\Asset\Asset;
+use Windwalker\Legacy\Dom\HtmlElement;
+use Windwalker\Legacy\Utilities\Arr;
 
 /**
  * The RecaptchaDriver class.

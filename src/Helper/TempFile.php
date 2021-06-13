@@ -10,9 +10,9 @@
 namespace Lyrasoft\Unidev\Helper;
 
 use Psr\Http\Message\StreamInterface;
-use Windwalker\Filesystem\File;
-use Windwalker\Filesystem\Folder;
-use Windwalker\Http\Stream\Stream;
+use Windwalker\Legacy\Filesystem\File;
+use Windwalker\Legacy\Filesystem\Folder;
+use Windwalker\Legacy\Http\Stream\Stream;
 
 /**
  * The TempHelper class.

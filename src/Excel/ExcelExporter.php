@@ -12,15 +12,15 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Writer\IWriter;
-use Windwalker\Core\DateTime\Chronos;
-use Windwalker\Debugger\Helper\DebuggerHelper;
-use Windwalker\Filesystem\File;
-use Windwalker\Filesystem\Folder;
-use Windwalker\Http\Helper\HeaderHelper;
-use Windwalker\Http\Output\Output;
-use Windwalker\Http\Response\Response;
-use Windwalker\Utilities\Arr;
-use Windwalker\Utilities\Classes\OptionAccessTrait;
+use Windwalker\Legacy\Core\DateTime\Chronos;
+use Windwalker\Legacy\Debugger\Helper\DebuggerHelper;
+use Windwalker\Legacy\Filesystem\File;
+use Windwalker\Legacy\Filesystem\Folder;
+use Windwalker\Legacy\Http\Helper\HeaderHelper;
+use Windwalker\Legacy\Http\Output\Output;
+use Windwalker\Legacy\Http\Response\Response;
+use Windwalker\Legacy\Utilities\Arr;
+use Windwalker\Legacy\Utilities\Classes\OptionAccessTrait;
 
 /**
  * The ExcelExporter class.

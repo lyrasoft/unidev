@@ -9,8 +9,8 @@
 namespace Lyrasoft\Unidev\Image\Storage;
 
 use Lyrasoft\Unidev\S3\S3Service;
-use Windwalker\Filesystem\File;
-use Windwalker\Utilities\Arr;
+use Windwalker\Legacy\Filesystem\File;
+use Windwalker\Legacy\Utilities\Arr;
 
 /**
  * The S3ImageStorage class.

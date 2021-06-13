@@ -11,13 +11,13 @@ namespace Lyrasoft\Unidev\Captcha;
 use Gregwar\Captcha\CaptchaBuilder;
 use Lyrasoft\Unidev\UnidevPackage;
 use Phoenix\Script\PhoenixScript;
-use Windwalker\Core\Asset\AssetManager;
-use Windwalker\Core\DateTime\Chronos;
-use Windwalker\Core\Package\PackageHelper;
-use Windwalker\Core\Widget\WidgetHelper;
-use Windwalker\Session\Session;
-use Windwalker\Utilities\Arr;
-use Windwalker\Utilities\Classes\OptionAccessTrait;
+use Windwalker\Legacy\Core\Asset\AssetManager;
+use Windwalker\Legacy\Core\DateTime\Chronos;
+use Windwalker\Legacy\Core\Package\PackageHelper;
+use Windwalker\Legacy\Core\Widget\WidgetHelper;
+use Windwalker\Legacy\Session\Session;
+use Windwalker\Legacy\Utilities\Arr;
+use Windwalker\Legacy\Utilities\Classes\OptionAccessTrait;
 
 /**
  * The GregwarDriver class.

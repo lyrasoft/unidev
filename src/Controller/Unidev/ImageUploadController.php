@@ -14,14 +14,14 @@ use Lyrasoft\Unidev\Image\Base64Image;
 use Lyrasoft\Unidev\Image\ImageUploader;
 use Lyrasoft\Unidev\Image\ImageUploadHelper;
 use Phoenix\Controller\AbstractPhoenixController;
-use Windwalker\Core\Asset\Asset;
-use Windwalker\Core\Asset\AssetManager;
-use Windwalker\Core\Controller\Traits\JsonApiTrait;
-use Windwalker\Core\Language\Translator;
-use Windwalker\Filesystem\File;
-use Windwalker\Filesystem\Folder;
-use Windwalker\Http\Helper\UploadedFileHelper;
-use Windwalker\Ioc;
+use Windwalker\Legacy\Core\Asset\Asset;
+use Windwalker\Legacy\Core\Asset\AssetManager;
+use Windwalker\Legacy\Core\Controller\Traits\JsonApiTrait;
+use Windwalker\Legacy\Core\Language\Translator;
+use Windwalker\Legacy\Filesystem\File;
+use Windwalker\Legacy\Filesystem\Folder;
+use Windwalker\Legacy\Http\Helper\UploadedFileHelper;
+use Windwalker\Legacy\Ioc;
 
 /**
  * The ImageUploadController class.

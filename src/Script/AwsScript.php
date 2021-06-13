@@ -12,8 +12,8 @@ use Aws\Credentials\Credentials;
 use Aws\S3\PostObjectV4;
 use Lyrasoft\Unidev\S3\S3Service;
 use Lyrasoft\Unidev\UnidevPackage;
-use Windwalker\Core\Asset\AbstractScript;
-use Windwalker\Ioc;
+use Windwalker\Legacy\Core\Asset\AbstractScript;
+use Windwalker\Legacy\Ioc;
 
 /**
  * The AwsScript class.

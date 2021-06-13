@@ -9,10 +9,10 @@
 namespace Lyrasoft\Unidev\Image;
 
 use Lyrasoft\Unidev\UnidevPackage;
-use Windwalker\Core\Asset\Asset;
-use Windwalker\Core\Package\PackageHelper;
-use Windwalker\Dom\HtmlElement;
-use Windwalker\Utilities\Arr;
+use Windwalker\Legacy\Core\Asset\Asset;
+use Windwalker\Legacy\Core\Package\PackageHelper;
+use Windwalker\Legacy\Dom\HtmlElement;
+use Windwalker\Legacy\Utilities\Arr;
 
 /**
  * The ImageHtmlHelper class.

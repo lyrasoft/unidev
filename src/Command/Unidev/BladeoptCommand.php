@@ -8,11 +8,11 @@
 
 namespace Lyrasoft\Unidev\Command\Unidev;
 
-use Windwalker\Core\Console\CoreCommand;
-use Windwalker\Filesystem\File;
-use Windwalker\Filesystem\Filesystem;
-use Windwalker\Filesystem\Folder;
-use Windwalker\Http\HttpClient;
+use Windwalker\Legacy\Core\Console\CoreCommand;
+use Windwalker\Legacy\Filesystem\File;
+use Windwalker\Legacy\Filesystem\Filesystem;
+use Windwalker\Legacy\Filesystem\Folder;
+use Windwalker\Legacy\Http\HttpClient;
 
 /**
  * The BladeoptCommand class.

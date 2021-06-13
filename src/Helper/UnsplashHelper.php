@@ -8,8 +8,8 @@
 
 namespace Lyrasoft\Unidev\Helper;
 
-use Windwalker\Filesystem\File;
-use Windwalker\Http\HttpClient;
+use Windwalker\Legacy\Filesystem\File;
+use Windwalker\Legacy\Http\HttpClient;
 
 /**
  * The UnsplashHelper class.

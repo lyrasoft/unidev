@@ -9,8 +9,8 @@
 namespace Lyrasoft\Unidev;
 
 use Lyrasoft\Unidev\Helper\UnidevHelper;
-use Windwalker\Core\Language\Translator;
-use Windwalker\Core\Package\AbstractPackage;
+use Windwalker\Legacy\Core\Language\Translator;
+use Windwalker\Legacy\Core\Package\AbstractPackage;
 
 define('UNIDEV_ROOT', __DIR__);
 
@@ -34,7 +34,7 @@ class UnidevPackage extends AbstractPackage
      *
      * @return  void
      * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws \Windwalker\Legacy\DI\Exception\DependencyResolutionException
      */
     public function boot()
     {

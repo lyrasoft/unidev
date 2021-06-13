@@ -10,7 +10,7 @@
 namespace Lyrasoft\Unidev\Script;
 
 use Lyrasoft\Unidev\UnidevPackage;
-use Windwalker\Core\Asset\AbstractScript;
+use Windwalker\Legacy\Core\Asset\AbstractScript;
 
 /**
  * The WebComponent class.

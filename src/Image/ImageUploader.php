@@ -9,7 +9,7 @@
 namespace Lyrasoft\Unidev\Image;
 
 use Lyrasoft\Unidev\Image\Storage\ImageStorageInterface;
-use Windwalker\Core\Facade\AbstractProxyFacade;
+use Windwalker\Legacy\Core\Facade\AbstractProxyFacade;
 
 /**
  * The ImageUploader class.

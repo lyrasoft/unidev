@@ -8,8 +8,8 @@
 
 namespace Lyrasoft\Unidev\Image;
 
-use Windwalker\DI\Container;
-use Windwalker\DI\ContainerAwareInterface;
+use Windwalker\Legacy\DI\Container;
+use Windwalker\Legacy\DI\ContainerAwareInterface;
 
 /**
  * The ImageUploaderFactory class.

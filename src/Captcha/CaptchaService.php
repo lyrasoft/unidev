@@ -8,10 +8,10 @@
 
 namespace Lyrasoft\Unidev\Captcha;
 
-use Windwalker\Core\Cache\RuntimeCacheTrait;
-use Windwalker\Core\Config\Config;
-use Windwalker\DI\Container;
-use Windwalker\Structure\Structure;
+use Windwalker\Legacy\Core\Cache\RuntimeCacheTrait;
+use Windwalker\Legacy\Core\Config\Config;
+use Windwalker\Legacy\DI\Container;
+use Windwalker\Legacy\Structure\Structure;
 
 /**
  * The CaptchaService class.
@@ -87,7 +87,7 @@ class CaptchaService
      * @return  CaptchaDriverInterface
      *
      * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws \Windwalker\Legacy\DI\Exception\DependencyResolutionException
      *
      * @since  1.5.1
      */

@@ -12,11 +12,11 @@ use Aws\CommandInterface;
 use Aws\Result;
 use Aws\S3\S3Client;
 use Psr\Http\Message\UriInterface;
-use Windwalker\Core\Config\Config;
-use Windwalker\Filesystem\File;
-use Windwalker\Filesystem\Path;
-use Windwalker\Http\Stream\Stream;
-use Windwalker\Uri\Uri;
+use Windwalker\Legacy\Core\Config\Config;
+use Windwalker\Legacy\Filesystem\File;
+use Windwalker\Legacy\Filesystem\Path;
+use Windwalker\Legacy\Http\Stream\Stream;
+use Windwalker\Legacy\Uri\Uri;
 
 /**
  * The S3Service class.

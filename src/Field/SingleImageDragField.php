@@ -12,12 +12,12 @@ use Lyrasoft\Luna\Helper\LunaHelper;
 use Lyrasoft\Unidev\Image\Base64Image;
 use Lyrasoft\Unidev\Script\UnidevScript;
 use Phoenix\Controller\AbstractSaveController;
-use Windwalker\Core\Widget\WidgetHelper;
-use Windwalker\Data\DataInterface;
-use Windwalker\Dom\HtmlElement;
-use Windwalker\Form\Field\TextareaField;
-use Windwalker\Ioc;
-use Windwalker\Test\TestHelper;
+use Windwalker\Legacy\Core\Widget\WidgetHelper;
+use Windwalker\Legacy\Data\DataInterface;
+use Windwalker\Legacy\Dom\HtmlElement;
+use Windwalker\Legacy\Form\Field\TextareaField;
+use Windwalker\Legacy\Ioc;
+use Windwalker\Legacy\Test\TestHelper;
 
 /**
  * The SingleImageField class.

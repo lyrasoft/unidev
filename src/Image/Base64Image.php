@@ -8,8 +8,8 @@
 
 namespace Lyrasoft\Unidev\Image;
 
-use Windwalker\Filesystem\File;
-use Windwalker\Filesystem\Folder;
+use Windwalker\Legacy\Filesystem\File;
+use Windwalker\Legacy\Filesystem\Folder;
 
 /**
  * The Base64Image class.

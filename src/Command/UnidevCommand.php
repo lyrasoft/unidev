@@ -10,7 +10,7 @@ namespace Lyrasoft\Unidev\Command;
 
 use Lyrasoft\Unidev\Command\Unidev\BladeoptCommand;
 use Lyrasoft\Unidev\Command\Unidev\DBExcelCommand;
-use Windwalker\Core\Console\CoreCommand;
+use Windwalker\Legacy\Core\Console\CoreCommand;
 
 /**
  * The UnidevCommand class.

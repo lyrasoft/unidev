@@ -11,7 +11,7 @@ namespace Lyrasoft\Unidev\Captcha\Recaptcha;
 use ReCaptcha\ReCaptcha;
 use ReCaptcha\RequestMethod;
 use ReCaptcha\RequestParameters;
-use Windwalker\Http\HttpClient;
+use Windwalker\Legacy\Http\HttpClient;
 
 /**
  * The WindwalkerRequestMethod class.

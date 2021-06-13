@@ -8,9 +8,9 @@
 
 namespace Lyrasoft\Unidev\Image\Storage;
 
-use Windwalker\Filesystem\File;
-use Windwalker\Ioc;
-use Windwalker\Structure\Structure;
+use Windwalker\Legacy\Filesystem\File;
+use Windwalker\Legacy\Ioc;
+use Windwalker\Legacy\Structure\Structure;
 
 /**
  * The S3ImageStorage class.
@@ -52,7 +52,7 @@ class LocalImageStorage implements ImageStorageInterface
      * @param  string $type
      *
      * @return string
-     * @throws \Windwalker\Filesystem\Exception\FilesystemException
+     * @throws \Windwalker\Legacy\Filesystem\Exception\FilesystemException
      */
     public function uploadRaw($image, $path, $type = null)
     {

@@ -14,7 +14,7 @@ use PhpOffice\PhpSpreadsheet\Reader\IReader;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Traversable;
-use Windwalker\Filesystem\File;
+use Windwalker\Legacy\Filesystem\File;
 
 /**
  * The ExcelImporter class.

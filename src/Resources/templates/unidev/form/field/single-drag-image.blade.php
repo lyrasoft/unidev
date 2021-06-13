@@ -118,7 +118,7 @@ if (is_callable($field->previewHandler())) {
     @else
         @php($attribs = $attrs)
         @unset($attribs['value'])
-        {!! new \Windwalker\Dom\HtmlElement('textarea', $attrs['value'], $attribs) !!}
+        {!! new \Windwalker\Legacy\Dom\HtmlElement('textarea', $attrs['value'], $attribs) !!}
     @endif
 
     {{-- Push this modal to page bottom --}}

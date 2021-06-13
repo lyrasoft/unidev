@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Unidev\Helper;
 
-use Windwalker\Uri\Uri;
+use Windwalker\Legacy\Uri\Uri;
 
 /**
  * The PravatarHelper class.

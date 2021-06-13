@@ -9,8 +9,8 @@
 namespace Lyrasoft\Unidev\Image\Storage;
 
 use Imgur\Client;
-use Windwalker\Filesystem\File;
-use Windwalker\Structure\Structure;
+use Windwalker\Legacy\Filesystem\File;
+use Windwalker\Legacy\Structure\Structure;
 
 /**
  * The ImgurImageStorage class.

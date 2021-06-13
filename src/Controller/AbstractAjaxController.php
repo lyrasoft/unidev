@@ -8,17 +8,17 @@
 
 namespace Lyrasoft\Unidev\Controller;
 
-use Windwalker\Core\Controller\AbstractController;
-use Windwalker\Core\Controller\Middleware\JsonApiMiddleware;
-use Windwalker\Core\Controller\Middleware\JsonResponseMiddleware;
-use Windwalker\Core\Controller\Traits\CorsTrait;
-use Windwalker\Core\Controller\Traits\CsrfProtectionTrait;
-use Windwalker\Http\Response\HtmlResponse;
-use Windwalker\Http\Response\XmlResponse;
-use Windwalker\Router\Exception\RouteNotFoundException;
-use Windwalker\String\StringNormalise;
-use Windwalker\Utilities\Queue\PriorityQueue;
-use Windwalker\Utilities\Reflection\ReflectionHelper;
+use Windwalker\Legacy\Core\Controller\AbstractController;
+use Windwalker\Legacy\Core\Controller\Middleware\JsonApiMiddleware;
+use Windwalker\Legacy\Core\Controller\Middleware\JsonResponseMiddleware;
+use Windwalker\Legacy\Core\Controller\Traits\CorsTrait;
+use Windwalker\Legacy\Core\Controller\Traits\CsrfProtectionTrait;
+use Windwalker\Legacy\Http\Response\HtmlResponse;
+use Windwalker\Legacy\Http\Response\XmlResponse;
+use Windwalker\Legacy\Router\Exception\RouteNotFoundException;
+use Windwalker\Legacy\String\StringNormalise;
+use Windwalker\Legacy\Utilities\Queue\PriorityQueue;
+use Windwalker\Legacy\Utilities\Reflection\ReflectionHelper;
 
 /**
  * The AbstractAjaxController class.
@@ -74,7 +74,7 @@ class AbstractAjaxController extends AbstractController
      *
      * @return  mixed
      * @throws \ReflectionException
-     * @throws \Windwalker\DI\Exception\DependencyResolutionException
+     * @throws \Windwalker\Legacy\DI\Exception\DependencyResolutionException
      * @throws \Throwable
      */
     protected function doExecute()

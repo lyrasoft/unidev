@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Unidev\S3;
 
-use Windwalker\Core\Facade\AbstractProxyFacade;
+use Windwalker\Legacy\Core\Facade\AbstractProxyFacade;
 
 /**
  * The S3Helper class.

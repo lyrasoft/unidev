@@ -11,11 +11,11 @@ namespace Lyrasoft\Unidev\Field;
 use Lyrasoft\Unidev\Captcha\CaptchaDriverInterface;
 use Lyrasoft\Unidev\Captcha\CaptchaService;
 use Lyrasoft\Unidev\Captcha\NullCaptchaDriver;
-use Windwalker\Core\Repository\Exception\ValidateFailException;
-use Windwalker\Form\Field\AbstractField;
-use Windwalker\Form\Field\TextField;
-use Windwalker\Form\Validate\ValidateResult;
-use Windwalker\Ioc;
+use Windwalker\Legacy\Core\Repository\Exception\ValidateFailException;
+use Windwalker\Legacy\Form\Field\AbstractField;
+use Windwalker\Legacy\Form\Field\TextField;
+use Windwalker\Legacy\Form\Validate\ValidateResult;
+use Windwalker\Legacy\Ioc;
 
 /**
  * The CaptchaField class.
