@@ -8,7 +8,7 @@
 
 namespace Lyrasoft\Unidev\Helper;
 
-use Windwalker\Legacy\Uri\Uri;
+use Windwalker\Uri\Uri;
 
 /**
  * The PravatarHelper class.
@@ -39,14 +39,14 @@ class PravatarHelper
 
         $size = $size ?: 300;
 
-        $uri->setPath('/' . $size);
+        $uri = $uri->withPath('/' . $size);
 
         if ($id) {
-            $uri->setVar('id', (int) $id);
+            $uri = $uri->withVar('id', (int) $id);
         }
 
         if ($u) {
-            $uri->setVar('u', $u);
+            $uri = $uri->withVar('u', $u);
         }
 
         return $uri->toString();
